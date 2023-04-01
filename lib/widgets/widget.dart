@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:augmented_anatomy/utils/augmentedAnatomyColors.dart';
+import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
 
 class MainActionButton extends StatelessWidget {
@@ -25,8 +25,8 @@ class MainActionButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
+            backgroundColor: AAColors.red,
+            foregroundColor: AAColors.white,
             textStyle: const TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
