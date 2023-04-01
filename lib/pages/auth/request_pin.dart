@@ -5,13 +5,27 @@ import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:augmented_anatomy/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
-class RequestPin extends StatelessWidget {
+class RequestPin extends StatefulWidget {
   RequestPin({super.key});
 
+  @override
+  State<RequestPin> createState() => _RequestPinState();
+}
+
+class _RequestPinState extends State<RequestPin> {
   AuthService authService = AuthService();
 
+  final emailController = TextEditingController();
+
   void _requestPin() async {
-    await authService.requestPin('s@gmail.com');
+    await authService.requestPin(emailController.text);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,9 +52,10 @@ class RequestPin extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30.0),
-          const InputLabel(
+          InputLabel(
             label: 'Correo electrónico',
             hint: 'example@email.com',
+            controller: emailController,
           ),
           const SizedBox(height: 25),
           MainActionButton(

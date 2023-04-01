@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class InputLabel extends StatelessWidget {
-  const InputLabel({super.key, this.label, this.hint});
+  InputLabel({super.key, this.label, this.hint, required this.controller});
 
   final String? label;
   final String? hint;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class InputLabel extends StatelessWidget {
                 )
               : const SizedBox(),
           TextFormField(
+            controller: controller,
             style: Theme.of(context).textTheme.bodyMedium,
             cursorColor: Colors.black45,
             decoration: InputDecoration(
