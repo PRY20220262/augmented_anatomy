@@ -2,6 +2,7 @@ import 'package:augmented_anatomy/widgets/connectionErrorDialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/connectionValidator.dart';
+import '../../widgets/widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -47,13 +48,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       } else {
         // TODO: Implement navigate to LoginPage
       }
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const ConnectionErrorDialog();
-          }
-      );
     }
   }
 
@@ -88,21 +82,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           ) : Container(),
           !hasInternet ? Padding(
             padding: const EdgeInsets.only(top: 20.0),
-            child: ElevatedButton(
-              onPressed: () {
-                checkInternetConnection();
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red,
-                minimumSize: const Size(100, 50),
-                textStyle: const TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold
-                )
-              ),
-              child: const Text("Intentar nuevamente"),
-            )
+            child: MainActionButton(onPressed: checkInternetConnection, text: "Reintentar", width: 200, height: 40)
           ) : Container(),
         ],
       ),
