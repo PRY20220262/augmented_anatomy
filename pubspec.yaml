@@ -12,6 +12,7 @@ dependencies:
   arcore_flutter_plugin: ^0.1.0
   vector_math: ^2.1.4
   connectivity: ^3.0.6
+  font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:
