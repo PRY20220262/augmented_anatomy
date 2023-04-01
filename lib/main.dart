@@ -1,5 +1,5 @@
-import 'package:augmented_anatomy/pages/auth/login.dart';
 import 'package:augmented_anatomy/pages/auth/splashScreen.dart';
+import 'package:augmented_anatomy/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,6 +16,8 @@ class AugmentedAnatomy extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Nunito Sans',
+        textTheme: getAATextTheme(),
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
