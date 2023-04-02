@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
 

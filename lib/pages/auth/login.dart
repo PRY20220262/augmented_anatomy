@@ -1,11 +1,8 @@
-import 'package:augmented_anatomy/services/auth/login_service.dart';
+import 'package:augmented_anatomy/services/auth_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
-import 'package:augmented_anatomy/widgets/widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import '../../utils/enums.dart';
 import '../../widgets/input.dart';
 
@@ -17,10 +14,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   // Properties
 
-  final loginService = LoginService();
+  final authService = AuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLogin = false;
@@ -29,9 +25,8 @@ class _LoginState extends State<Login> {
   // Functions
 
   Future<void> loginRequest(BuildContext context) async {
-    bool isLoggedIn = await loginService.loginRequest(
-        emailController.text,
-        passwordController.text);
+    bool isLoggedIn =
+        await authService.login(emailController.text, passwordController.text);
     setState(() {
       isLogin = isLoggedIn;
     });
@@ -42,7 +37,7 @@ class _LoginState extends State<Login> {
       setState(() {
         isLogin = false;
       });
-        print("te has webiado");
+      print("te has webiado");
       showLoginSnackBar(context);
     }
   }
@@ -62,13 +57,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AAColors.backgroundWhiteView,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
+        backgroundColor: AAColors.backgroundWhiteView,
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
                   Image.asset(
                     'assets/icon.png',
                     fit: BoxFit.contain,
@@ -83,35 +78,33 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: InputLabel(
-                      label: 'Correo electrónico',
-                      hint: 'example@email.com',
-                      controller: emailController,
-                    )
-                  ),
-                  Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: PasswordInputLabel(
-                        label: 'Contraseña',
-                        hint: '*****************',
-                        controller: passwordController,
-                      ),
+                      child: InputLabel(
+                        label: 'Correo electrónico',
+                        hint: 'example@email.com',
+                        controller: emailController,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: PasswordInputLabel(
+                      label: 'Contraseña',
+                      hint: '*****************',
+                      controller: passwordController,
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0, right: 40.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextActionButton(
-                            text: '¿Aun no tienes cuenta?',
-                            onPressed: (){
-                              print("¿Aun no tienes cuenta?");
-                            }
-                        )
-                      ],
-                    )
-                  ),
+                      padding: const EdgeInsets.only(top: 20.0, right: 40.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextActionButton(
+                              text: '¿Aun no tienes cuenta?',
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/forgot-password');
+                              })
+                        ],
+                      )),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: MainActionButton(
@@ -124,29 +117,26 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          '¿Aun no tienes cuenta?',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        TextActionButton(
-                            text: 'Crear nueva cuenta',
-                            onPressed: (){
-                              print("Crear nueva cuenta");
-                            }
-                        )
-                      ],
-                    )
-                  ),
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            '¿Aun no tienes cuenta?',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          TextActionButton(
+                              text: 'Crear nueva cuenta',
+                              onPressed: () {
+                                print("Crear nueva cuenta");
+                              })
+                        ],
+                      )),
                   const SizedBox(height: 50.0),
                 ],
               ),
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }
