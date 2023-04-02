@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   final sessionManager = SessionManager();
   late AnimationController _animationController;
   late Animation<double> _animation;
+  bool hasConnection = true;
   bool hasInternet = true;
   bool sessionActive = false;
   bool isLoading = false;
@@ -38,36 +39,57 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _animationController.forward();
     _loadSession();
     Future.delayed(const Duration(seconds: 3), () {
+      checkConnectionDevice();
       checkInternetConnection();
     });
   }
 
   // Functions
 
-  @override
-  Future<void> checkInternetConnection() async {
-    bool isConnected = await ConnectionValidator.checkInternetConnection();
-    setState(() {
-      hasInternet = isConnected;
-    });
-    if (isConnected) {
-      setState(() {
-        isLoading = true;
-      });
-      if(sessionActive) {
-        // TODO: Implement navigate to HomePage
-        print("tengo una sesion iniciada");
-      } else {
-        Navigator.pushNamed(context, '/logIn');
-      }
-    }
-  }
-
   Future<void> _loadSession() async {
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;
     });
+  }
+
+  @override
+  Future<void> checkConnectionDevice() async {
+    bool isConnected = await InternetValidator.validateConnectionDevice();
+    setState(() {
+      hasConnection = isConnected;
+    });
+    if (isConnected) {
+      setState(() {
+        isLoading = true;
+      });
+        if(sessionActive) {
+        // TODO: Implement navigate to HomePage
+        print("tengo una sesion iniciada");
+      } else {
+        // Navigator.pushNamed(context, '/logIn');
+      }
+    }
+  }
+
+  @override
+  Future<void> checkInternetConnection() async {
+    bool hasInternetValidated = await InternetValidator.validateInternetDevice();
+    setState(() {
+      hasInternet = hasInternetValidated;
+    });
+    if(hasInternet) {
+      if(sessionActive) {
+        // TODO: Implement navigate to HomePage
+      } else {
+        Navigator.pushReplacementNamed(context, '/logIn');
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+        hasConnection = false;
+      });
+    }
   }
 
   // User Interface
@@ -99,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               flex: 1,
               child: Column(
                   children: [
-                    !hasInternet ? Text(
+                    !hasConnection ? Text(
                       "No se ha encontrado una conexión a internet :(",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.labelSmall,
@@ -110,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         size: 50.0,
                       ),
                     ) : Container(),
-                    !hasInternet ? Padding(
+                    !hasConnection ? Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: MainActionButton(onPressed: checkInternetConnection, text: "Reintentar", width: 200, height: 40)
                     ) : isLoading? Padding(
