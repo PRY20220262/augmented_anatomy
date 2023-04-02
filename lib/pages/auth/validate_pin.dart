@@ -6,14 +6,14 @@ import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
-class RequestPin extends StatefulWidget {
-  RequestPin({super.key});
+class ValidatePin extends StatefulWidget {
+  ValidatePin({super.key});
 
   @override
-  State<RequestPin> createState() => _RequestPinState();
+  State<ValidatePin> createState() => _ValidatePinState();
 }
 
-class _RequestPinState extends State<RequestPin> {
+class _ValidatePinState extends State<ValidatePin> {
   AuthService authService = AuthService();
 
   final emailController = TextEditingController();
@@ -40,7 +40,7 @@ class _RequestPinState extends State<RequestPin> {
           SizedBox(
             width: size.width * 0.8,
             child: Text(
-              '¿Olvidaste tu contraseña?',
+              'Verificación',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
             ),

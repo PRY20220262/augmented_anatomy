@@ -81,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (hasInternet) {
       if (sessionActive) {
         // TODO: Implement navigate to HomePage
+        Navigator.pushReplacementNamed(context, '/login');
         print("Session is active in backup");
       } else {
         Navigator.pushReplacementNamed(context, '/login');

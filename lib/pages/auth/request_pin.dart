@@ -56,11 +56,13 @@ class _RequestPinState extends State<RequestPin> {
               text: 'Enviar PIN',
               onPressed: () {
                 _requestPin();
+                Navigator.pushNamed(context, '/validate-pin');
+
                 ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
                     context,
                     'Si existe cuenta asociada, recibirá el PIN para recuperar su cuenta',
                     SnackType.success));
-              })
+              }),
         ]),
       ),
     );
