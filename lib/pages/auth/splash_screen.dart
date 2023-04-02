@@ -1,5 +1,6 @@
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../services/auth/session_active_local_service.dart';
 import '../../utils/connection_validator.dart';
 import '../../widgets/widget.dart';
@@ -13,6 +14,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin, InternetConnectionMixin {
+
+  // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
+  //final storage = FlutterSecureStorage();
 
   // Properties
 
@@ -47,6 +51,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   // Functions
 
   Future<void> _loadSession() async {
+    // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
+    // await storage.delete(key: 'token');
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;
@@ -63,12 +69,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       setState(() {
         isLoading = true;
       });
-        if(sessionActive) {
-        // TODO: Implement navigate to HomePage
-        print("tengo una sesion iniciada");
-      } else {
-        // Navigator.pushNamed(context, '/logIn');
-      }
     }
   }
 
@@ -81,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     if(hasInternet) {
       if(sessionActive) {
         // TODO: Implement navigate to HomePage
+        print("Session is active in backup");
       } else {
         Navigator.pushReplacementNamed(context, '/logIn');
       }
