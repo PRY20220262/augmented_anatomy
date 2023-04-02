@@ -1,9 +1,8 @@
 import 'package:augmented_anatomy/services/auth_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
-import 'package:augmented_anatomy/widgets/widget.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
-
 import '../../utils/enums.dart';
 import '../../widgets/input.dart';
 

@@ -1,6 +1,5 @@
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
-
 import '../utils/augmented_anatomy_colors.dart';
 
 class AASnackBar {
