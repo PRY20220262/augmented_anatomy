@@ -24,8 +24,9 @@ class AugmentedAnatomy extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>  const SplashScreen(),
-        '/logIn': (context) => const Login()
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const Login(),
+        '/forgot-password': (context) => RequestPin()
       },
     );
   }

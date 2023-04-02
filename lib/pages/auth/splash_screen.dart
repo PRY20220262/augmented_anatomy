@@ -1,10 +1,9 @@
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../services/auth/session_active_local_service.dart';
 import '../../utils/connection_validator.dart';
 import '../../widgets/widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:augmented_anatomy/services/session_active_local_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,8 +12,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin, InternetConnectionMixin {
-
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin, InternetConnectionMixin {
   // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
   //final storage = FlutterSecureStorage();
 
@@ -74,16 +73,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Future<void> checkInternetConnection() async {
-    bool hasInternetValidated = await InternetValidator.validateInternetDevice();
+    bool hasInternetValidated =
+        await InternetValidator.validateInternetDevice();
     setState(() {
       hasInternet = hasInternetValidated;
     });
-    if(hasInternet) {
-      if(sessionActive) {
+    if (hasInternet) {
+      if (sessionActive) {
         // TODO: Implement navigate to HomePage
         print("Session is active in backup");
       } else {
-        Navigator.pushReplacementNamed(context, '/logIn');
+        Navigator.pushReplacementNamed(context, '/login');
       }
     } else {
       setState(() {
@@ -104,48 +104,58 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           Expanded(
             flex: 3,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FadeTransition(
-                    opacity: _animation,
-                    child: Image.asset(
-                      'assets/icon.png',
-                      fit: BoxFit.contain,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.height * 0.5,
-                    ),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FadeTransition(
+                  opacity: _animation,
+                  child: Image.asset(
+                    'assets/icon.png',
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.5,
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
           ),
           Expanded(
-              flex: 1,
-              child: Column(
-                  children: [
-                    !hasConnection ? Text(
-                      "No se ha encontrado una conexión a internet :(",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelSmall,
-                      maxLines: 2,
-                    ) : isLoading?  const Center(
-                      child: SpinKitFadingCircle(
-                        color: AAColors.red,
-                        size: 50.0,
-                      ),
-                    ) : Container(),
-                    !hasConnection ? Padding(
+            flex: 1,
+            child: Column(
+              children: [
+                !hasConnection
+                    ? Text(
+                        "No se ha encontrado una conexión a internet :(",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.labelSmall,
+                        maxLines: 2,
+                      )
+                    : isLoading
+                        ? const Center(
+                            child: SpinKitFadingCircle(
+                              color: AAColors.red,
+                              size: 50.0,
+                            ),
+                          )
+                        : Container(),
+                !hasConnection
+                    ? Padding(
                         padding: const EdgeInsets.only(top: 15.0),
-                        child: MainActionButton(onPressed: checkInternetConnection, text: "Reintentar", width: 200, height: 40)
-                    ) : isLoading? Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Text(
-                          'Cargando datos, espere unos segundos.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        )
-                    ) : Container(),
-                  ],
-              ),
+                        child: MainActionButton(
+                            onPressed: checkInternetConnection,
+                            text: "Reintentar",
+                            width: 200,
+                            height: 40))
+                    : isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Text(
+                              'Cargando datos, espere unos segundos.',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ))
+                        : Container(),
+              ],
+            ),
           ),
         ],
       ),
