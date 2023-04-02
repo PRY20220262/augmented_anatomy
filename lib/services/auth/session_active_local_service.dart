@@ -9,7 +9,7 @@ class SessionManager {
 
   Future<bool> isLoggedIn() async {
     final token = await storage.read(key: 'token');
-    final userId = await storage.read(key: 'user_id');
+    // final userId = await storage.read(key: 'user_id');
     final email = await storage.read(key: 'email');
     final password = await storage.read(key: 'password');
     try {
@@ -21,7 +21,8 @@ class SessionManager {
             'password': password
           })
       );
-      return response.statusCode == 200 && token != null && userId != null;
+      return response.statusCode == 200 && token != null;
+          // && userId != null;
     } catch (e) {
       print(e);
       return false;

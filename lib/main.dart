@@ -1,4 +1,5 @@
 import 'package:augmented_anatomy/pages/auth/login.dart';
+import 'package:augmented_anatomy/pages/auth/request_pin.dart';
 import 'package:augmented_anatomy/pages/auth/splash_screen.dart';
 import 'package:augmented_anatomy/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class AugmentedAnatomy extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const SplashScreen(),
+        '/': (context) =>  const SplashScreen(),
         '/logIn': (context) => const Login()
       },
     );
