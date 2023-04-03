@@ -1,8 +1,9 @@
 import 'package:augmented_anatomy/services/auth_service.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
-import 'package:augmented_anatomy/widgets/widget.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class RequestPin extends StatefulWidget {
@@ -34,14 +35,7 @@ class _RequestPinState extends State<RequestPin> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          leading: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-        ),
+        appBar: AAAppBar(context, back: true),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           SizedBox(
             width: size.width * 0.8,
@@ -62,11 +56,14 @@ class _RequestPinState extends State<RequestPin> {
               text: 'Enviar PIN',
               onPressed: () {
                 _requestPin();
+                Navigator.pushNamed(context, '/validate-pin',
+                    arguments: emailController.text);
+
                 ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
                     context,
                     'Si existe cuenta asociada, recibirá el PIN para recuperar su cuenta',
                     SnackType.success));
-              })
+              }),
         ]),
       ),
     );

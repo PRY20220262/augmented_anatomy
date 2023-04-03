@@ -11,6 +11,7 @@ TextTheme getAATextTheme() {
     labelMedium: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
     labelSmall: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
 
+    bodyLarge: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal),
     bodyMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
     
   );
