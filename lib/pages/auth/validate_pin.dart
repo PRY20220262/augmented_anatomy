@@ -5,6 +5,7 @@ import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ValidatePin extends StatefulWidget {
   ValidatePin({super.key});
@@ -16,18 +17,7 @@ class ValidatePin extends StatefulWidget {
 class _ValidatePinState extends State<ValidatePin> {
   AuthService authService = AuthService();
 
-  final emailController = TextEditingController();
-
-  void _requestPin() async {
-    await authService.requestPin(emailController.text);
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    emailController.dispose();
-    super.dispose();
-  }
+  String pin = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +36,13 @@ class _ValidatePinState extends State<ValidatePin> {
             ),
           ),
           const SizedBox(height: 30.0),
-          InputLabel(
-            label: 'Correo electrónico',
-            hint: 'example@email.com',
-            controller: emailController,
+          PinInput(
+            pin: pin,
           ),
           const SizedBox(height: 25),
-          MainActionButton(
-              text: 'Enviar PIN',
-              onPressed: () {
-                _requestPin();
-                ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
-                    context,
-                    'Si existe cuenta asociada, recibirá el PIN para recuperar su cuenta',
-                    SnackType.success));
-              })
+          MainActionButton(text: 'Verficar', onPressed: () {
+            
+          })
         ]),
       ),
     );
