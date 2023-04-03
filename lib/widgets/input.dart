@@ -115,9 +115,9 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
 }
 
 class PinInput extends StatefulWidget {
-  PinInput({super.key, required this.pin});
+  PinInput({super.key, required this.callback});
 
-  String pin;
+  final Function(String) callback;
 
   @override
   State<PinInput> createState() => _PinInputState();
@@ -128,11 +128,12 @@ class _PinInputState extends State<PinInput> {
   late String pin2 = '';
   late String pin3 = '';
   late String pin4 = '';
+  late String pin;
 
   void updatePin() {
     setState(() {
-      widget.pin = pin1 + pin2 + pin3 + pin4;
-      print(widget.pin);
+      pin = pin1 + pin2 + pin3 + pin4;
+      widget.callback(pin);
     });
   }
 

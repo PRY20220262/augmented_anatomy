@@ -5,7 +5,6 @@ import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ValidatePin extends StatefulWidget {
   ValidatePin({super.key});
@@ -16,11 +15,25 @@ class ValidatePin extends StatefulWidget {
 
 class _ValidatePinState extends State<ValidatePin> {
   AuthService authService = AuthService();
+  String response = 'AAAA';
 
   String pin = '';
 
+  Future<String> _validatePin(email, pin) async {
+    return await authService.validatePIN(email, pin);
+  }
+
+  void _updatePin(String newPin) {
+    setState(() {
+      pin = newPin;
+      print(pin);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String? email = ModalRoute.of(context)?.settings.arguments as String?;
+
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -37,12 +50,36 @@ class _ValidatePinState extends State<ValidatePin> {
           ),
           const SizedBox(height: 30.0),
           PinInput(
-            pin: pin,
+            callback: _updatePin,
           ),
           const SizedBox(height: 25),
-          MainActionButton(text: 'Verficar', onPressed: () {
-            
-          })
+          MainActionButton(
+              text: 'Verficar',
+              onPressed: () async {
+                response = await _validatePin(email, pin);
+                print(response);
+                if (response == '') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      AASnackBar.buildSnack(
+                          context,
+                          'PIN correcto, ingrese nueva contraseña',
+                          SnackType.success));
+
+                  //NAVIGATE TO CHANGE PASSWORD
+                } else if (response == 'invalid') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      AASnackBar.buildSnack(
+                          context,
+                          'PIN inválido, Intente nuevamente.',
+                          SnackType.warning));
+                } else if (response == 'error') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      AASnackBar.buildSnack(
+                          context,
+                          'Algo salió mal. Intente nuevamente luego.',
+                          SnackType.warning));
+                }
+              })
         ]),
       ),
     );

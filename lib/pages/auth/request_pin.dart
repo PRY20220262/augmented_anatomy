@@ -56,7 +56,8 @@ class _RequestPinState extends State<RequestPin> {
               text: 'Enviar PIN',
               onPressed: () {
                 _requestPin();
-                Navigator.pushNamed(context, '/validate-pin');
+                Navigator.pushNamed(context, '/validate-pin',
+                    arguments: emailController.text);
 
                 ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
                     context,
