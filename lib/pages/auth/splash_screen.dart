@@ -16,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin, InternetConnectionMixin {
 
   // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-  //final storage = FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
 
   // Properties
 
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   Future<void> _loadSession() async {
     // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-    // await storage.delete(key: 'token');
+    await storage.delete(key: 'token');
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;

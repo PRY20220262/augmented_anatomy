@@ -1,4 +1,5 @@
 import 'package:augmented_anatomy/pages/auth/login.dart';
+import 'package:augmented_anatomy/pages/auth/register.dart';
 import 'package:augmented_anatomy/pages/auth/request_pin.dart';
 import 'package:augmented_anatomy/pages/auth/splash_screen.dart';
 import 'package:augmented_anatomy/utils/utils.dart';
@@ -25,7 +26,8 @@ class AugmentedAnatomy extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) =>  const SplashScreen(),
-        '/logIn': (context) => const Login()
+        '/logIn': (context) => const Login(),
+        '/register': (context) => const Register()
       },
     );
   }

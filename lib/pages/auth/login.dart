@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
       setState(() {
         isLogin = false;
       });
-        print("te has webiado");
+        print("credenciales erroneas");
       showLoginSnackBar(context);
     }
   }
@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
                         TextActionButton(
                             text: 'Crear nueva cuenta',
                             onPressed: (){
-                              print("Crear nueva cuenta");
+                              Navigator.pushNamed(context, '/register');
                             }
                         )
                       ],
