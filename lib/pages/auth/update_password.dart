@@ -21,7 +21,9 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void _requestPin() async {}
+  Future<String> _changePassword(email, newPassword) async {
+    return await authService.changePassword(email, newPassword);
+  }
 
   @override
   void dispose() {
@@ -64,14 +66,26 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             const SizedBox(height: 25),
             MainActionButton(
                 text: 'Enviar PIN',
-                onPressed: () {
+                onPressed: () async {
                   bool validForm = _formKey.currentState!.validate();
                   if (validForm && (passsword.text == passwordConfirm.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        AASnackBar.buildSnack(
-                            context,
-                            'Password actualizado correctamente',
-                            SnackType.success));
+                    String response =
+                        await _changePassword(email, passsword.text);
+
+                    if (response == '') {
+                      Navigator.pushNamed(context, '/login');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          AASnackBar.buildSnack(
+                              context,
+                              'Password actualizado correctamente',
+                              SnackType.success));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          AASnackBar.buildSnack(
+                              context,
+                              'Ha ocurrido un error, intente nuevamente luego.',
+                              SnackType.warning));
+                    }
                   }
                   if (validForm && (passsword.text != passwordConfirm.text)) {
                     ScaffoldMessenger.of(context).showSnackBar(

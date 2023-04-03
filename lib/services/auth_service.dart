@@ -90,4 +90,28 @@ class AuthService {
       return 'error';
     }
   }
+
+  Future<String> changePassword(email, newPassword) async {
+    final changePasswordUrl = Uri.parse('$authUrl/update-password');
+
+    print('Haciendo llamada a servicio ${changePasswordUrl.toString()}');
+
+    try {
+      http.Response response = await http.post(
+        changePasswordUrl,
+        body: json.encode({'email': email, 'newPassword': newPassword}),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        return '';
+      } else {
+        final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
+
+        return 'invalid';
+      }
+    } catch (e) {
+      print(e);
+      return 'error';
+    }
+  }
 }

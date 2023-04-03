@@ -85,7 +85,7 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
               if (value == null || value.isEmpty) {
                 return 'Por favor complete los campos';
               }
-              if (value.length < 7) {
+              if (value.length < 6) {
                 return 'El campo debe ser mayor a 6 dígitos';
               }
               return null;
