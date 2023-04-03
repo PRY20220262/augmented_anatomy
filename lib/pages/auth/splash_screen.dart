@@ -1,5 +1,6 @@
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../utils/connection_validator.dart';
 import '../../widgets/button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -81,9 +82,10 @@ class _SplashScreenState extends State<SplashScreen>
     if (hasInternet) {
       if (sessionActive) {
         // TODO: Implement navigate to HomePage
-        Navigator.pushReplacementNamed(context, '/login');
+        // Navigator.pushReplacementNamed(context, '/login');
         print("Session is active in backup");
       } else {
+        print("Session is no active in backup");
         Navigator.pushReplacementNamed(context, '/login');
       }
     } else {

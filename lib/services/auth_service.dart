@@ -37,8 +37,6 @@ class AuthService {
         final authorizationHeader = response.headers['authorization'];
         await storage.write(key: 'token', value: authorizationHeader);
         await storage.write(key: 'email', value: email);
-        await storage.write(key: 'password', value: password);
-        //await storage.write(key: 'user_id', value: '1');
         return true;
       } else {
         return false;

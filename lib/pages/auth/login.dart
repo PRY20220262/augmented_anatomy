@@ -14,12 +14,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   // Properties
 
   final authService = AuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLogin = false;
+
   // Life Cycle
 
   // Functions
