@@ -81,6 +81,15 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
               : const SizedBox(),
           TextFormField(
             controller: widget.controller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor complete los campos';
+              }
+              if (value.length < 7) {
+                return 'El campo debe ser mayor a 6 dígitos';
+              }
+              return null;
+            },
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: _obscureText,
             cursorColor: Colors.black45,

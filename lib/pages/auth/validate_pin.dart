@@ -59,13 +59,15 @@ class _ValidatePinState extends State<ValidatePin> {
                 response = await _validatePin(email, pin);
                 print(response);
                 if (response == '') {
+                  //NAVIGATE TO CHANGE PASSWORD
+                  Navigator.pushNamed(context, '/update-password',
+                      arguments: email);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                       AASnackBar.buildSnack(
                           context,
                           'PIN correcto, ingrese nueva contraseña',
                           SnackType.success));
-
-                  //NAVIGATE TO CHANGE PASSWORD
                 } else if (response == 'invalid') {
                   ScaffoldMessenger.of(context).showSnackBar(
                       AASnackBar.buildSnack(
