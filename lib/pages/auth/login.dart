@@ -98,7 +98,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextActionButton(
-                              text: '¿Aun no tienes cuenta?',
+                              text: '¿Olvidaste tu contraseña?',
                               onPressed: () {
                                 Navigator.pushNamed(
                                     context, '/forgot-password');

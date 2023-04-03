@@ -1,7 +1,9 @@
 import 'package:augmented_anatomy/pages/auth/login.dart';
 import 'package:augmented_anatomy/pages/auth/request_pin.dart';
 import 'package:augmented_anatomy/pages/auth/splash_screen.dart';
-import 'package:augmented_anatomy/utils/utils.dart';
+import 'package:augmented_anatomy/pages/auth/update_password.dart';
+import 'package:augmented_anatomy/pages/auth/validate_pin.dart';
+import 'package:augmented_anatomy/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +28,9 @@ class AugmentedAnatomy extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
-        '/forgot-password': (context) => RequestPin()
+        '/forgot-password': (context) => RequestPin(),
+        '/validate-pin': (context) => ValidatePin(),
+        '/update-password': (context) => UpdatePassword()
       },
     );
   }

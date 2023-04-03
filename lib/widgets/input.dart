@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputLabel extends StatelessWidget {
   InputLabel({super.key, this.label, this.hint, required this.controller});
@@ -47,7 +48,8 @@ class InputLabel extends StatelessWidget {
 }
 
 class PasswordInputLabel extends StatefulWidget {
-  PasswordInputLabel({Key? key, this.label, this.hint, required this.controller})
+  PasswordInputLabel(
+      {Key? key, this.label, this.hint, required this.controller})
       : super(key: key);
 
   final String? label;
@@ -72,27 +74,36 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
         children: [
           widget.label != null
               ? Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(widget.label!,
-                style: Theme.of(context).textTheme.labelLarge),
-          )
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(widget.label!,
+                      style: Theme.of(context).textTheme.labelLarge),
+                )
               : const SizedBox(),
           TextFormField(
             controller: widget.controller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor complete los campos';
+              }
+              if (value.length < 6) {
+                return 'El campo debe ser mayor a 6 dígitos';
+              }
+              return null;
+            },
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: _obscureText,
             cursorColor: Colors.black45,
             decoration: InputDecoration(
               isDense: true,
               contentPadding:
-              const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               hintText: widget.hint,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.black)),
               border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureText ? Icons.visibility : Icons.visibility_off,
@@ -108,6 +119,165 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PinInput extends StatefulWidget {
+  PinInput({super.key, required this.callback});
+
+  final Function(String) callback;
+
+  @override
+  State<PinInput> createState() => _PinInputState();
+}
+
+class _PinInputState extends State<PinInput> {
+  late String pin1 = '';
+  late String pin2 = '';
+  late String pin3 = '';
+  late String pin4 = '';
+  late String pin;
+
+  void updatePin() {
+    setState(() {
+      pin = pin1 + pin2 + pin3 + pin4;
+      widget.callback(pin);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        SizedBox(
+          height: 68,
+          width: 64,
+          child: TextFormField(
+            style: Theme.of(context).textTheme.bodyLarge,
+            onChanged: (value) {
+              setState(() {
+                pin1 = value;
+                updatePin();
+              });
+              if (value.length == 1) FocusScope.of(context).nextFocus();
+            },
+            cursorColor: Colors.black38,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            // style: Theme.of(context).textTheme.headlineLarge,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(1),
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 64,
+          child: TextFormField(
+            style: Theme.of(context).textTheme.bodyLarge,
+            onChanged: (value) {
+              setState(() {
+                pin2 = value;
+                updatePin();
+              });
+              if (value.length == 1) FocusScope.of(context).nextFocus();
+            },
+            cursorColor: Colors.black38,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            // style: Theme.of(context).textTheme.headlineLarge,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(1),
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 64,
+          child: TextFormField(
+            style: Theme.of(context).textTheme.bodyLarge,
+            onChanged: (value) {
+              pin3 = value;
+              updatePin();
+              if (value.length == 1) FocusScope.of(context).nextFocus();
+            },
+            cursorColor: Colors.black38,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            // style: Theme.of(context).textTheme.headlineLarge,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(1),
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 64,
+          child: TextFormField(
+            style: Theme.of(context).textTheme.bodyLarge,
+            onChanged: (value) {
+              pin4 = value;
+              updatePin();
+              if (value.length == 1) FocusScope.of(context).nextFocus();
+            },
+            cursorColor: Colors.black38,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            // style: Theme.of(context).textTheme.headlineLarge,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(1),
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+        )
+      ]),
     );
   }
 }
