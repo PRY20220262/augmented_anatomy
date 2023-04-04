@@ -65,7 +65,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             ),
             const SizedBox(height: 25),
             MainActionButton(
-                text: 'Enviar PIN',
+                text: 'Confirmar',
                 onPressed: () async {
                   bool validForm = _formKey.currentState!.validate();
                   if (validForm && (passsword.text == passwordConfirm.text)) {
