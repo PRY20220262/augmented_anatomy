@@ -1,5 +1,7 @@
+import 'package:augmented_anatomy/models/user.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth_service.dart';
 import '../../utils/augmented_anatomy_colors.dart';
 import '../../utils/enums.dart';
 import '../../widgets/appbar.dart';
@@ -18,23 +20,73 @@ class _RegisterState extends State<Register> {
 
   // Properties
 
+  final authService = AuthService();
+  bool enableRegister = false;
+  String messageRequest = "";
+  var manageResult = SnackType.warning;
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  String selectUserType = "Principiante";
+  String selectUserType = "BEGINNER_USER";
+  final options = {
+    'Estudiante primario': 'PRIMARY_STUDENT',
+    'Estudiante secundario': 'SECONDARY_STUDENT',
+    'Estudiante universitario': 'UNIVERSITY_STUDENT',
+    'Estudiante de medicina': 'MEDICINE_STUDENT',
+    'Profesional de la salud': 'MEDICINE_PROFESSIONAL',
+    'Profesional': 'PROFESSIONAL',
+    'Principiante': 'BEGINNER_USER'
+  };
 
-  List<String> options = [
-    'Estudiante primario',
-    'Estudiante secundario',
-    'Estudiante universitario',
-    'Estudiante de medicina',
-    'Profesional de la salud',
-    'Profesional',
-    'Principiante'
-  ];
+  // Functions
 
+  bool validateInput(UserRegisterModel userRegisterModel){
+    if (userRegisterModel.fullName == '' ||
+        userRegisterModel.email == '' ||
+        userRegisterModel.phone == '' ||
+        userRegisterModel.password == '' ||
+        userRegisterModel.confirmPassword == '' ||
+        userRegisterModel.userType == ''){
+      return false;
+    } else {
+      return userRegisterModel.password == userRegisterModel.confirmPassword;
+    }
+  }
+
+  Future<void> registerUser(BuildContext context, UserRegisterModel userRegisterModel) async {
+    enableRegister = validateInput(userRegisterModel);
+    if (enableRegister) {
+      messageRequest = await authService.register(userRegisterModel);
+      if(messageRequest == 'Registro exitoso') {
+        setState(() {
+          manageResult = SnackType.success;
+        });
+        /*Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+              (Route<dynamic> route) => false,
+        );*/
+      } else {
+        setState(() {
+          manageResult = SnackType.error;
+        });
+      }
+    } else {
+      messageRequest = 'Los valores ingresados son erroneos.';
+      setState(() {
+        manageResult = SnackType.warning;
+      });
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      AASnackBar.buildSnack(
+        context,
+        messageRequest,
+        manageResult,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +142,10 @@ class _RegisterState extends State<Register> {
                     )),
                   Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: StudentDropdownButton(
+                      child: AADropdownButton(
                         label: 'Grado de eduación',
                         options: options,
-                        initialValue: 'Principiante' ,
+                        initialValue: selectUserType,
                         selectedOption: (String? newValue) {
                           setState(() {
                             selectUserType = newValue!;
@@ -106,14 +158,7 @@ class _RegisterState extends State<Register> {
                     child: MainActionButton(
                       text: 'Registrarme',
                       onPressed: () {
-                        /*ScaffoldMessenger.of(context).showSnackBar(
-                          AASnackBar.buildSnack(
-                            context,
-                            'Credenciales incorrectas. Intente nuevamente',
-                            SnackType.error,
-                          ),
-                        );*/
-                        print(selectUserType);
+                        registerUser(context, UserRegisterModel(emailController.text, passwordController.text, confirmPasswordController.text, phoneController.text, fullNameController.text, selectUserType));
                       },
                       width: MediaQuery.of(context).size.width * 0.35,
                       height: MediaQuery.of(context).size.height * 0.06,

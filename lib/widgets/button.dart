@@ -65,10 +65,8 @@ class TextActionButton extends StatelessWidget {
 
 typedef void OnChangedCallback(String? newValue);
 
-class StudentDropdownButton extends StatefulWidget {
-
-
-  StudentDropdownButton({
+class AADropdownButton extends StatefulWidget {
+  AADropdownButton({
     Key? key,
     required this.label,
     required this.options,
@@ -77,17 +75,15 @@ class StudentDropdownButton extends StatefulWidget {
   }) : super(key: key);
 
   final String? label;
-  final List<String> options;
+  final Map<String, String> options;
   final String initialValue;
   final OnChangedCallback? selectedOption;
 
   @override
-  _StudentDropdownButton createState() => _StudentDropdownButton();
+  _AADropdownButton createState() => _AADropdownButton();
 }
 
-
-class _StudentDropdownButton extends State<StudentDropdownButton> {
-
+class _AADropdownButton extends State<AADropdownButton> {
   late String _dropdownValue;
 
   @override
@@ -110,37 +106,37 @@ class _StudentDropdownButton extends State<StudentDropdownButton> {
                   style: Theme.of(context).textTheme.labelLarge),
             ),
             InputDecorator(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.black45),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                  focusColor: Colors.black,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(color: Colors.black45),
                 ),
-                child: DropdownButton<String>(
-                    value: _dropdownValue,
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _dropdownValue = newValue;
-                        });
-                        widget.selectedOption!(newValue);
-                      }
-                    },
-                    items: widget.options.map((String option) {
-                      return DropdownMenuItem<String>(
-                        value: option,
-                        child: Text(option),
-                      );
-                    }).toList(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  isExpanded: true,
-                    underline: SizedBox.shrink()
-                  ),
+                contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                focusColor: Colors.black,
+              ),
+              child: DropdownButton<String>(
+                value: _dropdownValue,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      _dropdownValue = newValue;
+                    });
+                    widget.selectedOption!(newValue);
+                  }
+                },
+                items: widget.options.entries
+                    .map((MapEntry<String, String> entry) {
+                  return DropdownMenuItem<String>(
+                    value: entry.value,
+                    child: Text(entry.key),
+                  );
+                }).toList(),
+                style: Theme.of(context).textTheme.bodyMedium,
+                isExpanded: true,
+                underline: SizedBox.shrink(),
+              ),
             )
           ],
-        )
-    );
+        ));
   }
 }
