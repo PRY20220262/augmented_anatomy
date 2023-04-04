@@ -86,8 +86,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 AASnackBar.buildSnack(
                                     context,
-                                    'Password actualizado correctamente',
+                                    'Contraseña actualizada correctamente',
                                     SnackType.success));
+                          } else if (response == 'invalid') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                AASnackBar.buildSnack(
+                                    context,
+                                    'Contraseña antigua inválida.',
+                                    SnackType.warning));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 AASnackBar.buildSnack(
