@@ -14,12 +14,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   // Properties
 
   final authService = AuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLogin = false;
+
   // Life Cycle
 
   // Functions
@@ -37,7 +39,7 @@ class _LoginState extends State<Login> {
       setState(() {
         isLogin = false;
       });
-      print("te has webiado");
+      print("credenciales erroneas");
       showLoginSnackBar(context);
     }
   }
@@ -117,21 +119,23 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            '¿Aun no tienes cuenta?',
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                          TextActionButton(
-                              text: 'Crear nueva cuenta',
-                              onPressed: () {
-                                print("Crear nueva cuenta");
-                              })
-                        ],
-                      )),
+                    padding: const EdgeInsets.only(top: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          '¿Aun no tienes cuenta?',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        TextActionButton(
+                            text: 'Crear nueva cuenta',
+                            onPressed: (){
+                              Navigator.pushNamed(context, '/register');
+                            }
+                        )
+                      ],
+                    )
+                  ),
                   const SizedBox(height: 50.0),
                 ],
               ),

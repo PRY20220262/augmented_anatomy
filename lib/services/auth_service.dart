@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:augmented_anatomy/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:augmented_anatomy/utils/config.dart';
@@ -37,8 +38,6 @@ class AuthService {
         final authorizationHeader = response.headers['authorization'];
         await storage.write(key: 'token', value: authorizationHeader);
         await storage.write(key: 'email', value: email);
-        await storage.write(key: 'password', value: password);
-        //await storage.write(key: 'user_id', value: '1');
         return true;
       } else {
         return false;
@@ -147,4 +146,31 @@ class AuthService {
       return 'error';
     }
   }
+
+  Future<String> register(UserRegisterModel userRegisterModel) async {
+    final registerUrl = Uri.parse('$authUrl/register');
+    try{
+      http.Response response = await http.post(
+          registerUrl,
+        body: json.encode({
+          'fullName': userRegisterModel.fullName,
+          'email': userRegisterModel.email,
+          'phone': userRegisterModel.phone,
+          'password': userRegisterModel.password,
+          'userType': userRegisterModel.userType,
+        }),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        return 'Registro exitoso';
+      } else {
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        return jsonResponse['message'];
+      }
+    } catch (e) {
+      print(e);
+      return e.toString();
+    }
+  }
+
 }
