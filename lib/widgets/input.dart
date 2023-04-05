@@ -2,11 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InputLabel extends StatelessWidget {
-  InputLabel({super.key, this.label, this.hint, required this.controller});
+  InputLabel({super.key, this.label, this.hint, this.keyboardType, required this.controller});
 
   final String? label;
   final String? hint;
   final TextEditingController controller;
+  final TextInputType? keyboardType;
+
+  String? updateValue (String? value, TextInputType? keyboardType) {
+    if (keyboardType == TextInputType.name){
+      if (value == null || value.isEmpty || value.trim().split(' ').length < 2) {
+        return 'Ingrese su nombre completo';
+      } else if (!RegExp(r'^[a-zA-Z]+(\s[a-zA-Z]+)+$').hasMatch(value)) {
+        return 'Ingrese un nombre válido';
+      }
+    } else if (keyboardType == TextInputType.emailAddress){
+      if (value == null || value.isEmpty) {
+        return 'Ingrese su correo electrónico';
+      } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+        return 'Ingrese una dirección de correo electrónico válida';
+      }
+    } else if (keyboardType == TextInputType.phone){
+      if (value == null || value.isEmpty) {
+        return 'Ingrese su número de teléfono';
+      } else if (!RegExp(r'^\d{9}$').hasMatch(value)) {
+        return 'Ingrese un número de teléfono válido (9 dígitos)';
+      }
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +53,10 @@ class InputLabel extends StatelessWidget {
             controller: controller,
             style: Theme.of(context).textTheme.bodyMedium,
             cursorColor: Colors.black45,
+            validator: (value) {
+              return updateValue(value, keyboardType);
+            },
+            keyboardType: keyboardType,
             decoration: InputDecoration(
               isDense: true,
               contentPadding:
