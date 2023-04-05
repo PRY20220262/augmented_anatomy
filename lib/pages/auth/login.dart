@@ -34,7 +34,11 @@ class _LoginState extends State<Login> {
     });
     if (isLoggedIn) {
       print("sesion inicada");
-      //Navigator.pushNamed(context, '/register');
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+            (Route<dynamic> route) => false,
+      );
     } else {
       setState(() {
         isLogin = false;
