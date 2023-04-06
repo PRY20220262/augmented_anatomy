@@ -16,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin, InternetConnectionMixin {
   // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-  final storage = FlutterSecureStorage();
+  // final storage = FlutterSecureStorage();
 
   // Properties
 
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _loadSession() async {
     // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-    await storage.delete(key: 'token');
+    //await storage.delete(key: 'token');
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;
@@ -82,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (hasInternet) {
       if (sessionActive) {
         // TODO: Implement navigate to HomePage
-        // Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacementNamed(context, '/home');
         print("Session is active in backup");
       } else {
         print("Session is no active in backup");
