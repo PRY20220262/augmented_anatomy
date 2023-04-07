@@ -30,8 +30,6 @@ class HomeService {
         return Future.error(errorResponse["message"]);
       }
     } catch (e){
-      print("uwu");
-      print(e);
       return Future.error(e);
     }
   }

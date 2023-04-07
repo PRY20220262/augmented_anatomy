@@ -33,7 +33,6 @@ class _LoginState extends State<Login> {
       isLogin = isLoggedIn;
     });
     if (isLoggedIn) {
-      print("sesion inicada");
       Navigator.pushNamedAndRemoveUntil(
         context,
         '/home',
@@ -43,7 +42,6 @@ class _LoginState extends State<Login> {
       setState(() {
         isLogin = false;
       });
-      print("credenciales erroneas");
       showLoginSnackBar(context);
     }
   }

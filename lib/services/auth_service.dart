@@ -162,13 +162,14 @@ class AuthService {
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
       );
       if (response.statusCode == 200) {
+        //await storage.write(key: 'token', value: authorizationHeader);
+        await storage.write(key: 'email', value: userRegisterModel.email);
         return 'Registro exitoso';
       } else {
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         return jsonResponse['message'];
       }
     } catch (e) {
-      print(e);
       return e.toString();
     }
   }
