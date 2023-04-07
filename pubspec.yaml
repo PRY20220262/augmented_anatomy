@@ -26,6 +26,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon.png
+    - assets/largeIcon.png
   fonts:
     - family: Nunito Sans
       fonts:

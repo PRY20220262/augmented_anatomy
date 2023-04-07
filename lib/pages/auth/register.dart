@@ -51,11 +51,11 @@ class _RegisterState extends State<Register> {
           setState(() {
             manageResult = SnackType.success;
           });
-          /*Navigator.pushNamedAndRemoveUntil(
+          Navigator.pushNamedAndRemoveUntil(
           context,
           '/home',
               (Route<dynamic> route) => false,
-        );*/
+          );
         } else {
           setState(() {
             manageResult = SnackType.error;
