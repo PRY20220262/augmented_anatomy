@@ -253,7 +253,11 @@ class _HomeState extends State<Home> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            const Icon(FontAwesomeIcons.file, color: AAColors.black),
+                                            const Icon(
+                                              FontAwesomeIcons.file,
+                                              color: AAColors.black,
+                                              size: 22,
+                                            ),
                                             const SizedBox(height: 8.0),
                                             Text(
                                               'Mis apuntes',
@@ -287,7 +291,11 @@ class _HomeState extends State<Home> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            const Icon(FontAwesomeIcons.filePen, color: AAColors.black),
+                                            const Icon(
+                                              Icons.assignment_turned_in_outlined,
+                                              color: AAColors.black,
+                                              size: 25,
+                                            ),
                                             const SizedBox(height: 8.0),
                                             Text(
                                               'Mis cuestionarios',
