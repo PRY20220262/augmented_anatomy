@@ -269,7 +269,7 @@ class _HomeState extends State<Home> {
                                                 '${snapshot.data?.quizCount} apuntes',
                                                 style: Theme.of(context).textTheme.bodyMedium
                                             ),
-                                            const Row(
+                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),
@@ -307,7 +307,7 @@ class _HomeState extends State<Home> {
                                                 '${snapshot.data?.noteCount} apuntes',
                                                 style: Theme.of(context).textTheme.bodyMedium
                                             ),
-                                            const Row(
+                                            Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),

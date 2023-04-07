@@ -27,6 +27,7 @@ flutter:
   assets:
     - assets/icon.png
     - assets/largeIcon.png
+    - assets/error.png
   fonts:
     - family: Nunito Sans
       fonts:
