@@ -84,7 +84,6 @@ class _SplashScreenState extends State<SplashScreen>
         // TODO: Implement navigate to HomePage
         Navigator.pushReplacementNamed(context, '/home');
       } else {
-        print("Session is no active in backup");
         Navigator.pushReplacementNamed(context, '/login');
       }
     } else {
