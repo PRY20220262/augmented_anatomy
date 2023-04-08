@@ -3,6 +3,7 @@ import 'package:augmented_anatomy/pages/main_menu/main_menu.dart';
 import 'package:augmented_anatomy/services/home_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
+import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -116,56 +117,11 @@ class _HomeState extends State<Home> {
                                               height: MediaQuery.of(context).size.height * 0.19,
                                               width: MediaQuery.of(context).size.width * 0.6,
                                               margin: EdgeInsets.only(right: MediaQuery.of(context).size.height * 0.03),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: MediaQuery.of(context).size.width * 0.22,
-                                                      height: MediaQuery.of(context).size.height * 0.19,
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(20),
-                                                        child: Image.network(
-                                                          '${snapshot.data?.recentActivityList[index].urlImage}',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: MediaQuery.of(context).size.width * 0.03,
-                                                    ),
-                                                    Flexible(
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            '${snapshot.data?.recentActivityList[index].name}',
-                                                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                                                fontSize: 16,
-                                                                color: AAColors.white
-                                                            ),
-                                                            softWrap: true,
-                                                          ),
-                                                          Text(
-                                                            'Contiene ${snapshot.data?.recentActivityList[index].organsNumber} organos',
-                                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                                color: AAColors.white
-                                                            ),
-                                                            softWrap: true,
-                                                          ),
-                                                          Text(
-                                                            '${snapshot.data?.recentActivityList[index].shortDetail}',
-                                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                                color: AAColors.white
-                                                            ),
-                                                            softWrap: true,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
+                                              child: LargeCard(
+                                                imageUrl: '${snapshot.data?.recentActivityList[index].urlImage}',
+                                                name: '${snapshot.data?.recentActivityList[index].name}',
+                                                organsNumber: '${snapshot.data?.recentActivityList[index].organsNumber}',
+                                                shortDetail: '${snapshot.data?.recentActivityList[index].shortDetail}',
                                               )
                                           )
                                       ),
@@ -182,50 +138,11 @@ class _HomeState extends State<Home> {
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox( height: 10),
-                              Container(
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    color: AAColors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 10),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 125,
-                                          height: 130,
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(20),
-                                            child: Image.network(
-                                              '${snapshot.data?.recommendation.urlImage}',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 15),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${snapshot.data?.recommendation.name}',
-                                                    style: Theme.of(context).textTheme.titleSmall,
-                                                  ),
-                                                  Text(
-                                                    '${snapshot.data?.recommendation.shortDetail}',
-                                                    style: Theme.of(context).textTheme.bodyMedium,
-                                                  ),
-                                                  MainActionButton(text: 'Probar ahora', onPressed: (){}, width: MediaQuery.of(context).size.height * 0.35)
-                                                ],
-                                              ),
-                                            )
-                                        )
-                                      ],
-                                    ),
-                                  )
+                              recommendationContainer(
+                                  context,
+                                  '${snapshot.data?.recommendation.urlImage}',
+                                  '${snapshot.data?.recommendation.name}',
+                                  '${snapshot.data?.recommendation.shortDetail}'
                               )
                             ],
                           ),
@@ -241,81 +158,17 @@ class _HomeState extends State<Home> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                      width: MediaQuery.of(context).size.height * 0.27,
-                                      height: MediaQuery.of(context).size.height * 0.19,
-                                      decoration: BoxDecoration(
-                                        color: AAColors.lightBlue,
-                                        borderRadius: BorderRadius.circular(20), // Radio de los bordes
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Icon(
-                                              FontAwesomeIcons.file,
-                                              color: AAColors.black,
-                                              size: 22,
-                                            ),
-                                            const SizedBox(height: 8.0),
-                                            Text(
-                                              'Mis apuntes',
-                                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                                  fontSize: 18
-                                              ),
-                                            ),
-                                            Text(
-                                                '${snapshot.data?.quizCount} apuntes',
-                                                style: Theme.of(context).textTheme.bodyMedium
-                                            ),
-                                            const Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
+                                  DirectAccessCard(
+                                      icon: FontAwesomeIcons.file,
+                                      color: AAColors.lightBlue,
+                                      title: 'Mis apuntes',
+                                      subtitle: '${snapshot.data?.quizCount} apuntes'
                                   ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.height * 0.27,
-                                      height: MediaQuery.of(context).size.height * 0.19,
-                                      decoration: BoxDecoration(
-                                        color: AAColors.lightRed,
-                                        borderRadius: BorderRadius.circular(20), // Radio de los bordes
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Icon(
-                                              Icons.assignment_turned_in_outlined,
-                                              color: AAColors.black,
-                                              size: 25,
-                                            ),
-                                            const SizedBox(height: 8.0),
-                                            Text(
-                                              'Mis cuestionarios',
-                                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                                  fontSize: 18
-                                              ),
-                                            ),
-                                            Text(
-                                                '${snapshot.data?.noteCount} apuntes',
-                                                style: Theme.of(context).textTheme.bodyMedium
-                                            ),
-                                            const Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
+                                  DirectAccessCard(
+                                      icon: Icons.assignment_turned_in_outlined,
+                                      color: AAColors.lightRed,
+                                      title: 'Mis cuestionarios',
+                                      subtitle: '${snapshot.data?.noteCount} cuestionarios'
                                   )
                                 ],
                               )
@@ -334,18 +187,3 @@ class _HomeState extends State<Home> {
   }
 }
 
-// Text('Data: ${snapshot.data}');
-/*ListView.builder(
-scrollDirection: Axis.horizontal,
-shrinkWrap: true, // Permite que el contenedor abarque el tamaño total de la lista
-itemCount: snapshot.data?.recentActivityList.length,
-itemBuilder: (context, index) {
-final activity = snapshot.data?.recentActivityList[index];
-return Card(
-child: ListTile(
-title: Text('${activity?.name}'),
-subtitle: Text('${activity?.shortDetail}'),
-),
-);
-},
-),*/
