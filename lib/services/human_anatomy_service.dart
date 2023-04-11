@@ -15,7 +15,7 @@ class HumanAnatomyService {
   Future<List<OrgansModel>> getOrgans() async {
     final token = await storage.read(key: 'token');
     final requestGetOrgans = Uri.parse('${humanAnatomyUrl}organs');
-    try{
+    try {
       http.Response response = await http.get(
         requestGetOrgans,
         headers: {
@@ -23,7 +23,7 @@ class HumanAnatomyService {
           HttpHeaders.authorizationHeader: token!,
         },
       );
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         List<dynamic> myData = json.decode(response.body);
         List<OrgansModel> organsList = [];
         for (int i = 0; i < myData.length; i++) {
@@ -35,7 +35,7 @@ class HumanAnatomyService {
         final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
         return Future.error(errorResponse["message"]);
       }
-    } catch (e){
+    } catch (e) {
       return Future.error(e);
     }
   }
@@ -74,6 +74,42 @@ class HumanAnatomyService {
 
   Future<List<SystemList>> findSystems() async {
     final getByIdUrl = Uri.parse('${humanAnatomyUrl}systems');
+    List<SystemList> systems = [];
+
+    print('Haciendo llamada a servicio ${getByIdUrl.toString()}');
+
+    // TODO: final prefs = await SharedPreferences.getInstance();
+    // final String? token = prefs.getString('token');
+    final String token =
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
+
+    try {
+      http.Response response = await http.get(
+        getByIdUrl,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        for (var i = 0; i < data.length; i++) {
+          systems.add(SystemList.fromJson(data[i]));
+        }
+        return systems;
+      } else {
+        final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
+        return Future.error(errorResponse["message"]);
+      }
+    } catch (e) {
+      print(e);
+      return Future.error(e);
+    }
+  }
+
+  Future<List<SystemList>> searchSystem(String name) async {
+    final getByIdUrl = Uri.parse('${humanAnatomyUrl}systems?name=$name');
     List<SystemList> systems = [];
 
     print('Haciendo llamada a servicio ${getByIdUrl.toString()}');
