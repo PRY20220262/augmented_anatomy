@@ -2,6 +2,7 @@ import 'package:augmented_anatomy/models/characteristics.dart';
 import 'package:augmented_anatomy/services/human_anatomy_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class SystemDetail extends StatefulWidget {
@@ -57,6 +58,11 @@ class _SystemDetailState extends State<SystemDetail> {
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
+                          MainActionButton(
+                              text: 'Visualizar en RA',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/ar-system');
+                              })
                         ]),
                   ),
                 );
