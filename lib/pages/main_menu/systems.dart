@@ -70,11 +70,19 @@ class _SystemsState extends State<Systems> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final systems = snapshot.data!;
-                        return CardListItem(
-                            imageUrl: '${systems[index].image}',
-                            name: '${systems[index].name}',
-                            system: '${systems[index].organsNumber} órganos',
-                            shortDetail: '${systems[index].shortDetail}');
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/detail', arguments: {
+                              'id': systems[index].id,
+                              'name': systems[index].name
+                            });
+                          },
+                          child: CardListItem(
+                              imageUrl: '${systems[index].image}',
+                              name: '${systems[index].name}',
+                              system: '${systems[index].organsNumber} órganos',
+                              shortDetail: '${systems[index].shortDetail}'),
+                        );
                       }),
                 )
               ]);

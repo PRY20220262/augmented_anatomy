@@ -16,13 +16,15 @@ class _SystemDetailState extends State<SystemDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AAColors.backgroundGrayView,
-        appBar:
-            AAAppBar(context, back: true, title: 'Traer de widget anterior'),
+        appBar: AAAppBar(context, back: true, title: args['name']),
         body: FutureBuilder(
-            future: humanAnatomyService.getById(1),
+            future: humanAnatomyService.getById(args['id']),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
