@@ -10,7 +10,8 @@ class LargeCard extends StatelessWidget {
   final String organsNumber;
   final String shortDetail;
 
-  const LargeCard({super.key,
+  const LargeCard({
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.organsNumber,
@@ -44,24 +45,26 @@ class LargeCard extends StatelessWidget {
               children: [
                 Text(
                   '$name',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      fontSize: 16,
-                      color: AAColors.white
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.copyWith(fontSize: 16, color: AAColors.white),
                   softWrap: true,
                 ),
                 Text(
                   'Contiene $organsNumber organos',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AAColors.white
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: AAColors.white),
                   softWrap: true,
                 ),
                 Text(
                   '$shortDetail',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AAColors.white
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: AAColors.white),
                   softWrap: true,
                 ),
               ],
@@ -73,7 +76,8 @@ class LargeCard extends StatelessWidget {
   }
 }
 
-Widget recommendationContainer(BuildContext context, String urlImage, String name, String shortDetail) {
+Widget recommendationContainer(
+    BuildContext context, String urlImage, String name, String shortDetail) {
   return Container(
       height: 160,
       decoration: BoxDecoration(
@@ -81,7 +85,8 @@ Widget recommendationContainer(BuildContext context, String urlImage, String nam
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 10),
+        padding:
+            const EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 10),
         child: Row(
           children: [
             SizedBox(
@@ -97,28 +102,29 @@ Widget recommendationContainer(BuildContext context, String urlImage, String nam
             ),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      Text(
-                        shortDetail,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      MainActionButton(text: 'Probar ahora', onPressed: (){}, width: MediaQuery.of(context).size.height * 0.35)
-                    ],
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                )
-            )
+                  Text(
+                    shortDetail,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  MainActionButton(
+                      text: 'Probar ahora',
+                      onPressed: () {},
+                      width: MediaQuery.of(context).size.height * 0.35)
+                ],
+              ),
+            ))
           ],
         ),
-      )
-  );
+      ));
 }
 
 class DirectAccessCard extends StatelessWidget {
@@ -157,12 +163,15 @@ class DirectAccessCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 18),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(fontSize: 18),
             ),
             Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
+              children: const [
                 Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),
               ],
             )
@@ -179,7 +188,8 @@ class CardListItem extends StatelessWidget {
   final String system;
   final String shortDetail;
 
-  const CardListItem({super.key,
+  const CardListItem({
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.system,
