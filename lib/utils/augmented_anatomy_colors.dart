@@ -17,6 +17,8 @@ class AAColors {
   static const Color black = Color(0xFF000000);
   static const Color gray = Color(0xFF9D9C9C);
   static const Color grayBlue = Color(0XFF8AA0BC);
+  static const Color lightGray = Color(0XFFD7DEEA);
+  static const Color grayLabel = Color(0XFF4A545E);
   static const Color backgroundGrayView = Color(0xFFE0E0E0);
   static const Color backgroundWhiteView = Color(0xFFFFFfFF);
 }
