@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:augmented_anatomy/models/human_anatomy.dart';
@@ -12,9 +13,17 @@ var humanAnatomyUrl = BACKEND_URL;
 class HumanAnatomyService {
   final storage = const FlutterSecureStorage();
 
-  Future<List<OrgansModel>> getOrgans() async {
+  Future<List<OrgansModel>> getOrgans({String? systemName = null, String? order = null}) async {
     final token = await storage.read(key: 'token');
-    final requestGetOrgans = Uri.parse('${humanAnatomyUrl}organs');
+    final Map<String, dynamic> queryParams = {};
+    if (systemName != null) {
+      queryParams['systemName'] = systemName;
+    }
+    if (order != null) {
+      queryParams['order'] = order;
+    }
+    final requestGetOrgans = Uri.parse('${humanAnatomyUrl}organs').replace(queryParameters: queryParams);
+
     try{
       http.Response response = await http.get(
         requestGetOrgans,
@@ -22,7 +31,7 @@ class HumanAnatomyService {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: token!,
         },
-      );
+      ).timeout(const Duration(seconds: 5));
       if(response.statusCode == 200){
         List<dynamic> myData = json.decode(response.body);
         List<OrgansModel> organsList = [];
@@ -35,7 +44,10 @@ class HumanAnatomyService {
         final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
         return Future.error(errorResponse["message"]);
       }
+    } on TimeoutException catch (_) {
+      return Future.error('La solicitud ha excedido el tiempo de espera.');
     } catch (e){
+      print(e);
       return Future.error(e);
     }
   }
@@ -107,4 +119,5 @@ class HumanAnatomyService {
       return Future.error(e);
     }
   }
+
 }

@@ -68,13 +68,15 @@ typedef void OnChangedCallback(String? newValue);
 class AADropdownButton extends StatefulWidget {
   AADropdownButton({
     Key? key,
-    required this.label,
+    this.label,
+    this.width,
     required this.options,
     required this.initialValue,
     required this.selectedOption,
   }) : super(key: key);
 
   final String? label;
+  final num? width;
   final Map<String, String> options;
   final String initialValue;
   final OnChangedCallback? selectedOption;
@@ -96,20 +98,22 @@ class _AADropdownButton extends State<AADropdownButton> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90),
+        padding: widget.width == null ? EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90) : EdgeInsets.symmetric(horizontal: size.width - size.width * widget.width!),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            widget.label != null ? Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(widget.label!,
                   style: Theme.of(context).textTheme.labelLarge),
-            ),
+            ) : Container(),
             InputDecorator(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.black45),
+                  borderSide: BorderSide(
+                      color: Colors.black45
+                  ),
                 ),
                 contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 focusColor: Colors.black,

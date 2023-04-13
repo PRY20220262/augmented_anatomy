@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _loadSession() async {
     // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-    //await storage.delete(key: 'token');
+    // await storage.delete(key: 'token');
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;
