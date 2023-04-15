@@ -1,8 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
-import 'package:flutter/services.dart';
 
 class SystemAR extends StatefulWidget {
   const SystemAR({super.key});
@@ -25,11 +22,11 @@ class _SystemARState extends State<SystemAR> {
     _loadGLTF();
   }
 
-  void _loadGLTF() async {
-    final ByteData data = await rootBundle.load('assets/your_model.gltf');
-    final String gltfPath = utf8.decode(data.buffer.asUint8List());
-
-    final node = ArCoreReferenceNode(objectUrl: gltfPath, name: 'hola');
+  void _loadGLTF() {
+    final node = ArCoreReferenceNode(
+        objectUrl:
+            'https://augmentedanatomystorage.blob.core.windows.net/models/pulmones/scene.gltf',
+        name: 'hola');
 
     _arCoreController.addArCoreNode(node);
   }
