@@ -2,6 +2,7 @@ import 'package:augmented_anatomy/models/characteristics.dart';
 import 'package:augmented_anatomy/services/human_anatomy_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class SystemDetail extends StatefulWidget {
@@ -16,13 +17,15 @@ class _SystemDetailState extends State<SystemDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AAColors.backgroundGrayView,
-        appBar:
-            AAAppBar(context, back: true, title: 'Traer de widget anterior'),
+        appBar: AAAppBar(context, back: true, title: args['name']),
         body: FutureBuilder(
-            future: humanAnatomyService.getById(1),
+            future: humanAnatomyService.getById(args['id']),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
@@ -55,6 +58,11 @@ class _SystemDetailState extends State<SystemDetail> {
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
+                          MainActionButton(
+                              text: 'Visualizar en RA',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/ar-system');
+                              })
                         ]),
                   ),
                 );

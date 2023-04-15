@@ -1,3 +1,4 @@
+import 'package:augmented_anatomy/pages/augmented_reality/system_ar.dart';
 import 'package:augmented_anatomy/pages/auth/login.dart';
 import 'package:augmented_anatomy/pages/auth/register.dart';
 import 'package:augmented_anatomy/pages/auth/request_pin.dart';
@@ -39,6 +40,7 @@ class AugmentedAnatomy extends StatelessWidget {
         '/change-password': (context) => ChangePassword(),
         '/home': (context) => const MainMenu(),
         '/detail': (context) => SystemDetail(),
+        '/ar-system': (context) => SystemAR(),
       },
     );
   }
