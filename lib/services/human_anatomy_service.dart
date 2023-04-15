@@ -32,7 +32,7 @@ class HumanAnatomyService {
         },
       ).timeout(const Duration(seconds: 5));
       if(response.statusCode == 200){
-        List<dynamic> myData = json.decode(response.body);
+        List<dynamic> myData = json.decode(const Utf8Decoder().convert(response.bodyBytes));
         List<OrgansModel> organsList = [];
         for (int i = 0; i < myData.length; i++) {
           OrgansModel organsModel = OrgansModel.fromJson(myData[i]);
