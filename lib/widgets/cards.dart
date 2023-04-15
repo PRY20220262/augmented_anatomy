@@ -246,3 +246,79 @@ class CardListItem extends StatelessWidget {
     );
   }
 }
+
+class ReferenceCard extends StatelessWidget {
+  const ReferenceCard({
+    Key? key,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.iconBackgroundColor,
+    required this.iconColor,
+    this.backgroundColor = Colors.white,
+    this.settingsColor = Colors.grey,
+  }) : super(key: key);
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color backgroundColor;
+  final Color iconBackgroundColor;
+  final Color iconColor;
+  final Color settingsColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+          decoration: BoxDecoration(
+              color: AAColors.white,
+              borderRadius: BorderRadius.circular(15)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: iconBackgroundColor,
+                      borderRadius: BorderRadius.circular(15)
+                  ),
+                  height: 75,
+                  width: 75,
+                  child: Icon(
+                    Icons.file_open,
+                    color: iconColor,
+                    size: 30,
+                  ),
+                ),
+                SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      Text(
+                        subtitle,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      )
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.more_vert,
+                  color: AAColors.gray,
+                  size: 30,
+                ),
+              ],
+            ),
+          )
+      ),
+    );
+  }
+}
