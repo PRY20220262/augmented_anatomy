@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 
 class ErrorMessage extends StatelessWidget {
-  const ErrorMessage({super.key, required this.onRefresh});
+  const ErrorMessage({
+    super.key,
+    required this.onRefresh,
+    this.messageError
+  });
 
   final VoidCallback onRefresh;
+  final String? messageError;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +24,8 @@ class ErrorMessage extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
-          const Text(
-            'Revisa tu conexión a internet e intenta nuevamente',
+          Text(
+            messageError ?? 'Revisa tu conexión a internet e intenta nuevamente',
             textAlign: TextAlign.center,
           ),
           MainActionButton(

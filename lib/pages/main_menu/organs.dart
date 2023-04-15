@@ -234,11 +234,19 @@ class _OrgansState extends State<Organs> with SingleTickerProviderStateMixin, In
                               scrollDirection: Axis.vertical,
                               itemCount: filteredList?.length ?? 0,
                               itemBuilder: (BuildContext context, int index) {
-                                return CardListItem(
-                                    imageUrl: '${filteredList?[index].imageUrl}',
-                                    name: '${filteredList?[index].name}',
-                                    system: '${filteredList?[index].system}',
-                                    shortDetail: '${filteredList?[index].shortDetail}'
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/detail', arguments: {
+                                      'id': filteredList?[index].id,
+                                      'name': filteredList?[index].name
+                                    });
+                                  },
+                                  child: CardListItem(
+                                      imageUrl: '${filteredList?[index].imageUrl}',
+                                      name: '${filteredList?[index].name}',
+                                      system: '${filteredList?[index].system}',
+                                      shortDetail: '${filteredList?[index].shortDetail}'
+                                  ),
                                 );
                               }
                           ),
