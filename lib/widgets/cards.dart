@@ -65,6 +65,8 @@ class LargeCard extends StatelessWidget {
                       .textTheme
                       .bodySmall
                       ?.copyWith(color: AAColors.white),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   softWrap: true,
                 ),
               ],
@@ -79,7 +81,7 @@ class LargeCard extends StatelessWidget {
 Widget recommendationContainer(
     BuildContext context, String urlImage, String name, String shortDetail) {
   return Container(
-      height: 160,
+      height: 170,
       decoration: BoxDecoration(
         color: AAColors.white,
         borderRadius: BorderRadius.circular(20),
@@ -114,6 +116,9 @@ Widget recommendationContainer(
                   Text(
                     shortDetail,
                     style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
                   ),
                   MainActionButton(
                       text: 'Probar ahora',
@@ -144,7 +149,7 @@ class DirectAccessCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.height * 0.27,
+      width: MediaQuery.of(context).size.width * 0.45,
       height: MediaQuery.of(context).size.height * 0.19,
       decoration: BoxDecoration(
         color: color,
@@ -167,6 +172,9 @@ class DirectAccessCard extends StatelessWidget {
                   .textTheme
                   .titleSmall
                   ?.copyWith(fontSize: 18),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
             ),
             Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
             Row(
