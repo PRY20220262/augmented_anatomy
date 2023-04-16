@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../utils/augmented_anatomy_colors.dart';
 import 'button.dart';
 
@@ -29,10 +29,10 @@ class LargeCard extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.19,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                '$imageUrl',
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
-              ),
+              )
             ),
           ),
           SizedBox(
@@ -96,10 +96,10 @@ Widget recommendationContainer(
               height: 130,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  urlImage,
+                child: CachedNetworkImage(
+                  imageUrl: urlImage,
                   fit: BoxFit.cover,
-                ),
+                )
               ),
             ),
             Expanded(
@@ -177,9 +177,9 @@ class DirectAccessCard extends StatelessWidget {
               softWrap: true,
             ),
             Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
+              children: [
                 Icon(FontAwesomeIcons.arrowRight, color: AAColors.black),
               ],
             )
@@ -215,8 +215,8 @@ class CardListItem extends StatelessWidget {
             height: 140,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                '$imageUrl',
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -227,15 +227,15 @@ class CardListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$name',
+                  name,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  '$system',
+                  system,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
-                  '$shortDetail',
+                  shortDetail,
                   style: Theme.of(context).textTheme.bodyMedium,
                 )
               ],
