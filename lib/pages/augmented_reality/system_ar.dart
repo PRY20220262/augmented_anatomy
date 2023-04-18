@@ -19,22 +19,43 @@ class _SystemARState extends State<SystemAR> {
 
   void _onArCoreViewCreated(ArCoreController arCoreController) {
     _arCoreController = arCoreController;
-    _loadGLTF();
+    _addModel();
   }
 
-  void _loadGLTF() {
+  void _addModel() {
     final node = ArCoreReferenceNode(
         objectUrl:
-            'https://augmentedanatomystorage.blob.core.windows.net/models/pulmones/scene.gltf',
+            'https://github.com/PRY20220103/AR-Assets/raw/main/Tierra%20con%20Atmosfera/earth_with_mountains_and_atmosphere.glb',
         name: 'hola');
 
-    _arCoreController.addArCoreNode(node);
+    _arCoreController.addArCoreNodeWithAnchor(node);
   }
+
+  // Future _addModel(ArCoreHitTestResult hit) async {
+  //   final node = ArCoreReferenceNode(
+  //       objectUrl:
+  //           'https://github.com/PRY20220103/AR-Assets/raw/main/Tierra%20con%20Atmosfera/earth_with_mountains_and_atmosphere.glb',
+  //       name: 'hola');
+
+  //   _arCoreController.addArCoreNodeWithAnchor(node);
+  // }
+
+  // void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
+  //   final hit = hits.first;
+  //   print(
+  //       '--------${hit.pose.rotation}------${hit.pose.translation}-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  //   _addModel(hit);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ArCoreView(onArCoreViewCreated: _onArCoreViewCreated),
+      body: ArCoreView(
+        onArCoreViewCreated: _onArCoreViewCreated,
+        enableTapRecognizer: true,
+        enableUpdateListener: true,
+        debug: true,
+      ),
     );
   }
 }
