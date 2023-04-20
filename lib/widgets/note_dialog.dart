@@ -1,6 +1,8 @@
+import 'package:augmented_anatomy/services/note_service.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/input.dart';
+import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class NoteDialog extends StatelessWidget {
@@ -10,6 +12,27 @@ class NoteDialog extends StatelessWidget {
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  NoteService noteService = NoteService();
+
+  Future<void> createNote(BuildContext context) async {
+    bool successRequest = await noteService.createNote(
+        title: titleController.text, description: descriptionController.text);
+
+    print(
+        'este es el titulo: ${titleController.text} ${descriptionController.text}');
+
+    if (context.mounted) return;
+
+    if (successRequest) {
+      ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
+          context, 'Nota creada correctamente.', SnackType.success));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
+          context,
+          'Ha ocurrido un error, intente nuevamente luego.',
+          SnackType.warning));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +73,12 @@ class NoteDialog extends StatelessWidget {
                       width: 110,
                       onPressed: () {}),
                   MainActionButton(
-                      text: 'guardar', height: 40, width: 110, onPressed: () {})
+                      text: 'guardar',
+                      height: 40,
+                      width: 110,
+                      onPressed: () {
+                        createNote(context);
+                      })
                 ],
               ),
             )
