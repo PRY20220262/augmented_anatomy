@@ -1,4 +1,5 @@
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'input.dart';
@@ -8,14 +9,16 @@ class MainActionButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double? width;
   final double? height;
+  final ButtonType? type;
 
-  const MainActionButton({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-    this.width,
-    this.height
-  }) : super(key: key);
+  const MainActionButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.width,
+      this.height,
+      this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +28,32 @@ class MainActionButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AAColors.red,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: type == ButtonType.secondary
+                        ? Colors.black
+                        : AAColors.red),
+                borderRadius: BorderRadius.circular(10.0)),
+            elevation: type == ButtonType.secondary ? 0 : 1,
+            backgroundColor: type == ButtonType.secondary
+                ? Colors.transparent
+                : AAColors.red,
             foregroundColor: AAColors.white,
             textStyle: const TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          child: Text(text),
-        )
-    );
+          child: Text(text,
+              style: TextStyle(
+                  color: type == ButtonType.secondary
+                      ? Colors.black
+                      : Colors.white)),
+        ));
   }
 }
 
 class TextActionButton extends StatelessWidget {
-
   final String text;
   final VoidCallback onPressed;
 
@@ -55,11 +69,11 @@ class TextActionButton extends StatelessWidget {
         onTap: onPressed,
         child: Text(
           text,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: AAColors.red
-          ),
-        )
-    );
+          style: Theme.of(context)
+              .textTheme
+              .labelSmall
+              ?.copyWith(color: AAColors.red),
+        ));
   }
 }
 
@@ -98,24 +112,28 @@ class _AADropdownButton extends State<AADropdownButton> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: widget.width == null ? EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90) : EdgeInsets.symmetric(horizontal: size.width - size.width * widget.width!),
+        padding: widget.width == null
+            ? EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90)
+            : EdgeInsets.symmetric(
+                horizontal: size.width - size.width * widget.width!),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.label != null ? Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(widget.label!,
-                  style: Theme.of(context).textTheme.labelLarge),
-            ) : Container(),
+            widget.label != null
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(widget.label!,
+                        style: Theme.of(context).textTheme.labelLarge),
+                  )
+                : Container(),
             InputDecorator(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                      color: Colors.black45
-                  ),
+                  borderSide: BorderSide(color: Colors.black45),
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 focusColor: Colors.black,
               ),
               child: DropdownButton<String>(

@@ -2,27 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InputLabel extends StatelessWidget {
-  InputLabel({super.key, this.label, this.hint, this.keyboardType, required this.controller});
+  InputLabel(
+      {super.key,
+      this.label,
+      this.hint,
+      this.keyboardType,
+      required this.controller});
 
   final String? label;
   final String? hint;
   final TextEditingController controller;
   final TextInputType? keyboardType;
 
-  String? updateValue (String? value, TextInputType? keyboardType) {
-    if (keyboardType == TextInputType.name){
-      if (value == null || value.isEmpty || value.trim().split(' ').length < 2) {
+  String? updateValue(String? value, TextInputType? keyboardType) {
+    if (keyboardType == TextInputType.name) {
+      if (value == null ||
+          value.isEmpty ||
+          value.trim().split(' ').length < 2) {
         return 'Ingrese su nombre completo';
       } else if (!RegExp(r'^[a-zA-Z]+(\s[a-zA-Z]+)+$').hasMatch(value)) {
         return 'Ingrese un nombre válido';
       }
-    } else if (keyboardType == TextInputType.emailAddress){
+    } else if (keyboardType == TextInputType.emailAddress) {
       if (value == null || value.isEmpty) {
         return 'Ingrese su correo electrónico';
       } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
         return 'Ingrese una dirección de correo electrónico válida';
       }
-    } else if (keyboardType == TextInputType.phone){
+    } else if (keyboardType == TextInputType.phone) {
       if (value == null || value.isEmpty) {
         return 'Ingrese su número de teléfono';
       } else if (!RegExp(r'^\d{9}$').hasMatch(value)) {
@@ -57,6 +64,56 @@ class InputLabel extends StatelessWidget {
               return updateValue(value, keyboardType);
             },
             keyboardType: keyboardType,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              hintText: hint,
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DescriptionInput extends StatelessWidget {
+  DescriptionInput(
+      {super.key, this.label, this.hint, required this.controller});
+
+  final String? label;
+  final String? hint;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          label != null
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(label!,
+                      style: Theme.of(context).textTheme.labelLarge),
+                )
+              : const SizedBox(),
+          TextFormField(
+            controller: controller,
+            minLines: 1,
+            maxLines: 10, // allow user to enter 5 line in textfield
+            keyboardType: TextInputType.multiline,
+            style: Theme.of(context).textTheme.bodyMedium,
+            cursorColor: Colors.black45,
             decoration: InputDecoration(
               isDense: true,
               contentPadding:
