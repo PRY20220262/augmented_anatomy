@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   arcore_flutter_plugin: ^0.1.0
   vector_math: ^2.1.4
+  ar_flutter_plugin: ^0.7.3
   connectivity: ^3.0.6
   font_awesome_flutter: ^10.4.0
   flutter_spinkit: ^5.1.0
