@@ -20,9 +20,6 @@ class ArTest extends StatefulWidget {
 class _ArTestState extends State<ArTest> {
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
-  late ARNode localObjectNode;
-  late ARNode webObjectNode;
-  late ARNode fileSystemNode;
 
   @override
   void dispose() {
@@ -57,10 +54,22 @@ class _ArTestState extends State<ArTest> {
         name: "testNode",
         type: NodeType.webGLB,
         uri:
-            'https://github.com/PRY20220103/AR-Assets/raw/main/Tierra%20con%20Atmosfera/earth_with_mountains_and_atmosphere.glb',
-        scale: Vector3(0.25, 0.25, 0.2),
+            'https://github.com/Juanca0312/test-ar/blob/main/realistic_human_stomach.glb?raw=true',
+        scale: Vector3(0.5, 0.5, 0.5),
         position: Vector3(0, -0.3, -0.8));
+
     bool? didAddWebNode = await this.arObjectManager.addNode(newNode);
+
+    this.arObjectManager.onNodeTap = _onTap;
+  }
+
+  void _onTap(List<String> nodes) {
+    print("Flutter: onNodeTap");
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) =>
+          AlertDialog(content: Text('onNodeTap on ${nodes[0].toString()}')),
+    );
   }
 
   @override
