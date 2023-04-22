@@ -18,11 +18,7 @@ class NoteDialog extends StatelessWidget {
     bool successRequest = await noteService.createNote(
         title: titleController.text, description: descriptionController.text);
 
-    print(
-        'este es el titulo: ${titleController.text} ${descriptionController.text}');
-
-    if (context.mounted) return;
-
+    Navigator.of(context).pop();
     if (successRequest) {
       ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
           context, 'Nota creada correctamente.', SnackType.success));
@@ -44,45 +40,48 @@ class NoteDialog extends StatelessWidget {
         padding: const EdgeInsets.only(top: 30),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.4,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Text(
-              'Crear apunte',
-              style: Theme.of(context).textTheme.titleSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 15.0),
-            InputLabel(
-              controller: titleController,
-              label: 'Titulo',
-            ),
-            const SizedBox(height: 20.0),
-            DescriptionInput(
-              controller: descriptionController,
-              label: 'Descripción',
-            ),
-            const SizedBox(height: 20.0),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MainActionButton(
-                      text: 'cancelar',
-                      type: ButtonType.secondary,
-                      height: 40,
-                      width: 110,
-                      onPressed: () {}),
-                  MainActionButton(
-                      text: 'guardar',
-                      height: 40,
-                      width: 110,
-                      onPressed: () {
-                        createNote(context);
-                      })
-                ],
+          child: SingleChildScrollView(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(
+                'Crear apunte',
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
               ),
-            )
-          ]),
+              const SizedBox(height: 15.0),
+              InputLabel(
+                controller: titleController,
+                label: 'Titulo',
+              ),
+              const SizedBox(height: 20.0),
+              DescriptionInput(
+                controller: descriptionController,
+                label: 'Descripción',
+              ),
+              const SizedBox(height: 20.0),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MainActionButton(
+                        text: 'cancelar',
+                        type: ButtonType.secondary,
+                        height: 40,
+                        width: 110,
+                        onPressed: () {}),
+                    MainActionButton(
+                        text: 'guardar',
+                        height: 40,
+                        width: 110,
+                        onPressed: () {
+                          createNote(context);
+                        })
+                  ],
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
