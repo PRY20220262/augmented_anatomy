@@ -1,6 +1,7 @@
 import 'package:augmented_anatomy/pages/main_menu/organs.dart';
 import 'package:augmented_anatomy/pages/main_menu/systems.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/widgets/note_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,13 +15,8 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-
   int _selectedIndex = 0;
-  final tabs = [
-    Home(),
-    Systems(),
-    Organs()
-  ];
+  final tabs = [Home(), Systems(), Organs()];
   final List<BottomNavigationBarItem> _bottomNavigationBarItems = [
     const BottomNavigationBarItem(
       icon: Icon(FontAwesomeIcons.house),
@@ -42,17 +38,18 @@ class _MainMenuState extends State<MainMenu> {
         backgroundColor: Colors.transparent,
         extendBody: true,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // Acción al presionar el botón
-          },
+          onPressed: () => showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => NoteDialog(),
+          ),
           icon: const Icon(Icons.add),
           backgroundColor: AAColors.red,
           label: Text(
             'Crear apunte',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AAColors.white,
-              fontWeight: FontWeight.bold
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AAColors.white, fontWeight: FontWeight.bold),
           ),
         ),
         body: Center(
@@ -62,17 +59,17 @@ class _MainMenuState extends State<MainMenu> {
             height: 75,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(5), topLeft: Radius.circular(5)
-              ),
+                  topRight: Radius.circular(5), topLeft: Radius.circular(5)),
               boxShadow: [
-                BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
+                BoxShadow(
+                    color: Colors.black12, spreadRadius: 0, blurRadius: 10),
               ],
             ),
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            ),
+                topRight: Radius.circular(20.0),
+              ),
               child: BottomNavigationBar(
                 items: _bottomNavigationBarItems,
                 currentIndex: _selectedIndex,
@@ -80,11 +77,9 @@ class _MainMenuState extends State<MainMenu> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  },
+                },
                 selectedItemColor: AAColors.blue,
               ),
-            )
-        )
-    );
+            )));
   }
 }
