@@ -287,6 +287,13 @@ class _ArTestState extends State<ArTest> {
         uri: "https://augmentedanatomystorage.blob.core.windows.net/models/Larynx/Cricoid_cartilage.glb",
         scale: Vector3(0.5, 0.5, 0.5),
         position: Vector3(0, -0.3, -0.8),
+    var node1 = ARNode(
+      name: "node1",
+      type: NodeType.webGLB,
+      uri:
+          "https://augmentedanatomystorage.blob.core.windows.net/models/Larynx/Cricoid_cartilage.glb",
+      scale: Vector3(0.3, 0.3, 0.3),
+      position: Vector3(0, 2, 0),
     );
     var node2 = ARNode(
       name: "node2",
@@ -308,6 +315,25 @@ class _ArTestState extends State<ArTest> {
     //this.arObjectManager.addNode(node);
     bool? didAddWebNode = await this.arObjectManager.addNode(node);
     //this.arObjectManager.onNodeTap = _onTap;
+      uri:
+          "https://augmentedanatomystorage.blob.core.windows.net/models/Larynx/Trachea.glb",
+      scale: Vector3(0.3, 0.3, 0.3),
+      position: Vector3(0, 0, 0),
+    );
+    // var newNode = ARNode(
+    //     name: "testNode",
+    //     type: NodeType.webGLB,
+    //     uri:
+    //         'https://augmentedanatomystorage.blob.core.windows.net/models/Larynx/Trachea.glb',
+    //     scale: Vector3(0.5, 0.5, 0.5),
+    //     position: Vector3(0, -0.3, -0.8));
+
+    bool? didAddWebNode = await this.arObjectManager.addNode(node1);
+    bool? didAddWebNode2 = await this.arObjectManager.addNode(node2);
+    bool? didAddWebNode3 = await this.arObjectManager.addNode(node3);
+
+    this.arObjectManager.onNodeTap = _onTap;
+>>>>>>> b729d17 (hu-12 prueba ar varios nodos)
   }
 
   void _onTap(List<String> nodes) {
