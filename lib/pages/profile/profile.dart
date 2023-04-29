@@ -1,16 +1,35 @@
+import 'package:augmented_anatomy/models/user.dart';
+import 'package:augmented_anatomy/services/user_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   Profile({super.key});
 
-  final Future<String> _calculation = Future<String>.delayed(
-    const Duration(seconds: 2),
-    () => 'Data Loaded',
-  );
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  UserService userService = UserService();
+
+  Future<User>? _user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // initial load
+    _user = getUser();
+  }
+
+  Future<User> getUser() async {
+    // return the list here
+    return await userService.getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +38,10 @@ class Profile extends StatelessWidget {
         backgroundColor: AAColors.backgroundGrayView,
         appBar: AAAppBar(context, back: true, title: 'Perfil'),
         body: FutureBuilder(
-          future: _calculation,
+          future: _user,
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
+              User user = snapshot.data!;
               return SingleChildScrollView(
                 child: Padding(
                   padding:
@@ -30,7 +50,7 @@ class Profile extends StatelessWidget {
                     const Avatar(),
                     const SizedBox(height: 10),
                     Text(
-                      'Gino Quispe Calixto',
+                      user.profile!.fullName!,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 10),
@@ -44,17 +64,17 @@ class Profile extends StatelessWidget {
                       thickness: 1,
                     ),
                     const SizedBox(height: 5),
-                    const TitleLabel(
+                    TitleLabel(
                       title: 'correo electrónico:',
-                      label: 'quispecalixtogino@gmail.com',
+                      label: user.email!,
                     ),
-                    const TitleLabel(
+                    TitleLabel(
                       title: 'teléfono:',
-                      label: '+51 999 999 999',
+                      label: user.profile!.phone!,
                     ),
-                    const TitleLabel(
+                    TitleLabel(
                       title: 'cumpleaños:',
-                      label: '-- -- / -- -- / -- --',
+                      label: user.profile!.birthDate,
                     ),
                     const SizedBox(height: 5),
                     const Divider(
@@ -62,7 +82,9 @@ class Profile extends StatelessWidget {
                       thickness: 1,
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/notes');
+                      },
                       leading: const Icon(Icons.file_copy_outlined,
                           color: Colors.black),
                       title: Text('Mis apuntes',
@@ -131,7 +153,7 @@ class Profile extends StatelessWidget {
 
 class TitleLabel extends StatelessWidget {
   final String title;
-  final String label;
+  final String? label;
   const TitleLabel({super.key, required this.title, required this.label});
 
   @override
@@ -151,7 +173,7 @@ class TitleLabel extends StatelessWidget {
           Expanded(
             flex: 6,
             child: Text(
-              label,
+              label ?? '--',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -189,6 +211,7 @@ class Avatar extends StatelessWidget {
               icon: const Icon(
                 Icons.camera_alt_rounded,
                 size: 19,
+                color: Colors.white,
               ),
               onPressed: () {},
             ),
