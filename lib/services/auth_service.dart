@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:augmented_anatomy/models/user.dart';
+import 'package:augmented_anatomy/models/user_save_resource.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:augmented_anatomy/utils/config.dart';
@@ -149,9 +149,9 @@ class AuthService {
 
   Future<String> register(UserRegisterModel userRegisterModel) async {
     final registerUrl = Uri.parse('$authUrl/register');
-    try{
+    try {
       http.Response response = await http.post(
-          registerUrl,
+        registerUrl,
         body: json.encode({
           'fullName': userRegisterModel.fullName,
           'email': userRegisterModel.email,
@@ -173,5 +173,4 @@ class AuthService {
       return e.toString();
     }
   }
-
 }
