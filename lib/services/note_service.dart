@@ -77,4 +77,28 @@ class NoteService {
       return Future.error(e);
     }
   }
+
+  Future<bool> deleteNote({required int id}) async {
+    //    final userID = await storage.read(key: 'userId');
+    final token = await storage.read(key: 'token');
+    final deleteNoteUrl = Uri.parse('${noteUrl}users/1/notes/$id');
+
+    try {
+      print('Haciendo llamada a servicio ${deleteNoteUrl.toString()} ');
+
+      http.Response response = await http.delete(
+        deleteNoteUrl,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token!
+        },
+      );
+      print("${response.statusCode} ---- ${response.body}");
+      return true;
+    } on TimeoutException catch (_) {
+      return Future.error('La solicitud ha excedido el tiempo de espera.');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 }
