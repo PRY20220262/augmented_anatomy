@@ -1,3 +1,4 @@
+import 'package:augmented_anatomy/models/note.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -308,7 +309,7 @@ class ReferenceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.more_vert,
                   color: AAColors.gray,
                   size: 30,
@@ -322,7 +323,8 @@ class ReferenceCard extends StatelessWidget {
 
 class NoteCard extends StatefulWidget {
   late int index;
-  NoteCard({super.key, required this.index});
+  late Note note;
+  NoteCard({super.key, required this.index, required this.note});
 
   @override
   State<NoteCard> createState() => _NoteCardState();
@@ -348,45 +350,49 @@ class _NoteCardState extends State<NoteCard> {
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 2,
                     blurRadius: 1,
-                    offset: Offset(3, 3),
+                    offset: const Offset(3, 3),
                   )
                 ],
                 color: cardColors[widget.index % 3],
                 borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.only(left: 12, bottom: 12),
-              child: Column(children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'APunte de pulmones',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      PopupMenuButton<NoteMenuItem>(
-                        // Callback that sets the selected popup menu item.
-                        onSelected: (NoteMenuItem item) {},
-                        constraints:
-                            const BoxConstraints.expand(width: 60, height: 120),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<NoteMenuItem>>[
-                          const PopupMenuItem<NoteMenuItem>(
-                            value: NoteMenuItem.edit,
-                            child: Icon(Icons.edit),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.note.title!,
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
-                          const PopupMenuItem<NoteMenuItem>(
-                            value: NoteMenuItem.delete,
-                            child: Icon(Icons.delete),
+                          PopupMenuButton<NoteMenuItem>(
+                            // Callback that sets the selected popup menu item.
+                            onSelected: (NoteMenuItem item) {},
+                            constraints: const BoxConstraints.expand(
+                                width: 60, height: 120),
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<NoteMenuItem>>[
+                              const PopupMenuItem<NoteMenuItem>(
+                                value: NoteMenuItem.edit,
+                                child: Icon(Icons.edit),
+                              ),
+                              const PopupMenuItem<NoteMenuItem>(
+                                value: NoteMenuItem.delete,
+                                child: Icon(Icons.delete),
+                              ),
+                            ],
                           ),
-                        ],
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: Text(
+                        widget.note.detail!,
+                        textAlign: TextAlign.start,
                       ),
-                    ]),
-                Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: Text(
-                      'los pulmones de los hobres son mas grandes que el de las mujeres'),
-                ),
-              ]),
+                    ),
+                  ]),
             ),
           )),
     );

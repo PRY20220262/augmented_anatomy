@@ -1,3 +1,5 @@
+import 'package:augmented_anatomy/models/note.dart';
+import 'package:augmented_anatomy/services/note_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
@@ -12,14 +14,27 @@ class Notes extends StatefulWidget {
 }
 
 class _NotesState extends State<Notes> {
-  final Future<String> _calculation = Future<String>.delayed(
-    const Duration(seconds: 2),
-    () => 'Data Loaded',
-  );
+  NoteService noteService = NoteService();
+  Future<List<Note>>? _notes;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // initial load
+    _notes = findNotes();
+  }
 
   void _refresh() {
     // reload
-    setState(() {});
+    setState(() {
+      _notes = findNotes();
+    });
+  }
+
+  Future<List<Note>> findNotes() async {
+    // return the list here
+    return await noteService.findNotes();
   }
 
   @override
@@ -29,17 +44,20 @@ class _NotesState extends State<Notes> {
         backgroundColor: AAColors.backgroundGrayView,
         appBar: AAAppBar(context, back: true, title: 'Mis apuntes'),
         body: FutureBuilder(
-          future: _calculation,
+          future: _notes,
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
+              late List<Note> notes = snapshot.data!;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ListView.builder(
+                    itemCount: notes.length,
                     itemBuilder: (BuildContext context, int index) {
-                  return NoteCard(
-                    index: index,
-                  );
-                }),
+                      return NoteCard(
+                        index: index,
+                        note: notes[index],
+                      );
+                    }),
               );
             } else if (snapshot.hasError) {
               return ErrorMessage(onRefresh: _refresh);
