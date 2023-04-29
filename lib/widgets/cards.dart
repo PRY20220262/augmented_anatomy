@@ -1,3 +1,5 @@
+import 'package:augmented_anatomy/models/note.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -273,9 +275,7 @@ class ReferenceCard extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Container(
           decoration: BoxDecoration(
-              color: AAColors.white,
-              borderRadius: BorderRadius.circular(15)
-          ),
+              color: AAColors.white, borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Row(
@@ -284,8 +284,7 @@ class ReferenceCard extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                       color: iconBackgroundColor,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
+                      borderRadius: BorderRadius.circular(15)),
                   height: 75,
                   width: 75,
                   child: Icon(
@@ -310,15 +309,92 @@ class ReferenceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.more_vert,
                   color: AAColors.gray,
                   size: 30,
                 ),
               ],
             ),
-          )
-      ),
+          )),
+    );
+  }
+}
+
+class NoteCard extends StatefulWidget {
+  late int index;
+  late Note note;
+  NoteCard({super.key, required this.index, required this.note});
+
+  @override
+  State<NoteCard> createState() => _NoteCardState();
+}
+
+class _NoteCardState extends State<NoteCard> {
+  List<Color> cardColors = [
+    AAColors.skyBlue2,
+    AAColors.lightYellow,
+    AAColors.lightGreen2
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: GestureDetector(
+          onTap: () {},
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 1,
+                    offset: const Offset(3, 3),
+                  )
+                ],
+                color: cardColors[widget.index % 3],
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12, bottom: 12),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.note.title!,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          PopupMenuButton<NoteMenuItem>(
+                            // Callback that sets the selected popup menu item.
+                            onSelected: (NoteMenuItem item) {},
+                            constraints: const BoxConstraints.expand(
+                                width: 60, height: 120),
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<NoteMenuItem>>[
+                              const PopupMenuItem<NoteMenuItem>(
+                                value: NoteMenuItem.edit,
+                                child: Icon(Icons.edit),
+                              ),
+                              const PopupMenuItem<NoteMenuItem>(
+                                value: NoteMenuItem.delete,
+                                child: Icon(Icons.delete),
+                              ),
+                            ],
+                          ),
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: Text(
+                        widget.note.detail!,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ]),
+            ),
+          )),
     );
   }
 }
