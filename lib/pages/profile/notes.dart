@@ -1,8 +1,10 @@
 import 'package:augmented_anatomy/models/note.dart';
 import 'package:augmented_anatomy/services/note_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
+import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 
@@ -32,6 +34,15 @@ class _NotesState extends State<Notes> {
     });
   }
 
+  Future<bool> deleteNote(int id) async {
+    print("RESPNSEE ALGO");
+    // return the list here
+    bool response = await noteService.deleteNote(id: id);
+    _refresh();
+
+    return response;
+  }
+
   Future<List<Note>> findNotes() async {
     // return the list here
     return await noteService.findNotes();
@@ -54,6 +65,17 @@ class _NotesState extends State<Notes> {
                     itemCount: notes.length,
                     itemBuilder: (BuildContext context, int index) {
                       return NoteCard(
+                        onDelete: () async {
+                          await deleteNote(notes[index].id!);
+
+                          Navigator.of(context).pop();
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              AASnackBar.buildSnack(
+                                  context,
+                                  'Nota eliminada correctamente',
+                                  SnackType.success));
+                        },
                         index: index,
                         note: notes[index],
                       );

@@ -324,7 +324,12 @@ class ReferenceCard extends StatelessWidget {
 class NoteCard extends StatefulWidget {
   late int index;
   late Note note;
-  NoteCard({super.key, required this.index, required this.note});
+  late VoidCallback onDelete;
+  NoteCard(
+      {super.key,
+      required this.index,
+      required this.note,
+      required this.onDelete});
 
   @override
   State<NoteCard> createState() => _NoteCardState();
@@ -369,7 +374,69 @@ class _NoteCardState extends State<NoteCard> {
                           ),
                           PopupMenuButton<NoteMenuItem>(
                             // Callback that sets the selected popup menu item.
-                            onSelected: (NoteMenuItem item) {},
+                            onSelected: (NoteMenuItem item) {
+                              if (item == NoteMenuItem.delete) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      contentPadding: EdgeInsets.all(20.0),
+                                      content: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 160,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '¿Estás seguro que deseas eliminar el apunte?',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.7,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  MainActionButton(
+                                                      text: 'cancelar',
+                                                      type:
+                                                          ButtonType.secondary,
+                                                      height: 40,
+                                                      width: 110,
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      }),
+                                                  MainActionButton(
+                                                      text: 'eliminar',
+                                                      height: 40,
+                                                      width: 110,
+                                                      onPressed:
+                                                          widget.onDelete)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            },
                             constraints: const BoxConstraints.expand(
                                 width: 60, height: 120),
                             itemBuilder: (BuildContext context) =>
