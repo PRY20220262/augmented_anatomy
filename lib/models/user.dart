@@ -1,11 +1,32 @@
-class UserRegisterModel {
+import 'package:augmented_anatomy/models/profile.dart';
 
-  late String email;
-  late String password;
-  late String confirmPassword;
-  late String phone;
-  late String fullName;
-  late String userType;
+class User {
+  int? id;
+  String? email;
+  String? password;
+  String? pin;
+  Profile? profile;
 
-  UserRegisterModel(this.email, this.password, this.confirmPassword, this.phone, this.fullName, this.userType);
+  User({this.id, this.email, this.password, this.pin, this.profile});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    email = json['email'];
+    password = json['password'];
+    pin = json['pin'];
+    profile =
+        json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['password'] = password;
+    data['pin'] = pin;
+    if (profile != null) {
+      data['profile'] = profile!.toJson();
+    }
+    return data;
+  }
 }
