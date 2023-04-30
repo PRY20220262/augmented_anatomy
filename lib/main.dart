@@ -34,7 +34,7 @@ class AugmentedAnatomy extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => ArTest(),
+        '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
         '/forgot-password': (context) => RequestPin(),
@@ -43,7 +43,6 @@ class AugmentedAnatomy extends StatelessWidget {
         '/change-password': (context) => ChangePassword(),
         '/home': (context) => const MainMenu(),
         '/detail': (context) => SystemDetail(),
-        '/ar-system': (context) => SystemAR(),
         '/notes': (context) => const Notes(),
         '/profile': (context) => Profile(),
       },

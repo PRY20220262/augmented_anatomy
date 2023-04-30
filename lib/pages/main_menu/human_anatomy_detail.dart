@@ -116,7 +116,10 @@ class _SystemDetailState extends State<SystemDetail> {
                                                     width: 125,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pushNamed(context, '/ar-system');
+                                                        Navigator.pushNamed(context, '/ar-system',
+                                                          arguments: {
+                                                            'name': snapshot.data!.name
+                                                          });
                                                       },
                                                       style: ElevatedButton.styleFrom(
                                                         primary: AAColors.lightGray,
@@ -145,7 +148,12 @@ class _SystemDetailState extends State<SystemDetail> {
                                                     width: 125,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pushNamed(context, '/ar-system');
+                                                        Navigator.pushNamed(
+                                                            context, '/ar-system',
+                                                            arguments: {
+                                                              'name': snapshot.data!.name
+                                                            }
+                                                        );
                                                       },
                                                       style: ElevatedButton.styleFrom(
                                                         primary: AAColors.lightGray,
