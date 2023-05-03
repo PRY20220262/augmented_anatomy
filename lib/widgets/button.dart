@@ -53,6 +53,43 @@ class MainActionButton extends StatelessWidget {
   }
 }
 
+class NotAllowedActionButton extends StatelessWidget {
+  final String text;
+  final double? width;
+  final double? height;
+
+  const NotAllowedActionButton(
+      {Key? key,
+        required this.text,
+        this.width,
+        this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: width,
+        height: height,
+        child: ElevatedButton(
+          onPressed: (){},
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            elevation: 1,
+            backgroundColor: AAColors.gray,
+            foregroundColor: AAColors.white,
+            textStyle: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          child: Text(text,
+              style: const TextStyle(
+                  color: Colors.white)),
+        ));
+  }
+}
+
 class TextActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;

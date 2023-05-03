@@ -96,7 +96,9 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/quiz-detail');
+                      },
                       leading:
                           const Icon(Icons.edit_square, color: Colors.black),
                       title: Text('Mis cuestionarios',
