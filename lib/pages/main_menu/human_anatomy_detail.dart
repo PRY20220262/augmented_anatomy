@@ -1,4 +1,5 @@
 import 'package:augmented_anatomy/models/characteristics.dart';
+import 'package:augmented_anatomy/pages/ar/ar_view.dart';
 import 'package:augmented_anatomy/services/human_anatomy_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
@@ -38,20 +39,24 @@ class _SystemDetailState extends State<SystemDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: snapshot.data!.characteristics!.isNotEmpty ?
-                            MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
+                            mainAxisAlignment:
+                                snapshot.data!.characteristics!.isNotEmpty
+                                    ? MainAxisAlignment.spaceEvenly
+                                    : MainAxisAlignment.center,
                             children: [
                               Image.network(
                                 snapshot.data!.image ?? '',
                                 height: 200,
                                 width: MediaQuery.of(context).size.width * 0.5,
                               ),
-                              snapshot.data!.characteristics!.isNotEmpty ? CharacteristicsSection(
-                                characteristic1:
-                                    snapshot.data!.characteristics![0],
-                                characteristic2:
-                                    snapshot.data!.characteristics![1],
-                              ) : Container()
+                              snapshot.data!.characteristics!.isNotEmpty
+                                  ? CharacteristicsSection(
+                                      characteristic1:
+                                          snapshot.data!.characteristics![0],
+                                      characteristic2:
+                                          snapshot.data!.characteristics![1],
+                                    )
+                                  : Container()
                             ],
                           ),
                           const SizedBox(height: 15.0),
@@ -89,7 +94,8 @@ class _SystemDetailState extends State<SystemDetail> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
                                         ),
                                         contentPadding: EdgeInsets.all(20.0),
                                         content: ConstrainedBox(
@@ -97,43 +103,82 @@ class _SystemDetailState extends State<SystemDetail> {
                                             maxHeight: 200,
                                           ),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                'Título del popup',
-                                                style: Theme.of(context).textTheme.titleMedium,
+                                                'Sexo de organo',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
                                                 textAlign: TextAlign.center,
                                               ),
                                               Text(
                                                 'Seleccione el sexo del órgano a cargar en realidad aumentada.',
-                                                style: Theme.of(context).textTheme.bodyLarge,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge,
                                                 textAlign: TextAlign.justify,
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Container(
                                                     width: 125,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pushNamed(context, '/ar-system');
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        ArHumanAnatomy(
+                                                                          id: snapshot
+                                                                              .data!
+                                                                              .id!,
+                                                                          name: snapshot
+                                                                              .data!
+                                                                              .name!,
+                                                                        )));
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/ar-system',
+                                                            arguments: {
+                                                              'name': snapshot
+                                                                  .data!.name,
+                                                              'id': snapshot
+                                                                  .data!.id
+                                                            });
                                                       },
-                                                      style: ElevatedButton.styleFrom(
-                                                        primary: AAColors.lightGray,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        primary:
+                                                            AAColors.lightGray,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
                                                         ),
                                                       ),
                                                       child: Container(
                                                         height: 80,
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            Icon(Icons.male, size: 45, color: AAColors.black),
+                                                            Icon(Icons.male,
+                                                                size: 45,
+                                                                color: AAColors
+                                                                    .black),
                                                             SizedBox(height: 8),
                                                             Text(
                                                               'Masculino',
-                                                              style: Theme.of(context).textTheme.labelMedium,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .labelMedium,
                                                             ),
                                                           ],
                                                         ),
@@ -145,24 +190,42 @@ class _SystemDetailState extends State<SystemDetail> {
                                                     width: 125,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pushNamed(context, '/ar-system');
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/ar-system',
+                                                            arguments: {
+                                                              'name': snapshot
+                                                                  .data!.name
+                                                            });
                                                       },
-                                                      style: ElevatedButton.styleFrom(
-                                                        primary: AAColors.lightGray,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        primary:
+                                                            AAColors.lightGray,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
                                                         ),
                                                       ),
                                                       child: Container(
                                                         height: 80,
                                                         child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            Icon(Icons.female, size: 45, color: AAColors.black),
+                                                            Icon(Icons.female,
+                                                                size: 45,
+                                                                color: AAColors
+                                                                    .black),
                                                             SizedBox(height: 8),
                                                             Text(
                                                               'Femenino',
-                                                              style: Theme.of(context).textTheme.labelMedium,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .labelMedium,
                                                             ),
                                                           ],
                                                         ),
@@ -185,18 +248,17 @@ class _SystemDetailState extends State<SystemDetail> {
                 );
               } else if (snapshot.hasError) {
                 return Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ErrorMessage(
-                              messageError: 'Ocurrio un error al momento de realizar la consulta',
-                              onRefresh: (){
-                                humanAnatomyService.getById(args['id']);
-                              }
-                          )
-                        ]
-                    ),
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ErrorMessage(
+                            messageError:
+                                'Ocurrio un error al momento de realizar la consulta',
+                            onRefresh: () {
+                              humanAnatomyService.getById(args['id']);
+                            })
+                      ]),
                 );
               } else {
                 return const Center(
@@ -257,27 +319,27 @@ class CharacteristicCard extends StatelessWidget {
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(15)),
       child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(
-                Icons.sticky_note_2_outlined,
-              ),
-              Text(
-                title,
-                textAlign: TextAlign.start,
-                style:
-                Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.2),
-              ),
-              Text(
-                detail,
-                textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.labelMedium,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              )
-            ]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Icon(
+              Icons.sticky_note_2_outlined,
+            ),
+            Text(
+              title,
+              textAlign: TextAlign.start,
+              style:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.2),
+            ),
+            Text(
+              detail,
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.labelMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            )
+          ]),
     );
   }
 }

@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:augmented_anatomy/utils/config.dart';
 import 'package:augmented_anatomy/models/system_list.dart';
 
+import '../models/model.dart';
+
 var humanAnatomyUrl = BACKEND_URL;
 
 class HumanAnatomyService {
@@ -154,5 +156,39 @@ class HumanAnatomyService {
       return Future.error(e);
     }
   }
+
+  Future<List<ModelAR>> getModelAr(id) async {
+    final getModelAR = Uri.parse('${humanAnatomyUrl}human-anatomy/$id/models');
+    final token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ";
+    try {
+      http.Response response = await http.get(
+        getModelAR,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token!
+        },
+      );
+      if(response.statusCode == 200){
+        List<dynamic> myData = json.decode(const Utf8Decoder().convert(response.bodyBytes));
+        List<ModelAR> modelsARList = [];
+        for (int i = 0; i < myData.length; i++) {
+          ModelAR modelAR = ModelAR.fromJson(myData[i]);
+          print(modelAR);
+          modelsARList.add(modelAR);
+        }
+        print("ESTE ES LA LISTA DE MODELOS");
+        print(modelsARList);
+        return modelsARList;
+      } else {
+        final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
+        return Future.error(errorResponse["message"]);
+      }
+    } catch (e) {
+      print("ESTE ES EL MENSAJE DE ERROR");
+      print(e);
+      return Future.error(e);
+    }
+  }
+
 
 }
