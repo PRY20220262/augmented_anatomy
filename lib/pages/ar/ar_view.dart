@@ -81,22 +81,25 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
     showDialog<void>(
       context: context,
       barrierColor: MaterialColors.Colors.transparent,
-      builder: (BuildContext context) => AlertDialog(
+      builder: (BuildContext context) => Align(
+        alignment: Alignment.bottomRight,
+        child: AlertDialog(
         elevation: 0,
         content: Container(
-          width: 200,
-          height: 300,
-          child: Column(
-            children: [
-              Text(
-                nodeName,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              Text(
-                description,
-                style: Theme.of(context).textTheme.bodySmall,
-              )
-            ],
+            width: 200,
+            height: 300,
+            child: Column(
+              children: [
+                Text(
+                  nodeName,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(
+                  description,
+                  style: Theme.of(context).textTheme.bodySmall,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -138,6 +141,7 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
                 text: 'Finalizar RA',
                 onPressed: () {
                   //navegar a cuestionarios
+                  Navigator.of(context).pushNamed('/quiz-detail');
                 }),
           ),
         ]),
