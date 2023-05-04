@@ -1,6 +1,7 @@
 import 'package:augmented_anatomy/models/model.dart';
 import 'package:augmented_anatomy/services/human_anatomy_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
@@ -14,14 +15,16 @@ import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:flutter/src/material/colors.dart' as MaterialColors;
 
-class ArTest extends StatefulWidget {
-  const ArTest({super.key});
+class ArHumanAnatomy extends StatefulWidget {
+  final int id;
+  final String name;
+  const ArHumanAnatomy({super.key, required this.id, required this.name});
 
   @override
-  State<ArTest> createState() => _ArTestState();
+  State<ArHumanAnatomy> createState() => _ArHumanAnatomyState();
 }
 
-class _ArTestState extends State<ArTest> {
+class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
   List<ModelAR>? modelARList;
@@ -31,11 +34,6 @@ class _ArTestState extends State<ArTest> {
   void dispose() {
     arSessionManager.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   Future<void> _onARViewCreated(
@@ -56,7 +54,7 @@ class _ArTestState extends State<ArTest> {
         );
     this.arObjectManager.onInitialize();
     try {
-      modelARList = await humanAnatomyService.getModelAr(3);
+      modelARList = await humanAnatomyService.getModelAr(widget.id);
       for (var i = 0; i < modelARList!.length; i++) {
         var node = ARNode(
           name: "${modelARList?[i].name}",
@@ -115,7 +113,6 @@ class _ArTestState extends State<ArTest> {
             planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
           ),
           Positioned(
-            // Colocamos el texto en la parte superior
             top: 30,
             left: MediaQuery.of(context).size.width * 0.25,
             child: Container(
@@ -123,19 +120,26 @@ class _ArTestState extends State<ArTest> {
               decoration: BoxDecoration(
                   color: AAColors.backgroundWhiteView,
                   borderRadius: BorderRadius.circular(15)),
-              // Centramos el texto horizontalmente
               alignment: Alignment.topCenter,
-              // Colocamos un espacio arriba del texto
               padding: const EdgeInsets.all(5),
-              child: const Text(
-                'Titulo',
+              child: Text(
+                widget.name,
                 style: TextStyle(
                   color: AAColors.black,
                   fontSize: 20,
                 ),
               ),
-            ), // <- Termina el widget Container
-          ), // <-
+            ),
+          ),
+          Positioned(
+            bottom: 30,
+            left: MediaQuery.of(context).size.width * 0.35,
+            child: MainActionButton(
+                text: 'Finalizar RA',
+                onPressed: () {
+                  //navegar a cuestionarios
+                }),
+          ),
         ]),
       ),
     );

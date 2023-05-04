@@ -2,7 +2,6 @@ import 'package:augmented_anatomy/pages/auth/login.dart';
 import 'package:augmented_anatomy/pages/auth/register.dart';
 import 'package:augmented_anatomy/pages/auth/request_pin.dart';
 import 'package:augmented_anatomy/pages/auth/splash_screen.dart';
-import 'package:augmented_anatomy/prueba_plugin.dart';
 import 'package:augmented_anatomy/pages/auth/update_password.dart';
 import 'package:augmented_anatomy/pages/auth/validate_pin.dart';
 import 'package:augmented_anatomy/pages/main_menu/main_menu.dart';
