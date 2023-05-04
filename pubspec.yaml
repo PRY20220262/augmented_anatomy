@@ -28,6 +28,9 @@ flutter:
     - assets/icon.png
     - assets/largeIcon.png
     - assets/error.png
+    - assets/image-high-score.png
+    - assets/image-low-score.png
+    - assets/image-mid-score.png
   fonts:
     - family: Nunito Sans
       fonts:

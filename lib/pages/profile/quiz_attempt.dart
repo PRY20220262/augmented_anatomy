@@ -1,4 +1,5 @@
 import 'package:augmented_anatomy/models/questions.dart';
+import 'package:augmented_anatomy/pages/profile/quiz_result.dart';
 import 'package:augmented_anatomy/services/quiz_service.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class _QuizAttemptState extends State<QuizAttempt> {
   bool isLoading = true;
   int indexQuestion = 0;
   int _selectedChoice = -1;
+  int score = 0;
+  double routerScore = 0;
+  late int quizAttemptId;
   List<Question>? questionList;
   QuizService quizService = QuizService();
   final ScrollController _scrollController = ScrollController();
@@ -35,6 +39,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
   Future<void> getQuestions() async {
     try {
       questionList = await quizService.getAllQuestionsAndChoices(id: 3);
+      createQuizAttempt();
       setState(() {
         isLoading = false;
       });
@@ -43,19 +48,51 @@ class _QuizAttemptState extends State<QuizAttempt> {
     }
   }
 
+  Future<void> createQuizAttempt() async {
+    try {
+      var quizAttempt = await quizService.createQuizAttempt(3);
+      setState(() {
+        quizAttemptId = quizAttempt.id ?? 0;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateQuizAttemptScore() async {
+    try {
+      double? finalScore = await quizService.updateQuizAttemptScore(quizAttemptId, score);
+      if (finalScore != null) {
+        setState(() {
+          routerScore = finalScore;
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => QuizResult(score: routerScore),
+          ),
+        );
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void _validateRightAnswer(bool lastQuestion){
     if (questionList![indexQuestion].answers?[_selectedChoice].isCorrect == true) {
-      print("RESPUESTA CORRECTA");
-    } else {
-      print("te weviaste mi king");
+      setState(() {
+        score = score + 5;
+      });
     }
     if (!lastQuestion) {
       setState(() {
         indexQuestion = indexQuestion + 1;
         _selectedChoice = -1;
       });
+    } else {
+      updateQuizAttemptScore();
     }
-
   }
 
   @override
@@ -169,7 +206,6 @@ class _QuizAttemptState extends State<QuizAttempt> {
                             );
                           } else {
                             _validateRightAnswer(true);
-                            print("ROUTER TO RESULT");
                           }
                         }
                     ),

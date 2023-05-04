@@ -1,3 +1,4 @@
+import 'package:augmented_anatomy/pages/profile/quiz_result.dart';
 import 'package:augmented_anatomy/pages/augmented_reality/system_ar.dart';
 import 'package:augmented_anatomy/pages/auth/login.dart';
 import 'package:augmented_anatomy/pages/auth/register.dart';
@@ -48,7 +49,7 @@ class AugmentedAnatomy extends StatelessWidget {
         '/notes': (context) => const Notes(),
         '/profile': (context) => Profile(),
         '/quiz-detail': (context) => const QuizDetail(),
-        '/quiz-attempt': (context) => const QuizAttempt()
+        '/quiz-attempt': (context) => const QuizAttempt(),
       },
     );
   }

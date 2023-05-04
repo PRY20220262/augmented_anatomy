@@ -68,7 +68,7 @@ class _QuizDetailState extends State<QuizDetail> {
                             const SizedBox(height: 15.0),
                             const ShortInfoQuiz(
                                 icon: Icons.quiz_outlined,
-                                text: '4 preguntas'
+                                text: '5 preguntas'
                             ),
                             const SizedBox(height: 15.0),
                             const ShortInfoQuiz(
