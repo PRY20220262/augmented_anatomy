@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: snapshot
-                                          .data?.recentActivityList.length,
+                                          .data?.recentActivityList?.length,
                                       itemBuilder: (context, index) =>
                                           Container(
                                               decoration: BoxDecoration(
@@ -139,13 +139,13 @@ class _HomeState extends State<Home> {
                                                       0.03),
                                               child: LargeCard(
                                                 imageUrl:
-                                                    '${snapshot.data?.recentActivityList[index].urlImage}',
+                                                    '${snapshot.data!.recentActivityList?[index].urlImage}',
                                                 name:
-                                                    '${snapshot.data?.recentActivityList[index].name}',
+                                                    '${snapshot.data!.recentActivityList?[index].name}',
                                                 organsNumber:
-                                                    '${snapshot.data?.recentActivityList[index].organsNumber}',
+                                                    '${snapshot.data!.recentActivityList?[index].organsNumber}',
                                                 shortDetail:
-                                                    '${snapshot.data?.recentActivityList[index].shortDetail}',
+                                                    '${snapshot.data!.recentActivityList?[index].shortDetail}',
                                               ))),
                                 )
                               ],
@@ -162,9 +162,9 @@ class _HomeState extends State<Home> {
                               const SizedBox(height: 10),
                               recommendationContainer(
                                   context,
-                                  '${snapshot.data?.recommendation.urlImage}',
-                                  '${snapshot.data?.recommendation.name}',
-                                  '${snapshot.data?.recommendation.shortDetail}')
+                                  '${snapshot.data?.recommendation?.urlImage}',
+                                  '${snapshot.data?.recommendation?.name}',
+                                  '${snapshot.data?.recommendation?.shortDetail}')
                             ],
                           ),
                           const SizedBox(height: 20),

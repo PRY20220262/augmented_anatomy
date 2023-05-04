@@ -23,8 +23,11 @@ class HomeService {
         },
       );
       if (response.statusCode == 200) {
-        return MainMenuModel.fromJson(
+        MainMenuModel mainMenuModel = MainMenuModel();
+        mainMenuModel =  MainMenuModel.fromJson(
             jsonDecode(utf8.decode(response.bodyBytes)));
+        await storage.write(key: 'userId', value: mainMenuModel.userId.toString());
+        return mainMenuModel;
       } else {
         final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
         return Future.error(errorResponse["message"]);

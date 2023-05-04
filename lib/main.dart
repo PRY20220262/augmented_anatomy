@@ -9,6 +9,8 @@ import 'package:augmented_anatomy/pages/main_menu/human_anatomy_detail.dart';
 import 'package:augmented_anatomy/pages/profile/change_password.dart';
 import 'package:augmented_anatomy/pages/profile/notes.dart';
 import 'package:augmented_anatomy/pages/profile/profile.dart';
+import 'package:augmented_anatomy/pages/profile/quiz_attempt.dart';
+import 'package:augmented_anatomy/pages/profile/quiz_detail.dart';
 import 'package:augmented_anatomy/utils/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +45,8 @@ class AugmentedAnatomy extends StatelessWidget {
         '/detail': (context) => SystemDetail(),
         '/notes': (context) => const Notes(),
         '/profile': (context) => Profile(),
+        '/quiz-detail': (context) => const QuizDetail(),
+        '/quiz-attempt': (context) => const QuizAttempt(),
       },
     );
   }
