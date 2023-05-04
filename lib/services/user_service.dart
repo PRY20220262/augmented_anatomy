@@ -42,4 +42,34 @@ class UserService {
       return Future.error(e);
     }
   }
+
+  Future<bool> updateProfile(
+      {required String email,
+      required String phone,
+      required String birthday}) async {
+    //    final userID = await storage.read(key: 'userId');
+    final token = await storage.read(key: 'token');
+
+    final updateProfileUrl = Uri.parse('${userUrl}/1/profile');
+
+    try {
+      print('Haciendo llamada a servicio ${updateProfileUrl.toString()}' +
+          birthday);
+
+      http.Response response = await http.put(
+        updateProfileUrl,
+        body:
+            json.encode({'email': email, 'phone': phone, 'birthday': birthday}),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token!
+        },
+      );
+      return true;
+    } on TimeoutException catch (_) {
+      return Future.error('La solicitud ha excedido el tiempo de espera.');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 }
