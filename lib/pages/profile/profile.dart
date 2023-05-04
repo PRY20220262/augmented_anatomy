@@ -1,6 +1,7 @@
 import 'package:augmented_anatomy/models/user.dart';
 import 'package:augmented_anatomy/services/user_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:augmented_anatomy/utils/utils.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
@@ -31,11 +32,10 @@ class _ProfileState extends State<Profile> {
     // initial load
     _user = getUser();
     _user?.then((value) {
-      print('pinga');
       emailController.text = value.email!;
       phoneController.text = value.profile!.phone!;
       birthday = value.profile!.birthDate != null
-          ? value.profile!.birthDate as DateTime
+          ? DateTime.parse(value.profile!.birthDate!)
           : DateTime.now();
     });
   }
@@ -45,8 +45,45 @@ class _ProfileState extends State<Profile> {
     return await userService.getUser();
   }
 
+  void updateProfile() async {
+    await userService.updateProfile(
+        email: emailController.text,
+        phone: phoneController.text,
+        birthday: dateToString2(birthday));
+    refresh();
+  }
+
+  void refresh() {
+    // reload
+    setState(() {
+      _user = getUser();
+      _user?.then((value) {
+        emailController.text = value.email!;
+        phoneController.text = value.profile!.phone!;
+        birthday = value.profile!.birthDate != null
+            ? DateTime.parse(value.profile!.birthDate!)
+            : DateTime.now();
+      });
+    });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: birthday,
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now());
+    if (picked != null && picked != birthday) {
+      setState(() {
+        birthday = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AAColors.backgroundGrayView,
@@ -68,23 +105,43 @@ class _ProfileState extends State<Profile> {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 10),
-                    MainActionButton(
-                      onPressed: () {
-                        if (isEditing) {
-                          print(emailController.text +
-                              phoneController.text +
-                              dateToString(birthday));
-                          setState(() {
-                            isEditing = !isEditing;
-                          });
-                        } else {
-                          setState(() {
-                            isEditing = !isEditing;
-                          });
-                        }
-                      },
-                      text: isEditing ? 'Guardar' : 'Editar Perfil',
-                      width: 170,
+                    Row(
+                      mainAxisAlignment: isEditing == true
+                          ? MainAxisAlignment.spaceAround
+                          : MainAxisAlignment.center,
+                      children: [
+                        MainActionButton(
+                          onPressed: () {
+                            if (isEditing) {
+                              updateProfile();
+
+                              setState(() {
+                                isEditing = !isEditing;
+                              });
+                            } else {
+                              setState(() {
+                                isEditing = !isEditing;
+                              });
+                            }
+                          },
+                          text: isEditing ? 'guardar' : 'editar perfil',
+                          width: 150,
+                        ),
+                        isEditing == true
+                            ? MainActionButton(
+                                text: 'cancelar',
+                                type: ButtonType.secondary,
+                                height: 40,
+                                width: 150,
+                                onPressed: () {
+                                  setState(() {
+                                    isEditing = false;
+                                  });
+                                })
+                            : const SizedBox(
+                                width: 0,
+                              ),
+                      ],
                     ),
                     const Divider(
                       color: Color.fromARGB(255, 20, 20, 20),
@@ -103,12 +160,52 @@ class _ProfileState extends State<Profile> {
                       isEditing: isEditing,
                       controller: phoneController,
                     ),
-                    TitleLabel(
-                      title: 'cumpleaños:',
-                      label: user.profile!.birthDate,
-                      isEditing: isEditing,
-                      isDate: true,
-                      date: birthday,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: isEditing ? 3 : 4,
+                            child: const Text(
+                              'cumpleaños',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Expanded(
+                            flex: isEditing ? 7 : 6,
+                            child: isEditing
+                                ? GestureDetector(
+                                    onTap: () => _selectDate(context),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              size.width - size.width * 0.90),
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        height: 50.0,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: Colors.black45)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            dateToString(birthday),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    dateToString(birthday) ?? '--',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 5),
                     const Divider(
@@ -190,15 +287,11 @@ class TitleLabel extends StatefulWidget {
   final String? label;
   final bool isEditing;
   final TextEditingController? controller;
-  final bool isDate;
-  final DateTime? date;
-  const TitleLabel(
+  TitleLabel(
       {super.key,
       required this.title,
       required this.label,
       required this.isEditing,
-      this.isDate = false,
-      this.date,
       this.controller});
 
   @override
@@ -206,21 +299,6 @@ class TitleLabel extends StatefulWidget {
 }
 
 class _TitleLabelState extends State<TitleLabel> {
-  DateTime selectedDate = DateTime.now();
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -240,28 +318,7 @@ class _TitleLabelState extends State<TitleLabel> {
           Expanded(
             flex: widget.isEditing ? 7 : 6,
             child: widget.isEditing
-                ? !widget.isDate
-                    ? InputLabel(controller: widget.controller!)
-                    : GestureDetector(
-                        onTap: () => _selectDate(context),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: size.width - size.width * 0.90),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.black45)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                dateToString(selectedDate),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                ? InputLabel(controller: widget.controller!)
                 : Text(
                     widget.label ?? '--',
                     maxLines: 1,
