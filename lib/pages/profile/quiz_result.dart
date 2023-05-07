@@ -69,8 +69,8 @@ class _QuizResultState extends State<QuizResult> {
                       Image.asset(
                           imageRoute,
                           fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.3,
+                        height: 160,
+                        width: 160,
                      ),
                       const SizedBox(height: 10),
                       Text(
@@ -78,9 +78,8 @@ class _QuizResultState extends State<QuizResult> {
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      const SizedBox(height: 10),
                       Text(
-                        "$percentScore% de aciertos",
+                        "${percentScore.toInt()}% de aciertos",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: (percentScore <= 25.0) ?
@@ -90,7 +89,10 @@ class _QuizResultState extends State<QuizResult> {
                       ),
                       const SizedBox(height: 10),
                       Container(
-                        color: AAColors.white,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: AAColors.white,
+                        ),
                         child: Padding(
                           padding:  const EdgeInsets.all(15),
                           child: Column(
@@ -100,11 +102,51 @@ class _QuizResultState extends State<QuizResult> {
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 5),
-                              Text(
-                                "Usted realizó el cuestionaro “nombre del cuestionario”, que conto de 5 preguntas, de las cuales ${_score~/5} respuestas fueron las correcta.",
-                                style: Theme.of(context).textTheme.bodyLarge,
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Usted realizó el cuestionario ',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: 'Cuestionario de Laringe',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ', que contó de ',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: '5 preguntas',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ', de las cuales las ',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: '${_score~/4} respuestas',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                        color: (percentScore <= 25.0) ?
+                                        AAColors.red : (percentScore < 75.0) ?
+                                        AAColors.amber :  AAColors.green
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' fueron las correctas.',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 20),
+                            ),
+                              const SizedBox(height: 15),
                               _score == 20.0 ? Text(
                                 "Para ver los cuestionarios realizados, de click en el siguiente botón:",
                                 style: Theme.of(context).textTheme.bodySmall,
@@ -117,14 +159,14 @@ class _QuizResultState extends State<QuizResult> {
                                   text: "Realziar nuevo intento",
                                   onPressed: (){}
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               MainActionButton(
                                 height: 50,
                                 width: 200,
                                   text: "Ver cuestionarios",
                                   onPressed: (){}
                               ),
-                              const SizedBox(height: 5),
+                              const SizedBox(height: 10),
                             ],
                           ),
                         ),

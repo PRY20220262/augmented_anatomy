@@ -1,7 +1,6 @@
 import 'package:augmented_anatomy/models/questions.dart';
 import 'package:augmented_anatomy/pages/profile/quiz_result.dart';
 import 'package:augmented_anatomy/services/quiz_service.dart';
-import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -25,9 +24,12 @@ class _QuizAttemptState extends State<QuizAttempt> {
   int score = 0;
   double routerScore = 0;
   late int quizAttemptId;
+  List<int> aux = [];
   List<Question>? questionList;
+  List<int> lengthQuestionChoices = [];
   QuizService quizService = QuizService();
   final ScrollController _scrollController = ScrollController();
+  int lengthAnswersString = 0;
 
   @override
   void initState() {
@@ -39,6 +41,17 @@ class _QuizAttemptState extends State<QuizAttempt> {
   Future<void> getQuestions() async {
     try {
       questionList = await quizService.getAllQuestionsAndChoices(id: 3);
+      questionList?.forEach((element) {
+        for (var i = 0; i < element.answers!.length; i++) {
+          lengthAnswersString = lengthAnswersString + element.answers![i].choice!.length;
+        }
+        lengthQuestionChoices.add(lengthAnswersString);
+        lengthAnswersString = 0;
+      });
+      setState(() {
+        aux = lengthQuestionChoices;
+        print(lengthQuestionChoices);
+      });
       createQuizAttempt();
       setState(() {
         isLoading = false;
@@ -82,7 +95,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
   void _validateRightAnswer(bool lastQuestion){
     if (questionList![indexQuestion].answers?[_selectedChoice].isCorrect == true) {
       setState(() {
-        score = score + 5;
+        score = score + 4;
       });
     }
     if (!lastQuestion) {
@@ -121,7 +134,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AAColors.red),
                       ),
                       Text(
-                          '5 Pts',
+                          '4 Pts',
                         style: Theme.of(context).textTheme.titleMedium,
                       )
                     ],
@@ -138,7 +151,11 @@ class _QuizAttemptState extends State<QuizAttempt> {
                   ),
                   const SizedBox(height: 5),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.70,
+                    height: aux[indexQuestion] >= 350 ? MediaQuery.of(context).size.height * 0.90 :
+                    aux[indexQuestion] >= 300 ? MediaQuery.of(context).size.height * 0.85 :
+                    aux[indexQuestion] >= 250 ? MediaQuery.of(context).size.height * 0.75 :
+                    MediaQuery.of(context).size.height * 0.70
+                    ,
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: questionList?[indexQuestion].answers?.length,
@@ -172,12 +189,14 @@ class _QuizAttemptState extends State<QuizAttempt> {
                                   ),
                                 ),
                                 const SizedBox(width: 15),
-                                Text(
-                                    '${questionList![indexQuestion].answers?[index].choice}',
-                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      color: _selectedChoice == index ? AAColors.white : AAColors.black
-                                  )
-                                ),
+                                Expanded(
+                                  child: Text(
+                                      '${questionList![indexQuestion].answers?[index].choice}',
+                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          color: _selectedChoice == index ? AAColors.white : AAColors.black
+                                      )
+                                  ),
+                                )
                               ],
                             )
                           ),
