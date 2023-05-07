@@ -13,10 +13,10 @@ class NoteService {
 
   Future<bool> createNote(
       {required String title, required String description}) async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
     final token = await storage.read(key: 'token');
 
-    final createNoteUrl = Uri.parse('${noteUrl}users/1/notes');
+    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes');
 
     try {
       print(
@@ -39,22 +39,19 @@ class NoteService {
   }
 
   Future<List<Note>> findNotes() async {
-    final findNotesUrl = Uri.parse('${noteUrl}users/1/notes');
+    final userId = await storage.read(key: 'userId');
     List<Note> notes = [];
+    final token = await storage.read(key: 'token');
+    final findNotesUrl = Uri.parse('${noteUrl}users/$userId/notes');
 
     print('Haciendo llamada a servicio ${findNotesUrl.toString()}');
-
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
 
     try {
       http.Response response = await http.get(
         findNotesUrl,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
 
@@ -75,9 +72,10 @@ class NoteService {
   }
 
   Future<bool> deleteNote({required int id}) async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
+
     final token = await storage.read(key: 'token');
-    final deleteNoteUrl = Uri.parse('${noteUrl}users/1/notes/$id');
+    final deleteNoteUrl = Uri.parse('${noteUrl}users/$userId/notes/$id');
 
     try {
       print('Haciendo llamada a servicio ${deleteNoteUrl.toString()} ');

@@ -2,6 +2,7 @@ import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:augmented_anatomy/utils/connection_validator.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:augmented_anatomy/services/session_active_local_service.dart';
 
@@ -15,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin, InternetConnectionMixin {
   // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-  // final storage = FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
 
   // Properties
 
@@ -51,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _loadSession() async {
     // PARA IR POR EL LOGIN SI TIENES SECION GUARDADA
-    // await storage.delete(key: 'token');
+    await storage.delete(key: 'token');
     bool isLoggedIn = await sessionManager.isLoggedIn();
     setState(() {
       sessionActive = isLoggedIn;

@@ -57,20 +57,16 @@ class HumanAnatomyService {
 
   Future<HumanAnatomy> getById(id) async {
     final getByIdUrl = Uri.parse('${humanAnatomyUrl}human-anatomy/$id');
+    final token = await storage.read(key: 'token');
 
     print('Haciendo llamada a servicio ${getByIdUrl.toString()}');
-
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
 
     try {
       http.Response response = await http.get(
         getByIdUrl,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
 
@@ -90,20 +86,16 @@ class HumanAnatomyService {
   Future<List<SystemList>> findSystems() async {
     final getByIdUrl = Uri.parse('${humanAnatomyUrl}systems');
     List<SystemList> systems = [];
+    final token = await storage.read(key: 'token');
 
     print('Haciendo llamada a servicio ${getByIdUrl.toString()}');
-
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
 
     try {
       http.Response response = await http.get(
         getByIdUrl,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
 
@@ -126,20 +118,16 @@ class HumanAnatomyService {
   Future<List<SystemList>> searchSystem(String name) async {
     final getByIdUrl = Uri.parse('${humanAnatomyUrl}systems?name=$name');
     List<SystemList> systems = [];
+    final token = await storage.read(key: 'token');
 
     print('Haciendo llamada a servicio ${getByIdUrl.toString()}');
-
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
 
     try {
       http.Response response = await http.get(
         getByIdUrl,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
 
@@ -161,8 +149,8 @@ class HumanAnatomyService {
 
   Future<List<ModelAR>> getModelAr(id) async {
     final getModelAR = Uri.parse('${humanAnatomyUrl}human-anatomy/$id/models');
-    final token =
-        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ";
+    final token = await storage.read(key: 'token');
+
     try {
       http.Response response = await http.get(
         getModelAR,

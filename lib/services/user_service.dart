@@ -12,10 +12,10 @@ class UserService {
   final storage = const FlutterSecureStorage();
 
   Future<User> getUser() async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
     final token = await storage.read(key: 'token');
 
-    final getNotUrl = Uri.parse('${userUrl}/1');
+    final getNotUrl = Uri.parse('${userUrl}/$userId');
     print('Haciendo llamada a servicio ${getNotUrl.toString()} ');
 
     try {
@@ -43,14 +43,14 @@ class UserService {
       {required String email,
       required String phone,
       required String birthday}) async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
+
     final token = await storage.read(key: 'token');
 
-    final updateProfileUrl = Uri.parse('${userUrl}/1/profile');
+    final updateProfileUrl = Uri.parse('${userUrl}/$userId/profile');
 
     try {
-      print('Haciendo llamada a servicio ${updateProfileUrl.toString()}' +
-          birthday);
+      print('Haciendo llamada a servicio ${updateProfileUrl.toString()}');
 
       http.Response response = await http.put(
         updateProfileUrl,

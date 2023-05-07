@@ -119,10 +119,7 @@ class AuthService {
 
     print('Haciendo llamada a servicio ${changePasswordUrl.toString()}');
 
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
+    final token = await storage.read(key: 'token');
 
     try {
       http.Response response = await http.post(
@@ -131,7 +128,7 @@ class AuthService {
             .encode({'oldPassword': oldPassword, 'newPassword': newPassword}),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
       if (response.statusCode == 200) {
