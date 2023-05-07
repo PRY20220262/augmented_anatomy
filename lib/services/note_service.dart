@@ -95,4 +95,33 @@ class NoteService {
       return Future.error(e);
     }
   }
+
+  Future<bool> updateNote(
+      {required String title,
+      required String description,
+      required int id}) async {
+    final userId = await storage.read(key: 'userId');
+    final token = await storage.read(key: 'token');
+
+    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes/$id');
+
+    try {
+      print(
+          'Haciendo llamada a servicio ${createNoteUrl.toString()} $title $description');
+
+      http.Response response = await http.put(
+        createNoteUrl,
+        body: json.encode({'title': title, 'detail': description}),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token!
+        },
+      );
+      return true;
+    } on TimeoutException catch (_) {
+      return Future.error('La solicitud ha excedido el tiempo de espera.');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 }

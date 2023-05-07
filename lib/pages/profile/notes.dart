@@ -49,6 +49,18 @@ class _NotesState extends State<Notes> {
     return await noteService.findNotes();
   }
 
+  Future<bool> updateNote(String newTitle, String newContent, int id) async {
+    bool response = await noteService.updateNote(
+        title: newTitle, description: newContent, id: id);
+
+    _refresh();
+
+    ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
+        context, 'Nota actualizada correctamente', SnackType.success));
+
+    return response;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -77,6 +89,7 @@ class _NotesState extends State<Notes> {
                                   'Nota eliminada correctamente',
                                   SnackType.success));
                         },
+                        onUpdate: updateNote,
                         index: index,
                         note: notes[index],
                       );

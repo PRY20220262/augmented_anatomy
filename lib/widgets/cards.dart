@@ -1,6 +1,7 @@
 import 'package:augmented_anatomy/models/note.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/note_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -321,21 +322,19 @@ class ReferenceCard extends StatelessWidget {
   }
 }
 
-class NoteCard extends StatefulWidget {
+class NoteCard extends StatelessWidget {
   late int index;
   late Note note;
   late VoidCallback onDelete;
+  final Function(String title, String content, int id) onUpdate;
+
   NoteCard(
       {super.key,
       required this.index,
       required this.note,
-      required this.onDelete});
+      required this.onDelete,
+      required this.onUpdate});
 
-  @override
-  State<NoteCard> createState() => _NoteCardState();
-}
-
-class _NoteCardState extends State<NoteCard> {
   List<Color> cardColors = [
     AAColors.skyBlue2,
     AAColors.lightYellow,
@@ -358,7 +357,7 @@ class _NoteCardState extends State<NoteCard> {
                     offset: const Offset(3, 3),
                   )
                 ],
-                color: cardColors[widget.index % 3],
+                color: cardColors[index % 3],
                 borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.only(left: 12, bottom: 12),
@@ -369,7 +368,7 @@ class _NoteCardState extends State<NoteCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.note.title!,
+                            note.title!,
                             style: Theme.of(context).textTheme.labelLarge,
                           ),
                           PopupMenuButton<NoteMenuItem>(
@@ -424,14 +423,23 @@ class _NoteCardState extends State<NoteCard> {
                                                       text: 'eliminar',
                                                       height: 40,
                                                       width: 110,
-                                                      onPressed:
-                                                          widget.onDelete)
+                                                      onPressed: onDelete)
                                                 ],
                                               ),
                                             )
                                           ],
                                         ),
                                       ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return EditNote(
+                                      note: note,
+                                      onUpdate: onUpdate,
                                     );
                                   },
                                 );
@@ -455,7 +463,7 @@ class _NoteCardState extends State<NoteCard> {
                     Padding(
                       padding: const EdgeInsets.only(right: 30),
                       child: Text(
-                        widget.note.detail!,
+                        note.detail!,
                         textAlign: TextAlign.start,
                       ),
                     ),
