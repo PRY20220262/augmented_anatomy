@@ -1,6 +1,7 @@
 import 'package:augmented_anatomy/models/note.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/note_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -433,6 +434,13 @@ class _NoteCardState extends State<NoteCard> {
                                         ),
                                       ),
                                     );
+                                  },
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return EditNote(note: widget.note);
                                   },
                                 );
                               }
