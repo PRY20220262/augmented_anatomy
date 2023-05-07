@@ -97,11 +97,13 @@ class NoteService {
   }
 
   Future<bool> updateNote(
-      {required String title, required String description}) async {
+      {required String title,
+      required String description,
+      required int id}) async {
     final userId = await storage.read(key: 'userId');
     final token = await storage.read(key: 'token');
 
-    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes');
+    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes/$id');
 
     try {
       print(

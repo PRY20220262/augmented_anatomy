@@ -87,7 +87,8 @@ class NoteDialog extends StatelessWidget {
 
 class EditNote extends StatefulWidget {
   Note note;
-  EditNote({super.key, required this.note});
+  final Function(String title, String content, int id) onUpdate;
+  EditNote({super.key, required this.note, required this.onUpdate});
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -99,6 +100,12 @@ class _EditNoteState extends State<EditNote> {
   final descriptionController = TextEditingController();
 
   NoteService noteService = NoteService();
+
+  void _onUpdate() {
+    widget.onUpdate(
+        titleController.text, descriptionController.text, widget.note.id!);
+    Navigator.of(context).pop();
+  }
 
   @override
   void initState() {
@@ -147,7 +154,10 @@ class _EditNoteState extends State<EditNote> {
                       Navigator.of(context).pop();
                     }),
                 MainActionButton(
-                    text: 'guardar', height: 40, width: 110, onPressed: () {})
+                    text: 'guardar',
+                    height: 40,
+                    width: 110,
+                    onPressed: _onUpdate)
               ],
             ),
           )
