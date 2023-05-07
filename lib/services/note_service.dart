@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
-import 'package:augmented_anatomy/models/human_anatomy.dart';
 import 'package:augmented_anatomy/models/note.dart';
-import 'package:augmented_anatomy/models/organs.dart';
-import 'package:augmented_anatomy/pages/profile/notes.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:augmented_anatomy/utils/config.dart';
-import 'package:augmented_anatomy/models/system_list.dart';
 
 var noteUrl = BACKEND_URL;
 

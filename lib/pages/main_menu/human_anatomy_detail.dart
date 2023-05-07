@@ -5,10 +5,9 @@ import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
+import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import '../../widgets/error.dart';
 
 class SystemDetail extends StatefulWidget {
   SystemDetail({super.key});

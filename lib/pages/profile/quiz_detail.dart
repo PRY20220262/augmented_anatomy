@@ -1,9 +1,8 @@
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import '../../services/human_anatomy_service.dart';
-import '../../utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/services/human_anatomy_service.dart';
+import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 

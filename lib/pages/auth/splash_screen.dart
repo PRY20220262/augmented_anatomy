@@ -1,8 +1,7 @@
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../utils/connection_validator.dart';
-import '../../widgets/button.dart';
+import 'package:augmented_anatomy/utils/connection_validator.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:augmented_anatomy/services/session_active_local_service.dart';
 
