@@ -1,10 +1,10 @@
 import 'package:augmented_anatomy/services/auth_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
-import '../../utils/enums.dart';
-import '../../widgets/input.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   // Properties
 
   final authService = AuthService();
@@ -36,7 +35,7 @@ class _LoginState extends State<Login> {
       Navigator.pushNamedAndRemoveUntil(
         context,
         '/home',
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
       );
     } else {
       setState(() {
@@ -121,23 +120,21 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          '¿Aun no tienes cuenta?',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        TextActionButton(
-                            text: 'Crear nueva cuenta',
-                            onPressed: (){
-                              Navigator.pushNamed(context, '/register');
-                            }
-                        )
-                      ],
-                    )
-                  ),
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            '¿Aun no tienes cuenta?',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          TextActionButton(
+                              text: 'Crear nueva cuenta',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/register');
+                              })
+                        ],
+                      )),
                   const SizedBox(height: 50.0),
                 ],
               ),

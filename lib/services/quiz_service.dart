@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:augmented_anatomy/models/questions.dart';
 import 'package:augmented_anatomy/models/quiz_attempt.dart';
+import 'package:augmented_anatomy/utils/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../models/questions.dart';
-import '../utils/config.dart';
 import 'package:http/http.dart' as http;
 
 var quizAttemptURL = '${BACKEND_URL}quizAttempts';
@@ -18,16 +18,14 @@ class QuizService {
     List<Question> questionsList = [];
     final token = await storage.read(key: 'token');
     final questionsUrl = Uri.parse('$quizURL/$id/questionsAnswers');
-    try{
-      http.Response response = await http.get(
-          questionsUrl,
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token ?? ''
-        }
-      );
+    try {
+      http.Response response = await http.get(questionsUrl, headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: token ?? ''
+      });
       if (response.statusCode == 200) {
-        List<dynamic> fetchedQuestions = jsonDecode(utf8.decode(response.bodyBytes));
+        List<dynamic> fetchedQuestions =
+            jsonDecode(utf8.decode(response.bodyBytes));
         for (var i = 0; i < fetchedQuestions.length; i++) {
           questionsList.add(Question.fromJson(fetchedQuestions[i]));
         }
@@ -46,7 +44,8 @@ class QuizService {
     final token = await storage.read(key: 'token');
     final userRead = await storage.read(key: 'userId');
     int userId = int.parse(userRead!);
-    final createQuizAttemptURL = Uri.parse('$userURL/$userId/humanAnatomy/$humanAnatomyId/quizAttempt');
+    final createQuizAttemptURL =
+        Uri.parse('$userURL/$userId/humanAnatomy/$humanAnatomyId/quizAttempt');
     try {
       http.Response response = await http.post(
         createQuizAttemptURL,
@@ -57,8 +56,8 @@ class QuizService {
       );
       if (response.statusCode == 200) {
         QuizAttempt quizAttempt = QuizAttempt();
-        quizAttempt =  QuizAttempt.fromJson(
-            jsonDecode(utf8.decode(response.bodyBytes)));
+        quizAttempt =
+            QuizAttempt.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
         return quizAttempt;
       } else {
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
@@ -71,7 +70,8 @@ class QuizService {
 
   Future<double?> updateQuizAttemptScore(int quizAttemptId, int score) async {
     final token = await storage.read(key: 'token');
-    final updateQuizAttemptScoreUrl = Uri.parse('$quizAttemptURL/$quizAttemptId/score/$score');
+    final updateQuizAttemptScoreUrl =
+        Uri.parse('$quizAttemptURL/$quizAttemptId/score/$score');
     try {
       http.Response response = await http.put(
         updateQuizAttemptScoreUrl,
@@ -82,8 +82,8 @@ class QuizService {
       );
       if (response.statusCode == 200) {
         QuizAttempt quizAttempt = QuizAttempt();
-        quizAttempt =  QuizAttempt.fromJson(
-            jsonDecode(utf8.decode(response.bodyBytes)));
+        quizAttempt =
+            QuizAttempt.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
         print("ESTE ES EL QUIZ");
         print(quizAttempt.id);
         print(quizAttempt.createdAt);
@@ -97,5 +97,4 @@ class QuizService {
       return Future.error(e);
     }
   }
-
 }

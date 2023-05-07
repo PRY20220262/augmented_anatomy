@@ -82,7 +82,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               oldPassword.text, passsword.text);
 
                           if (response == '') {
-                            //TODO: NAVEGAR
+                            Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
                                 AASnackBar.buildSnack(
                                     context,
