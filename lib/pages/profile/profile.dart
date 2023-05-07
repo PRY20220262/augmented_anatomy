@@ -8,6 +8,7 @@ import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key});
@@ -274,7 +275,10 @@ class _ProfileState extends State<Profile> {
               return ErrorMessage(onRefresh: () {});
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitFadingCircle(
+                  color: AAColors.red,
+                  size: 50.0,
+                ),
               );
             }
           }),

@@ -7,6 +7,7 @@ import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});
@@ -85,7 +86,10 @@ class _NotesState extends State<Notes> {
               return ErrorMessage(onRefresh: _refresh);
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitFadingCircle(
+                  color: AAColors.red,
+                  size: 50.0,
+                ),
               );
             }
           }),
