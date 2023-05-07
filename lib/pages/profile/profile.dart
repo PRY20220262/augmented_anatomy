@@ -258,6 +258,20 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/change-password');
+                      },
+                      leading: const Icon(Icons.password_rounded,
+                          color: Colors.black),
+                      title: Text('Cambiar contraseña',
+                          style: Theme.of(context).textTheme.titleSmall),
+                      trailing: const Icon(
+                        Icons.chevron_right_outlined,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+                    ListTile(
                       onTap: () {},
                       leading: const Icon(Icons.logout, color: Colors.black),
                       title: Text('Cerrar Sesión',
