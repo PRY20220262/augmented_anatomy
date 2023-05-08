@@ -127,7 +127,7 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
               padding: const EdgeInsets.all(5),
               child: Text(
                 widget.name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AAColors.black,
                   fontSize: 20,
                 ),
@@ -140,8 +140,13 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
             child: MainActionButton(
                 text: 'Finalizar RA',
                 onPressed: () {
-                  //navegar a cuestionarios
-                  Navigator.of(context).pushNamed('/quiz-detail');
+                  Navigator.of(context).pushNamed(
+                      '/quiz-detail',
+                      arguments: {
+                        'humanAnatomyId': widget.id,
+                        'name': widget.name
+                      }
+                  );
                 }),
           ),
         ]),

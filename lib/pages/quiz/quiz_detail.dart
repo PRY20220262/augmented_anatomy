@@ -1,3 +1,4 @@
+import 'package:augmented_anatomy/pages/quiz/quiz_attempt.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
@@ -25,12 +26,14 @@ class _QuizDetailState extends State<QuizDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     return Scaffold(
         backgroundColor: AAColors.backgroundGrayView,
         appBar: AAAppBar(context, back: true, title: 'Cuestionario'),
         body: SafeArea(
           child: FutureBuilder(
-              future: humanAnatomyService.getById(3),
+              future: humanAnatomyService.getById(args['humanAnatomyId']),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
@@ -68,12 +71,17 @@ class _QuizDetailState extends State<QuizDetail> {
                             const SizedBox(height: 15.0),
                             const ShortInfoQuiz(
                                 icon: Icons.quiz_outlined,
-                                text: '4 preguntas'
+                                text: '5 preguntas'
                             ),
                             const SizedBox(height: 15.0),
                             const ShortInfoQuiz(
                                 icon: Icons.check_circle_outlined,
                                 text: 'Varios intentos'
+                            ),
+                            const SizedBox(height: 15.0),
+                            const ShortInfoQuiz(
+                                icon: Icons.lock_outline,
+                                text: 'No se puede reanudar el examen'
                             ),
                             const SizedBox(height: 15.0),
                             Center(
@@ -82,9 +90,15 @@ class _QuizDetailState extends State<QuizDetail> {
                                   width: 150,
                                   height: 45,
                                   onPressed: (){
-                                    Navigator.pushNamed(context, '/quiz-attempt', arguments: {
-                                      'humanAnatomyId': snapshot.data?.id,
-                                    });
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => QuizAttempt(
+                                          id: snapshot.data!.id!,
+                                        ),
+                                      ),
+                                          (route) => false,
+                                    );
                                   }
                               ),
                             )
