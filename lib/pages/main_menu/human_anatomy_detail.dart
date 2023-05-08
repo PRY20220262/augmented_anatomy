@@ -24,11 +24,11 @@ class _SystemDetailState extends State<SystemDetail> {
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
-        appBar: AAAppBar(context, back: true, title: args['name']),
-        body: FutureBuilder(
+    return Scaffold(
+      backgroundColor: AAColors.backgroundGrayView,
+      appBar: AAAppBar(context, back: true, title: args['name']),
+        body: SafeArea(
+          child: FutureBuilder(
             future: humanAnatomyService.getById(args['id']),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -44,10 +44,16 @@ class _SystemDetailState extends State<SystemDetail> {
                                     ? MainAxisAlignment.spaceEvenly
                                     : MainAxisAlignment.center,
                             children: [
-                              Image.network(
-                                snapshot.data!.image ?? '',
-                                height: 200,
-                                width: MediaQuery.of(context).size.width * 0.5,
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    snapshot.data!.image ?? '',
+                                    fit: BoxFit.cover,
+                                    height: snapshot.data!.characteristics!.isNotEmpty
+                                        ? 200 : 170,
+                                    width: snapshot.data!.characteristics!.isNotEmpty
+                                        ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.9,
+                                  )
                               ),
                               snapshot.data!.characteristics!.isNotEmpty
                                   ? CharacteristicsSection(
@@ -195,7 +201,9 @@ class _SystemDetailState extends State<SystemDetail> {
                                                             '/ar-system',
                                                             arguments: {
                                                               'name': snapshot
-                                                                  .data!.name
+                                                                  .data!.name,
+                                                              'humanAnatomyId': snapshot
+                                                                  .data!.id
                                                             });
                                                       },
                                                       style: ElevatedButton

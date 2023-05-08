@@ -166,3 +166,69 @@ class _EditNoteState extends State<EditNote> {
     );
   }
 }
+
+class InformationDialog extends StatelessWidget {
+  final String title;
+  final String message;
+  final String cancelButtonText;
+  final String confirmButtonText;
+  final VoidCallback onCancelPressed;
+  final VoidCallback onConfirmPressed;
+
+  const InformationDialog({super.key,
+    required this.title,
+    required this.message,
+    required this.cancelButtonText,
+    required this.confirmButtonText,
+    required this.onCancelPressed,
+    required this.onConfirmPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      contentPadding: EdgeInsets.all(20.0),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 200,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.justify,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                MainActionButton(
+                  text: cancelButtonText,
+                  type: ButtonType.secondary,
+                  height: 40,
+                  width: 135,
+                  onPressed: onCancelPressed
+                ),
+                MainActionButton(
+                  text: confirmButtonText,
+                  height: 40,
+                  width: 135,
+                  onPressed: onConfirmPressed
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

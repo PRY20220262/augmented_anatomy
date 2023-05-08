@@ -236,7 +236,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     ListTile(
                       onTap: () {
-                        Navigator.of(context).pushNamed('/quiz-detail');
+                        Navigator.of(context).pushNamed('/list-quiz-results');
                       },
                       leading:
                           const Icon(Icons.edit_square, color: Colors.black),
