@@ -5,9 +5,9 @@ import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
+import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
-
-import '../../widgets/error.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SystemDetail extends StatefulWidget {
   SystemDetail({super.key});
@@ -270,7 +270,10 @@ class _SystemDetailState extends State<SystemDetail> {
                 );
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitFadingCircle(
+                    color: AAColors.red,
+                    size: 50.0,
+                  ),
                 );
               }
             }),

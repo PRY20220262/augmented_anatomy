@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
-import 'package:augmented_anatomy/models/human_anatomy.dart';
 import 'package:augmented_anatomy/models/note.dart';
-import 'package:augmented_anatomy/models/organs.dart';
-import 'package:augmented_anatomy/pages/profile/notes.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:augmented_anatomy/utils/config.dart';
-import 'package:augmented_anatomy/models/system_list.dart';
 
 var noteUrl = BACKEND_URL;
 
@@ -17,10 +13,10 @@ class NoteService {
 
   Future<bool> createNote(
       {required String title, required String description}) async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
     final token = await storage.read(key: 'token');
 
-    final createNoteUrl = Uri.parse('${noteUrl}users/1/notes');
+    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes');
 
     try {
       print(
@@ -43,22 +39,19 @@ class NoteService {
   }
 
   Future<List<Note>> findNotes() async {
-    final findNotesUrl = Uri.parse('${noteUrl}users/1/notes');
+    final userId = await storage.read(key: 'userId');
     List<Note> notes = [];
+    final token = await storage.read(key: 'token');
+    final findNotesUrl = Uri.parse('${noteUrl}users/$userId/notes');
 
     print('Haciendo llamada a servicio ${findNotesUrl.toString()}');
-
-    // TODO: final prefs = await SharedPreferences.getInstance();
-    // final String? token = prefs.getString('token');
-    final String token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWlzcGVjYWxpeHRvZ2lub0BnbWFpbC5jb20iLCJlbWFpbCI6InF1aXNwZWNhbGl4dG9naW5vQGdtYWlsLmNvbSJ9.SllXYubGYmIX2nXjtjZ_wFNjTRA5J5aSnEfU3YbpBe4x57Kmmnhc1cU4SwNuHooVtQXK6zvaE79-Cafx42eaHQ';
 
     try {
       http.Response response = await http.get(
         findNotesUrl,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: token
+          HttpHeaders.authorizationHeader: token!
         },
       );
 
@@ -79,9 +72,10 @@ class NoteService {
   }
 
   Future<bool> deleteNote({required int id}) async {
-    //    final userID = await storage.read(key: 'userId');
+    final userId = await storage.read(key: 'userId');
+
     final token = await storage.read(key: 'token');
-    final deleteNoteUrl = Uri.parse('${noteUrl}users/1/notes/$id');
+    final deleteNoteUrl = Uri.parse('${noteUrl}users/$userId/notes/$id');
 
     try {
       print('Haciendo llamada a servicio ${deleteNoteUrl.toString()} ');
@@ -94,6 +88,35 @@ class NoteService {
         },
       );
       print("${response.statusCode} ---- ${response.body}");
+      return true;
+    } on TimeoutException catch (_) {
+      return Future.error('La solicitud ha excedido el tiempo de espera.');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<bool> updateNote(
+      {required String title,
+      required String description,
+      required int id}) async {
+    final userId = await storage.read(key: 'userId');
+    final token = await storage.read(key: 'token');
+
+    final createNoteUrl = Uri.parse('${noteUrl}users/$userId/notes/$id');
+
+    try {
+      print(
+          'Haciendo llamada a servicio ${createNoteUrl.toString()} $title $description');
+
+      http.Response response = await http.put(
+        createNoteUrl,
+        body: json.encode({'title': title, 'detail': description}),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token!
+        },
+      );
       return true;
     } on TimeoutException catch (_) {
       return Future.error('La solicitud ha excedido el tiempo de espera.');

@@ -7,6 +7,7 @@ import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});
@@ -48,6 +49,18 @@ class _NotesState extends State<Notes> {
     return await noteService.findNotes();
   }
 
+  Future<bool> updateNote(String newTitle, String newContent, int id) async {
+    bool response = await noteService.updateNote(
+        title: newTitle, description: newContent, id: id);
+
+    _refresh();
+
+    ScaffoldMessenger.of(context).showSnackBar(AASnackBar.buildSnack(
+        context, 'Nota actualizada correctamente', SnackType.success));
+
+    return response;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,6 +89,7 @@ class _NotesState extends State<Notes> {
                                   'Nota eliminada correctamente',
                                   SnackType.success));
                         },
+                        onUpdate: updateNote,
                         index: index,
                         note: notes[index],
                       );
@@ -85,7 +99,10 @@ class _NotesState extends State<Notes> {
               return ErrorMessage(onRefresh: _refresh);
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitFadingCircle(
+                  color: AAColors.red,
+                  size: 50.0,
+                ),
               );
             }
           }),

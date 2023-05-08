@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:augmented_anatomy/models/model.dart';
 import 'package:augmented_anatomy/services/human_anatomy_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
@@ -25,8 +27,13 @@ class ArHumanAnatomy extends StatefulWidget {
 }
 
 class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
+
+  int countRotation = 0;
+  double radiansRotation = 90;
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
+  List<ARNode> nodes = [];
+  List<ARNode> auxNodes = [];
   List<ModelAR>? modelARList;
   HumanAnatomyService humanAnatomyService = HumanAnatomyService();
 
@@ -44,14 +51,14 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
     this.arSessionManager.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: false,
-          customPlaneTexturePath: "assets/imgs/triangle.png",
-          showWorldOrigin: false,
-          handleRotation: false,
-          handlePans: false,
-          // handleTaps: true,
-        );
+      showFeaturePoints: false,
+      showPlanes: false,
+      customPlaneTexturePath: "assets/imgs/triangle.png",
+      showWorldOrigin: false,
+      handleRotation: false,
+      handlePans: false,
+      // handleTaps: true,
+    );
     this.arObjectManager.onInitialize();
     try {
       modelARList = await humanAnatomyService.getModelAr(widget.id);
@@ -65,13 +72,34 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
           position: Vector3(modelARList![i].xPosition,
               modelARList![i].yPosition, modelARList![i].zPosition),
         );
+        nodes.add(node);
         bool? didAddWebNode = await this.arObjectManager.addNode(node);
       }
       this.arObjectManager.onNodeTap = _onTap;
     } catch (e) {
       print(e);
     }
-    //this.arObjectManager.onNodeTap = _onTap;
+  }
+
+  Future<void> _rotateNode() async {
+      for (var i = 0; i < nodes.length; i++) {
+        arObjectManager.removeNode(nodes[i]);
+        nodes[i].rotation = Matrix3.rotationY(radiansRotation);
+        nodes[i].position = rotateAroundY(nodes[i].position, -90);
+        bool? didAddWebNode = await arObjectManager.addNode(nodes[i]);
+      }
+      radiansRotation += 90;
+  }
+
+  Vector3 rotateAroundY(Vector3 point, double angle) {
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+
+    double x = point.x * cosAngle + point.z * sinAngle;
+    double y = point.y;
+    double z = -point.x * sinAngle + point.z * cosAngle;
+
+    return Vector3(x, y, z);
   }
 
   void _onTap(List<String> nodes) {
@@ -84,23 +112,24 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
       builder: (BuildContext context) => Align(
         alignment: Alignment.bottomRight,
         child: AlertDialog(
-        elevation: 0,
-        content: Container(
-            width: 200,
-            height: 300,
-            child: Column(
-              children: [
-                Text(
-                  nodeName,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
-              ],
-            ),
-          ),
+          insetPadding: EdgeInsets.only(
+              right: MediaQuery.of(context).size.width * 0.50, left: 10, bottom: 100),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          alignment: Alignment.bottomLeft,
+          content: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                      nodeName,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  Text(description,
+                  style: Theme.of(context).textTheme.bodySmall)
+                ],
+              )),
         ),
       ),
     );
@@ -149,58 +178,15 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
                   );
                 }),
           ),
+          Positioned(
+              bottom: 30,
+              left: 1,
+              child: MainActionButton(text: 'Rotar',
+                onPressed: _rotateNode,
+              )
+          )
         ]),
       ),
     );
   }
-}
-
-void _showNodeDetails(
-    String nodeName, String description, BuildContext context) {
-  showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          // Define el estilo del fondo del AlertDialog
-          dialogBackgroundColor: MaterialColors.Colors.transparent,
-          // Define el estilo del contenido del AlertDialog
-          cardTheme: const CardTheme(
-            color: MaterialColors.Colors.red,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.0),
-                topRight: Radius.circular(16.0),
-              ),
-            ),
-          ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 16.0, bottom: 16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  nodeName,
-                  style: const TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  description,
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }

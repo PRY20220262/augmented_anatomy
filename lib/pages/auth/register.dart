@@ -1,13 +1,13 @@
 import 'package:augmented_anatomy/models/user_save_resource.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
-import '../../utils/augmented_anatomy_colors.dart';
-import '../../utils/enums.dart';
-import '../../widgets/appbar.dart';
-import '../../widgets/button.dart';
-import '../../widgets/input.dart';
-import '../../widgets/snackbar.dart';
+import 'package:augmented_anatomy/services/auth_service.dart';
+import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/appbar.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
+import 'package:augmented_anatomy/widgets/input.dart';
+import 'package:augmented_anatomy/widgets/snackbar.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

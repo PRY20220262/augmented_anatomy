@@ -8,6 +8,8 @@ import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key});
@@ -25,6 +27,7 @@ class _ProfileState extends State<Profile> {
 
   Future<User>? _user;
 
+  final storage = const FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
@@ -65,6 +68,11 @@ class _ProfileState extends State<Profile> {
             : DateTime.now();
       });
     });
+  }
+
+  void _logout() async {
+    await storage.deleteAll();
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -257,7 +265,21 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/change-password');
+                      },
+                      leading: const Icon(Icons.password_rounded,
+                          color: Colors.black),
+                      title: Text('Cambiar contraseña',
+                          style: Theme.of(context).textTheme.titleSmall),
+                      trailing: const Icon(
+                        Icons.chevron_right_outlined,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: _logout,
                       leading: const Icon(Icons.logout, color: Colors.black),
                       title: Text('Cerrar Sesión',
                           style: Theme.of(context).textTheme.titleSmall),
@@ -274,7 +296,10 @@ class _ProfileState extends State<Profile> {
               return ErrorMessage(onRefresh: () {});
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitFadingCircle(
+                  color: AAColors.red,
+                  size: 50.0,
+                ),
               );
             }
           }),
