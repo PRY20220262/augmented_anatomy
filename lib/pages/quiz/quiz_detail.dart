@@ -7,6 +7,8 @@ import '../../utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 
+import '../../widgets/cards.dart';
+
 class QuizDetail extends StatefulWidget {
   const QuizDetail({Key? key}) : super(key: key);
 
@@ -115,29 +117,6 @@ class _QuizDetailState extends State<QuizDetail> {
                 }
               })
         )
-    );
-  }
-}
-
-
-class ShortInfoQuiz extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  const ShortInfoQuiz({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 40,
-          color: Colors.black,
-        ),
-        SizedBox(width: 10),
-        Text(text),
-      ],
     );
   }
 }

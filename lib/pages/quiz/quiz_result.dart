@@ -30,7 +30,7 @@ class _QuizResultState extends State<QuizResult> {
         messageResult = "PUEDES HACERLO MEJOR";
 
       });
-    } else if (score >= 5 && score < 12) {
+    } else if (score >= 5 && score <= 12) {
       setState(() {
         imageRoute = "assets/image-mid-score.png";
         messageResult = "BUEN INTENTO";
@@ -60,7 +60,9 @@ class _QuizResultState extends State<QuizResult> {
     });
     return Scaffold(
       backgroundColor: AAColors.backgroundGrayView,
-      appBar: AAAppBar(context, back: true, title: 'Cuestionario'),
+      appBar: AAAppBar(context, back: true, title: 'Cuestionario', onPressed: (){
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      }),
       body: SafeArea(
           child: SingleChildScrollView(
               child: WillPopScope(

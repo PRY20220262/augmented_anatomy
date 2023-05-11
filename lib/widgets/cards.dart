@@ -1,9 +1,12 @@
 import 'package:augmented_anatomy/models/note.dart';
+import 'package:augmented_anatomy/models/quiz_attempt_detail_grouped.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:augmented_anatomy/widgets/note_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:augmented_anatomy/utils/string_extension.dart';
+import 'package:augmented_anatomy/pages/quiz/quiz_attempt.dart';
 
 import 'button.dart';
 
@@ -470,6 +473,268 @@ class NoteCard extends StatelessWidget {
                   ]),
             ),
           )),
+    );
+  }
+}
+
+class QuizAttemptCard extends StatelessWidget {
+  late int index;
+  late QuizAttemptDetailGrouped quizAttemptDetail;
+  late VoidCallback onPress;
+
+  QuizAttemptCard(
+      {super.key,
+        required this.index,
+        required this.quizAttemptDetail,
+        required this.onPress});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25.0),
+      child: InkWell(
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(20.0),
+                    ),
+                    contentPadding: const EdgeInsets.all(20.0),
+                    content: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxHeight: quizAttemptDetail.quizAttemptByHumanAnatomy!.length * 70,
+                        ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Cuestionarios Realizados de ${quizAttemptDetail.nameHumanAnatomy}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.calendar_month_outlined,
+                                          size: 30,
+                                          color: Colors.black,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          'Fecha',
+                                          style: Theme.of(context).textTheme.bodyLarge,
+                                        ),
+                                      ],
+                                    )
+                                  )
+                              ),
+                              Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.schedule_outlined,
+                                        size: 30,
+                                        color: Colors.black,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        'Hora',
+                                        style: Theme.of(context).textTheme.bodyLarge,
+                                      ),
+                                    ],
+                                  )
+                              ),
+                              Expanded(
+                                  flex: 2,
+                                  child: Center(
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.quiz_outlined,
+                                            size: 30,
+                                            color: Colors.black,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            'Nota',
+                                            style: Theme.of(context).textTheme.bodyLarge,
+                                          ),
+                                        ],
+                                      )
+                                  )
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: quizAttemptDetail.quizAttemptByHumanAnatomy!.length * 30,
+                            width: double.maxFinite,
+                            child: ListView.builder(
+                              itemCount: quizAttemptDetail.quizAttemptByHumanAnatomy!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                        child: Text(
+                                            '${quizAttemptDetail.quizAttemptByHumanAnatomy?[index].createdAt?.toFormattedDateString()}',
+                                            style: Theme.of(context).textTheme.bodyLarge,
+                                          ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                        child: Center(
+                                          child: Text(
+                                            substractSixHoursFromDateTime(quizAttemptDetail.quizAttemptByHumanAnatomy![index].createdAt??''),
+                                            style: Theme.of(context).textTheme.bodyLarge,
+                                          ),
+                                        )
+                                    ),
+                                    Expanded(
+                                        flex: 2,
+                                        child: Center(
+                                          child: Text('${quizAttemptDetail.quizAttemptByHumanAnatomy![index].score!*100~/20}%',
+                                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                                  color: (quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! <= 4.0) ?
+                                                  AAColors.red : (quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! < 12.0) ?
+                                                  AAColors.amber :  AAColors.green
+                                              ),
+                                          )
+                                        )
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          MainActionButton(
+                              text: 'Nuevo Intento',
+                              onPressed: (){
+                                showDialog(context: context,
+                                    builder: (BuildContext context) {
+                                      return InformationDialog(
+                                        title: 'Nuevo Intento',
+                                        message: 'Estas apunto de iniciar un nuevo intento del cuestionario recien realizado.',
+                                        cancelButtonText: 'Cancelar',
+                                        onCancelPressed: (){
+                                          Navigator.pop(context, false);
+                                        },
+                                        confirmButtonText: 'Nuevo Intento',
+                                        onConfirmPressed: (){
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => QuizAttempt(
+                                                id: quizAttemptDetail.humanAnatomyId!,
+                                              ),
+                                            ),
+                                                (route) => false,
+                                          );
+                                        },
+                                      );
+                                    }
+                                );
+                              }
+                          )
+                        ],
+                      )
+                    )
+                  );
+                }
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 1,
+                    offset: const Offset(3, 3),
+                  )
+                ],
+                color: AAColors.white,
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            quizAttemptDetail.nameHumanAnatomy!,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: AAColors.red
+                            ),
+                          ),
+                          Text(
+                            '${(quizAttemptDetail.maxScore!*100)~/20}%',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: (((quizAttemptDetail.maxScore!*100)~/20) <= 20) ?
+                                AAColors.red : (((quizAttemptDetail.maxScore!*100)~/20) < 80.0) ?
+                                AAColors.amber :  AAColors.green
+                            )
+                          )
+                        ]
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                        'EL intento mas reciente realizado obtuvo ${quizAttemptDetail.maxScore!*5~/20} respuestas correctas de las 5 preguntas realizadas.',
+                        style: Theme.of(context).textTheme.bodyLarge
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ShortInfoQuiz(
+                            icon: Icons.history,
+                            text: '${quizAttemptDetail.countAttempts} intentos realizados.'
+                        ),
+                        const Icon(
+                          Icons.arrow_right_alt_outlined,
+                          color: Colors.black,
+                          size: 40,
+                        ),
+                      ],
+                    ),
+                  ]),
+            ),
+          )),
+    );
+  }
+}
+
+class ShortInfoQuiz extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final double sizeIcon;
+
+  const ShortInfoQuiz({required this.icon, required this.text, this.sizeIcon = 40.0});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 40,
+          color: Colors.black,
+        ),
+        const SizedBox(width: 10),
+        Text(
+            text,
+            style: Theme.of(context).textTheme.bodyLarge
+        ),
+      ],
     );
   }
 }
