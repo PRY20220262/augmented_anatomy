@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../utils/augmented_anatomy_colors.dart';
-import 'package:augmented_anatomy/widgets/appbar.dart';
 
 import '../../utils/enums.dart';
 import '../../widgets/button.dart';
@@ -73,7 +72,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
 
   Future<void> createQuizAttempt() async {
     try {
-      var quizAttempt = await quizService.createQuizAttempt(3);
+      var quizAttempt = await quizService.createQuizAttempt(widget.id);
       setState(() {
         quizAttemptId = quizAttempt.id ?? 0;
       });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 PreferredSizeWidget AAAppBar(BuildContext context,
-    {required bool back, String? title}) {
+    {required bool back, String? title, Function()? onPressed}) {
   return AppBar(
     toolbarHeight: 90,
     backgroundColor: Colors.transparent,
@@ -31,7 +31,7 @@ PreferredSizeWidget AAAppBar(BuildContext context,
                   color: Colors.black,
                   size: 20,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: onPressed ?? () => Navigator.of(context).pop(),
               ),
             ),
           )
