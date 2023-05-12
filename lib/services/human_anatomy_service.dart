@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
+import 'package:augmented_anatomy/models/anatomy_reference.dart';
 import 'package:augmented_anatomy/models/human_anatomy.dart';
 import 'package:augmented_anatomy/models/model.dart';
 import 'package:augmented_anatomy/models/organs.dart';
@@ -181,4 +182,42 @@ class HumanAnatomyService {
       return Future.error(e);
     }
   }
+
+  Future<Map<String, List<AnatomyReference>>> getAnatomyReferences(int humanAnatomyId) async {
+    final getReferencesUrl = Uri.parse('${humanAnatomyUrl}humanAnatomy/$humanAnatomyId/references');
+    final token = await storage.read(key: 'token');
+
+    try {
+      final response = await http.get(
+        getReferencesUrl,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token ?? '',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final myData = json.decode(utf8.decode(response.bodyBytes)) as List<dynamic>;
+        final List<AnatomyReference> anatomyReferenceList = myData
+            .map((data) => AnatomyReference.fromJson(data))
+            .toList();
+
+        final omsReferences = anatomyReferenceList.where((ref) =>
+        ref.fuente == 'OMS'
+        ).toList();
+
+        final internetReferences = anatomyReferenceList.where((ref) =>
+        ref.fuente == 'INTERNET'
+        ).toList();
+
+        return {'OMS': omsReferences, 'INTERNET': internetReferences};
+      } else {
+        final errorResponse = jsonDecode(utf8.decode(response.bodyBytes));
+        return Future.error(errorResponse["message"]);
+      }
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
 }

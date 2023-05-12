@@ -9,6 +9,8 @@ import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../models/anatomy_reference.dart';
+
 class SystemDetail extends StatefulWidget {
   SystemDetail({super.key});
 
@@ -17,8 +19,31 @@ class SystemDetail extends StatefulWidget {
 }
 
 class _SystemDetailState extends State<SystemDetail> {
+  
   HumanAnatomyService humanAnatomyService = HumanAnatomyService();
+  List<AnatomyReference>? anatomyReferences;
+  List<AnatomyReference>? anatomyReferenceOMSList;
+  List<AnatomyReference>? anatomyReferenceINTERNETList;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getReferences();
+  }
 
+  Future<void> getReferences() async {
+    try {
+      final referencesMap = await humanAnatomyService.getAnatomyReferences(1);
+      setState(() {
+        anatomyReferenceOMSList = referencesMap['OMS'] ?? [];
+        anatomyReferenceINTERNETList = referencesMap['INTERNET'] ?? [];
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
@@ -79,19 +104,28 @@ class _SystemDetailState extends State<SystemDetail> {
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           const SizedBox(height: 15.0),
-                          const ReferenceCard(
-                            title: 'Internet',
-                            subtitle: '8 archivos',
-                            icon: Icons.more_vert,
-                            iconBackgroundColor: AAColors.lightBlue,
-                            iconColor: AAColors.blue,
+                          InkWell(
+                            onTap: (){
+                            },
+                            child: const ReferenceCard(
+                              title: 'Internet',
+                              subtitle: '8 archivos',
+                              icon: Icons.more_vert,
+                              iconBackgroundColor: AAColors.lightBlue,
+                              iconColor: AAColors.blue,
+                            ),
                           ),
-                          const ReferenceCard(
-                            title: 'OMS',
-                            subtitle: '8 archivos',
-                            icon: Icons.more_vert,
-                            iconBackgroundColor: AAColors.lightGreen,
-                            iconColor: AAColors.green,
+                          InkWell(
+                            onTap: (){
+
+                            },
+                            child: const ReferenceCard(
+                              title: 'OMS',
+                              subtitle: '8 archivos',
+                              icon: Icons.more_vert,
+                              iconBackgroundColor: AAColors.lightGreen,
+                              iconColor: AAColors.green,
+                            ),
                           ),
                           const SizedBox(height: 15.0),
                           Center(

@@ -314,9 +314,9 @@ class ReferenceCard extends StatelessWidget {
                   ),
                 ),
                 const Icon(
-                  Icons.more_vert,
+                  Icons.arrow_right,
                   color: AAColors.gray,
-                  size: 30,
+                  size: 40,
                 ),
               ],
             ),
