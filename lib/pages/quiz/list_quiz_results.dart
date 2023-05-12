@@ -27,7 +27,8 @@ class _ListQuizResultsState extends State<ListQuizResults> {
 
   Future<void> fetchedTest() async {
     try {
-      quizAttemptDetailGrouped = await quizService.fetchQuizAttemptsGroupedByUserId();
+      quizAttemptDetailGrouped =
+          await quizService.fetchQuizAttemptsGroupedByUserId();
       quizAttemptDetailGrouped?.forEach((element) {
         print(element.nameHumanAnatomy);
       });
@@ -43,60 +44,57 @@ class _ListQuizResultsState extends State<ListQuizResults> {
       appBar: AAAppBar(context, back: true, title: 'Mis Cuestionarios'),
       body: SafeArea(
           child: FutureBuilder(
-            future: quizService.fetchQuizAttemptsGroupedByUserId(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return QuizAttemptCard(
-                            index: index,
-                            quizAttemptDetail: snapshot.data![index],
-                            onPress: (){}
-                        );
-                      },
+        future: quizService.fetchQuizAttemptsGroupedByUserId(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return QuizAttemptCard(
+                        index: index,
+                        quizAttemptDetail: snapshot.data![index],
+                        onPress: () {});
+                  },
+                ));
+          } else if (snapshot.hasError) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ErrorMessage(
+                        messageError:
+                            'Ocurrio un error al momento de traer los cuestioanrios resueltos',
+                        onRefresh: () {
+                          quizService.fetchQuizAttemptByUserId();
+                        })
+                  ]),
+            );
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    EmptyElementError(
+                      title: 'Por el momento no tiene cuestionarios realizados',
+                      messageError:
+                          'Visualiza un módelo de realidad aumentada y aprende acerca de un sistema u órgano para realizar un cuestionario. Luego los podrá visualizar en esta pantalla.',
                     )
-                );
-              } else if (snapshot.hasError) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ErrorMessage(
-                          messageError:
-                          'Ocurrio un error al momento de traer los cuestioanrios resueltos',
-                          onRefresh: () {
-                            quizService.fetchQuizAttemptByUserId();
-                          })
-                      ]),
-                );
-              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        EmptyElementError(
-                          title: 'Por el momento no tiene cuestionarios realizados',
-                          messageError: 'Visualiza un módelo de realidad aumentada y aprende acerca de un sistema u órgano para realizar un cuestionario. Luego los podrá visualizar en esta pantalla.',
-                        )
-                      ]),
-                );
-              }
-              else {
-                return const Center(
-                  child: SpinKitFadingCircle(
-                    color: AAColors.red,
-                    size: 50.0,
-                  ),
-                );
-              }
-            },
-          )
-      ),
+                  ]),
+            );
+          } else {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AAColors.red,
+                size: 50.0,
+              ),
+            );
+          }
+        },
+      )),
     );
   }
 }
