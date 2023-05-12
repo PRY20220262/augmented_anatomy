@@ -27,8 +27,8 @@ class _SystemDetailState extends State<SystemDetail> {
     return Scaffold(
       backgroundColor: AAColors.backgroundGrayView,
       appBar: AAAppBar(context, back: true, title: args['name']),
-        body: SafeArea(
-          child: FutureBuilder(
+      body: SafeArea(
+        child: FutureBuilder(
             future: humanAnatomyService.getById(args['id']),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -49,12 +49,17 @@ class _SystemDetailState extends State<SystemDetail> {
                                   child: Image.network(
                                     snapshot.data!.image ?? '',
                                     fit: BoxFit.cover,
-                                    height: snapshot.data!.characteristics!.isNotEmpty
-                                        ? 200 : 170,
-                                    width: snapshot.data!.characteristics!.isNotEmpty
-                                        ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.9,
-                                  )
-                              ),
+                                    height: snapshot
+                                            .data!.characteristics!.isNotEmpty
+                                        ? 200
+                                        : 170,
+                                    width: snapshot
+                                            .data!.characteristics!.isNotEmpty
+                                        ? MediaQuery.of(context).size.width *
+                                            0.5
+                                        : MediaQuery.of(context).size.width *
+                                            0.9,
+                                  )),
                               snapshot.data!.characteristics!.isNotEmpty
                                   ? CharacteristicsSection(
                                       characteristic1:
@@ -146,16 +151,10 @@ class _SystemDetailState extends State<SystemDetail> {
                                                                           name: snapshot
                                                                               .data!
                                                                               .name!,
+                                                                          characteristics: snapshot
+                                                                              .data!
+                                                                              .characteristics,
                                                                         )));
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            '/ar-system',
-                                                            arguments: {
-                                                              'name': snapshot
-                                                                  .data!.name,
-                                                              'id': snapshot
-                                                                  .data!.id
-                                                            });
                                                       },
                                                       style: ElevatedButton
                                                           .styleFrom(
@@ -196,15 +195,22 @@ class _SystemDetailState extends State<SystemDetail> {
                                                     width: 125,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pushNamed(
+                                                        Navigator.push(
                                                             context,
-                                                            '/ar-system',
-                                                            arguments: {
-                                                              'name': snapshot
-                                                                  .data!.name,
-                                                              'humanAnatomyId': snapshot
-                                                                  .data!.id
-                                                            });
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        ArHumanAnatomy(
+                                                                          id: snapshot
+                                                                              .data!
+                                                                              .id!,
+                                                                          name: snapshot
+                                                                              .data!
+                                                                              .name!,
+                                                                          characteristics: snapshot
+                                                                              .data!
+                                                                              .characteristics,
+                                                                        )));
                                                       },
                                                       style: ElevatedButton
                                                           .styleFrom(
@@ -306,51 +312,6 @@ class CharacteristicsSection extends StatelessWidget {
           detail: characteristic2.shortDetail ?? '',
         )
       ],
-    );
-  }
-}
-
-class CharacteristicCard extends StatelessWidget {
-  const CharacteristicCard(
-      {super.key,
-      this.color = AAColors.lightGreen,
-      required this.detail,
-      required this.title});
-
-  final Color color;
-  final String title;
-  final String detail;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 120.0,
-      padding: const EdgeInsets.all(15.0),
-      width: MediaQuery.of(context).size.width * 0.40,
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(15)),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Icon(
-              Icons.sticky_note_2_outlined,
-            ),
-            Text(
-              title,
-              textAlign: TextAlign.start,
-              style:
-                  Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.2),
-            ),
-            Text(
-              detail,
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.labelMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: true,
-            )
-          ]),
     );
   }
 }

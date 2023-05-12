@@ -484,9 +484,9 @@ class QuizAttemptCard extends StatelessWidget {
 
   QuizAttemptCard(
       {super.key,
-        required this.index,
-        required this.quizAttemptDetail,
-        required this.onPress});
+      required this.index,
+      required this.quizAttemptDetail,
+      required this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -496,172 +496,194 @@ class QuizAttemptCard extends StatelessWidget {
           onTap: () {
             showDialog(
                 context: context,
-                builder: (BuildContext context){
+                builder: (BuildContext context) {
                   return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(20.0),
-                    ),
-                    contentPadding: const EdgeInsets.all(20.0),
-                    content: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxHeight: quizAttemptDetail.quizAttemptByHumanAnatomy!.length * 70,
-                        ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Cuestionarios Realizados de ${quizAttemptDetail.nameHumanAnatomy}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium,
-                            textAlign: TextAlign.center,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(20.0),
+                      content: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: quizAttemptDetail
+                                    .quizAttemptByHumanAnatomy!.length *
+                                70,
                           ),
-                          Row(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.calendar_month_outlined,
-                                          size: 30,
-                                          color: Colors.black,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          'Fecha',
-                                          style: Theme.of(context).textTheme.bodyLarge,
-                                        ),
-                                      ],
-                                    )
-                                  )
+                              Text(
+                                'Cuestionarios Realizados de ${quizAttemptDetail.nameHumanAnatomy}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                textAlign: TextAlign.center,
                               ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.schedule_outlined,
-                                        size: 30,
-                                        color: Colors.black,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Hora',
-                                        style: Theme.of(context).textTheme.bodyLarge,
-                                      ),
-                                    ],
-                                  )
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Center(
+                              Row(
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                          child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.calendar_month_outlined,
+                                            size: 30,
+                                            color: Colors.black,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            'Fecha',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                          ),
+                                        ],
+                                      ))),
+                                  Expanded(
+                                      flex: 2,
                                       child: Row(
                                         children: [
-                                          Icon(Icons.quiz_outlined,
+                                          Icon(
+                                            Icons.schedule_outlined,
+                                            size: 30,
+                                            color: Colors.black,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            'Hora',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                          ),
+                                        ],
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                          child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.quiz_outlined,
                                             size: 30,
                                             color: Colors.black,
                                           ),
                                           const SizedBox(width: 10),
                                           Text(
                                             'Nota',
-                                            style: Theme.of(context).textTheme.bodyLarge,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
                                           ),
                                         ],
-                                      )
-                                  )
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: quizAttemptDetail.quizAttemptByHumanAnatomy!.length * 30,
-                            width: double.maxFinite,
-                            child: ListView.builder(
-                              itemCount: quizAttemptDetail.quizAttemptByHumanAnatomy!.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                        child: Text(
-                                            '${quizAttemptDetail.quizAttemptByHumanAnatomy?[index].createdAt?.toFormattedDateString()}',
-                                            style: Theme.of(context).textTheme.bodyLarge,
-                                          ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                        child: Center(
+                                      )))
+                                ],
+                              ),
+                              SizedBox(
+                                height: quizAttemptDetail
+                                        .quizAttemptByHumanAnatomy!.length *
+                                    30,
+                                width: double.maxFinite,
+                                child: ListView.builder(
+                                  itemCount: quizAttemptDetail
+                                      .quizAttemptByHumanAnatomy!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
                                           child: Text(
-                                            substractSixHoursFromDateTime(quizAttemptDetail.quizAttemptByHumanAnatomy![index].createdAt??''),
-                                            style: Theme.of(context).textTheme.bodyLarge,
+                                            '${quizAttemptDetail.quizAttemptByHumanAnatomy?[index].createdAt?.toFormattedDateString()}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
                                           ),
-                                        )
-                                    ),
-                                    Expanded(
-                                        flex: 2,
-                                        child: Center(
-                                          child: Text('${quizAttemptDetail.quizAttemptByHumanAnatomy![index].score!*100~/20}%',
-                                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                                  color: (quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! <= 4.0) ?
-                                                  AAColors.red : (quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! < 12.0) ?
-                                                  AAColors.amber :  AAColors.green
+                                        ),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Center(
+                                              child: Text(
+                                                substractSixHoursFromDateTime(
+                                                    quizAttemptDetail
+                                                            .quizAttemptByHumanAnatomy![
+                                                                index]
+                                                            .createdAt ??
+                                                        ''),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge,
                                               ),
-                                          )
-                                        )
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                          MainActionButton(
-                              text: 'Nuevo Intento',
-                              onPressed: (){
-                                showDialog(context: context,
-                                    builder: (BuildContext context) {
-                                      return InformationDialog(
-                                        title: 'Nuevo Intento',
-                                        message: 'Estas apunto de iniciar un nuevo intento del cuestionario recien realizado.',
-                                        cancelButtonText: 'Cancelar',
-                                        onCancelPressed: (){
-                                          Navigator.pop(context, false);
-                                        },
-                                        confirmButtonText: 'Nuevo Intento',
-                                        onConfirmPressed: (){
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => QuizAttempt(
-                                                id: quizAttemptDetail.humanAnatomyId!,
-                                              ),
-                                            ),
+                                            )),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Center(
+                                                child: Text(
+                                              '${quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! * 100 ~/ 20}%',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                      color: (quizAttemptDetail
+                                                                  .quizAttemptByHumanAnatomy![
+                                                                      index]
+                                                                  .score! <=
+                                                              4.0)
+                                                          ? AAColors.red
+                                                          : (quizAttemptDetail
+                                                                      .quizAttemptByHumanAnatomy![
+                                                                          index]
+                                                                      .score! <
+                                                                  12.0)
+                                                              ? AAColors.amber
+                                                              : AAColors.green),
+                                            )))
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                              MainActionButton(
+                                  text: 'Nuevo Intento',
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return InformationDialog(
+                                            title: 'Nuevo Intento',
+                                            message:
+                                                'Estas apunto de iniciar un nuevo intento del cuestionario recien realizado.',
+                                            cancelButtonText: 'Cancelar',
+                                            onCancelPressed: () {
+                                              Navigator.pop(context, false);
+                                            },
+                                            confirmButtonText: 'Nuevo Intento',
+                                            onConfirmPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QuizAttempt(
+                                                    id: quizAttemptDetail
+                                                        .humanAnatomyId!,
+                                                  ),
+                                                ),
                                                 (route) => false,
+                                              );
+                                            },
                                           );
-                                        },
-                                      );
-                                    }
-                                );
-                              }
-                          )
-                        ],
-                      )
-                    )
-                  );
-                }
-            );
+                                        });
+                                  })
+                            ],
+                          )));
+                });
           },
           child: Container(
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 1,
-                    offset: const Offset(3, 3),
-                  )
-                ],
-                color: AAColors.white,
-                borderRadius: BorderRadius.circular(15)),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 1,
+                offset: const Offset(3, 3),
+              )
+            ], color: AAColors.white, borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -672,33 +694,40 @@ class QuizAttemptCard extends StatelessWidget {
                         children: [
                           Text(
                             quizAttemptDetail.nameHumanAnatomy!,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: AAColors.red
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: AAColors.red),
                           ),
-                          Text(
-                            '${(quizAttemptDetail.maxScore!*100)~/20}%',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: (((quizAttemptDetail.maxScore!*100)~/20) <= 20) ?
-                                AAColors.red : (((quizAttemptDetail.maxScore!*100)~/20) < 80.0) ?
-                                AAColors.amber :  AAColors.green
-                            )
-                          )
-                        ]
-                    ),
+                          Text('${(quizAttemptDetail.maxScore! * 100) ~/ 20}%',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: (((quizAttemptDetail.maxScore! *
+                                                      100) ~/
+                                                  20) <=
+                                              20)
+                                          ? AAColors.red
+                                          : (((quizAttemptDetail.maxScore! *
+                                                          100) ~/
+                                                      20) <
+                                                  80.0)
+                                              ? AAColors.amber
+                                              : AAColors.green))
+                        ]),
                     const SizedBox(height: 5),
                     Text(
-                        'EL intento mas reciente realizado obtuvo ${quizAttemptDetail.maxScore!*5~/20} respuestas correctas de las 5 preguntas realizadas.',
-                        style: Theme.of(context).textTheme.bodyLarge
-                    ),
+                        'EL intento mas reciente realizado obtuvo ${quizAttemptDetail.maxScore! * 5 ~/ 20} respuestas correctas de las 5 preguntas realizadas.',
+                        style: Theme.of(context).textTheme.bodyLarge),
                     const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ShortInfoQuiz(
                             icon: Icons.history,
-                            text: '${quizAttemptDetail.countAttempts} intentos realizados.'
-                        ),
+                            text:
+                                '${quizAttemptDetail.countAttempts} intentos realizados.'),
                         const Icon(
                           Icons.arrow_right_alt_outlined,
                           color: Colors.black,
@@ -718,7 +747,8 @@ class ShortInfoQuiz extends StatelessWidget {
   final String text;
   final double sizeIcon;
 
-  const ShortInfoQuiz({required this.icon, required this.text, this.sizeIcon = 40.0});
+  const ShortInfoQuiz(
+      {required this.icon, required this.text, this.sizeIcon = 40.0});
 
   @override
   Widget build(BuildContext context) {
@@ -730,11 +760,61 @@ class ShortInfoQuiz extends StatelessWidget {
           color: Colors.black,
         ),
         const SizedBox(width: 10),
-        Text(
-            text,
-            style: Theme.of(context).textTheme.bodyLarge
-        ),
+        Text(text, style: Theme.of(context).textTheme.bodyLarge),
       ],
+    );
+  }
+}
+
+class CharacteristicCard extends StatelessWidget {
+  const CharacteristicCard(
+      {super.key,
+      this.color = AAColors.lightGreen,
+      required this.detail,
+      required this.title,
+      this.showIcon = true});
+
+  final Color color;
+  final String title;
+  final String detail;
+  final bool showIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: showIcon ? 120.0 : 100,
+      padding: const EdgeInsets.all(15.0),
+      width: showIcon
+          ? MediaQuery.of(context).size.width * 0.40
+          : MediaQuery.of(context).size.width * 0.35,
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(15)),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            showIcon
+                ? const Icon(
+                    Icons.sticky_note_2_outlined,
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
+            Text(
+              title,
+              textAlign: TextAlign.start,
+              style:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.2),
+            ),
+            Text(
+              detail,
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.labelMedium,
+              maxLines: showIcon ? 1 : 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            )
+          ]),
     );
   }
 }
