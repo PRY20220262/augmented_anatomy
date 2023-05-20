@@ -2,10 +2,19 @@
     package="com.example.augmented_anatomy" xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <!-- Limits app visibility in the Google Play Store to ARCore supported devices
         (https://developers.google.com/ar/devices). -->
     <uses-feature android:name="android.hardware.camera.ar" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
 
    <application
         android:label="augmented_anatomy"

@@ -5,6 +5,10 @@ import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/input.dart';
 import 'package:augmented_anatomy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../utils/augmented_anatomy_colors.dart';
+
 
 class NoteDialog extends StatelessWidget {
   NoteDialog({
@@ -232,3 +236,4 @@ class InformationDialog extends StatelessWidget {
     );
   }
 }
+

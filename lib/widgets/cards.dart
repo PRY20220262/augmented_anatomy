@@ -85,7 +85,7 @@ class LargeCard extends StatelessWidget {
 }
 
 Widget recommendationContainer(
-    BuildContext context, String urlImage, String name, String shortDetail) {
+    BuildContext context, int humanAnatomyId, String urlImage, String name, String shortDetail) {
   return Container(
       height: 170,
       decoration: BoxDecoration(
@@ -128,7 +128,13 @@ Widget recommendationContainer(
                   ),
                   MainActionButton(
                       text: 'Probar ahora',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context,
+                            '/detail', arguments: {
+                              'id': humanAnatomyId,
+                              'name': name
+                            });
+                      },
                       width: MediaQuery.of(context).size.height * 0.35)
                 ],
               ),

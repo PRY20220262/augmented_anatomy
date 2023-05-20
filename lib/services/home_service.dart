@@ -13,6 +13,8 @@ class HomeService {
   Future<MainMenuModel> getMainMenu() async {
     final email = await storage.read(key: 'email');
     final token = await storage.read(key: 'token');
+    print(email);
+    print(token);
     final requestGetMainMenuUrl = Uri.parse('$authUrl/$email/main-menu');
     try {
       http.Response response = await http.get(
