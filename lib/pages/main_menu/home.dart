@@ -136,15 +136,24 @@ class _HomeState extends State<Home> {
                                                           .size
                                                           .height *
                                                       0.03),
-                                              child: LargeCard(
-                                                imageUrl:
-                                                    '${snapshot.data!.recentActivityList?[index].urlImage}',
-                                                name:
-                                                    '${snapshot.data!.recentActivityList?[index].name}',
-                                                organsNumber:
-                                                    '${snapshot.data!.recentActivityList?[index].organsNumber}',
-                                                shortDetail:
-                                                    '${snapshot.data!.recentActivityList?[index].shortDetail}',
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.pushNamed(context,
+                                                      '/detail', arguments: {
+                                                        'id': snapshot.data!.recentActivityList?[index].humanAnatomyId,
+                                                        'name': snapshot.data!.recentActivityList?[index].name
+                                                      });
+                                                },
+                                                child: LargeCard(
+                                                  imageUrl:
+                                                  '${snapshot.data!.recentActivityList?[index].urlImage}',
+                                                  name:
+                                                  '${snapshot.data!.recentActivityList?[index].name}',
+                                                  organsNumber:
+                                                  '${snapshot.data!.recentActivityList?[index].organsNumber}',
+                                                  shortDetail:
+                                                  '${snapshot.data!.recentActivityList?[index].shortDetail}',
+                                                ),
                                               ))),
                                 )
                               ],
@@ -161,6 +170,7 @@ class _HomeState extends State<Home> {
                               const SizedBox(height: 10),
                               recommendationContainer(
                                   context,
+                                  snapshot.data?.recommendation!.humanAnatomyId ?? 0,
                                   '${snapshot.data?.recommendation?.urlImage}',
                                   '${snapshot.data?.recommendation?.name}',
                                   '${snapshot.data?.recommendation?.shortDetail}')
@@ -179,18 +189,26 @@ class _HomeState extends State<Home> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  DirectAccessCard(
-                                      icon: FontAwesomeIcons.file,
-                                      color: AAColors.lightBlue,
-                                      title: 'Mis apuntes',
-                                      subtitle:
-                                          '${snapshot.data?.quizCount} apuntes'),
-                                  DirectAccessCard(
-                                      icon: Icons.assignment_turned_in_outlined,
-                                      color: AAColors.lightRed,
-                                      title: 'Mis cuestionarios',
-                                      subtitle:
-                                          '${snapshot.data?.noteCount} cuestionarios')
+                                  InkWell(
+                                    onTap: () { Navigator.of(context).pushNamed('/notes'); },
+                                    child: DirectAccessCard(
+                                        icon: FontAwesomeIcons.file,
+                                        color: AAColors.lightBlue,
+                                        title: 'Mis apuntes',
+                                        subtitle:
+                                        '${snapshot.data?.quizCount} apuntes'),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/list-quiz-results');
+                                    },
+                                    child: DirectAccessCard(
+                                        icon: Icons.assignment_turned_in_outlined,
+                                        color: AAColors.lightRed,
+                                        title: 'Mis cuestionarios',
+                                        subtitle:
+                                        '${snapshot.data?.noteCount} cuestionarios'),
+                                  )
                                 ],
                               )
                             ],

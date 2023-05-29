@@ -160,8 +160,12 @@ class AuthService {
       );
       if (response.statusCode == 200) {
         //await storage.write(key: 'token', value: authorizationHeader);
-        await storage.write(key: 'email', value: userRegisterModel.email);
-        return 'Registro exitoso';
+        bool isLoggedIn = await login(userRegisterModel.email, userRegisterModel.password);
+        if (isLoggedIn) {
+          return 'Registro exitoso';
+        } else {
+          return 'Fail register user';
+        }
       } else {
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         return jsonResponse['message'];

@@ -17,3 +17,15 @@ String substractSixHoursFromDateTime(String dateTimeString) {
   final timeString = '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
   return timeString;
 }
+
+String getDisplayText(String? url) {
+  if (url == null || url.isEmpty) {
+    return '';
+  }
+
+  if (url.length <= 20) {
+    return url;
+  } else {
+    return '${url.substring(0, 17)}...';
+  }
+}
