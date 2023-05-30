@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 
 PreferredSizeWidget AAAppBar(BuildContext context,
     {required bool back, String? title, Function()? onPressed}) {
@@ -22,13 +23,13 @@ PreferredSizeWidget AAAppBar(BuildContext context,
               height: 45.0,
               width: 45.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                color: AAColors.mainColor,
               ),
               child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
-                  color: Colors.black,
+                  color: Colors.white,
                   size: 20,
                 ),
                 onPressed: onPressed ?? () => Navigator.of(context).pop(),

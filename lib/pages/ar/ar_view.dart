@@ -241,7 +241,6 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
                           detail: widget.characteristics![1].detail!,
                           title: widget.characteristics![1].title!,
                           showIcon: false,
-                          color: AAColors.lightRed,
                         ),
                       ),
                     ],

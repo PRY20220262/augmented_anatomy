@@ -84,8 +84,8 @@ class LargeCard extends StatelessWidget {
   }
 }
 
-Widget recommendationContainer(
-    BuildContext context, int humanAnatomyId, String urlImage, String name, String shortDetail) {
+Widget recommendationContainer(BuildContext context, int humanAnatomyId,
+    String urlImage, String name, String shortDetail) {
   return Container(
       height: 170,
       decoration: BoxDecoration(
@@ -129,11 +129,8 @@ Widget recommendationContainer(
                   MainActionButton(
                       text: 'Probar ahora',
                       onPressed: () {
-                        Navigator.pushNamed(context,
-                            '/detail', arguments: {
-                              'id': humanAnatomyId,
-                              'name': name
-                            });
+                        Navigator.pushNamed(context, '/detail',
+                            arguments: {'id': humanAnatomyId, 'name': name});
                       },
                       width: MediaQuery.of(context).size.height * 0.35)
                 ],
@@ -281,53 +278,56 @@ class ReferenceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-          decoration: BoxDecoration(
-              color: AAColors.white, borderRadius: BorderRadius.circular(15)),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: iconBackgroundColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  height: 75,
-                  width: 75,
-                  child: Icon(
-                    Icons.file_open,
-                    color: iconColor,
-                    size: 30,
-                  ),
+    return Container(
+        decoration: BoxDecoration(
+            color: AAColors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.black12)),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: iconBackgroundColor,
+                  borderRadius: BorderRadius.circular(5),
                 ),
-                SizedBox(
-                  width: 200,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      Text(
-                        subtitle,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      )
-                    ],
-                  ),
+                height: 75,
+                width: 75,
+                child: Icon(
+                  Icons.file_open,
+                  color: iconColor,
+                  size: 30,
                 ),
-                const Icon(
-                  Icons.arrow_right,
-                  color: AAColors.gray,
-                  size: 40,
+              ),
+              SizedBox(
+                width: 200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      subtitle,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    )
+                  ],
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+              const Icon(
+                Icons.more_vert_rounded,
+                color: AAColors.black,
+                size: 35,
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -775,12 +775,10 @@ class ShortInfoQuiz extends StatelessWidget {
 class CharacteristicCard extends StatelessWidget {
   const CharacteristicCard(
       {super.key,
-      this.color = AAColors.lightGreen,
       required this.detail,
       required this.title,
       this.showIcon = true});
 
-  final Color color;
   final String title;
   final String detail;
   final bool showIcon;
@@ -788,20 +786,19 @@ class CharacteristicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: showIcon ? 120.0 : 100,
-      padding: const EdgeInsets.all(15.0),
-      width: showIcon
-          ? MediaQuery.of(context).size.width * 0.40
-          : MediaQuery.of(context).size.width * 0.35,
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(15)),
+      height: 90,
+      padding: const EdgeInsets.all(10.0),
+      width: MediaQuery.of(context).size.width * 0.45,
+      decoration: BoxDecoration(
+          color: AAColors.lightMain, borderRadius: BorderRadius.circular(15)),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             showIcon
                 ? const Icon(
                     Icons.sticky_note_2_outlined,
+                    color: AAColors.mainColor,
                   )
                 : const SizedBox(
                     height: 0,
@@ -809,13 +806,18 @@ class CharacteristicCard extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.start,
-              style:
-                  Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.2),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  height: 1.2,
+                  color: AAColors.mainColor,
+                  fontWeight: FontWeight.bold),
             ),
             Text(
               detail,
               textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AAColors.mainColor),
               maxLines: showIcon ? 1 : 2,
               overflow: TextOverflow.ellipsis,
               softWrap: true,
