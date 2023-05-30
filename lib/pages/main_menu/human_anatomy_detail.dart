@@ -92,14 +92,11 @@ class _SystemDetailState extends State<SystemDetail> {
                                   child: Image.network(
                                     snapshot.data!.image ?? '',
                                     fit: BoxFit.cover,
-                                    height: snapshot
-                                            .data!.characteristics!.isNotEmpty
-                                        ? 200
-                                        : 170,
+                                    height: 180,
                                     width: snapshot
                                             .data!.characteristics!.isNotEmpty
                                         ? MediaQuery.of(context).size.width *
-                                            0.5
+                                            0.45
                                         : MediaQuery.of(context).size.width *
                                             0.9,
                                   )),
@@ -511,7 +508,6 @@ class CharacteristicsSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         CharacteristicCard(
-          color: AAColors.lightRed,
           title: characteristic2.title ?? '',
           detail: characteristic2.shortDetail ?? '',
         )
