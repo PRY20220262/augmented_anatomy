@@ -67,9 +67,8 @@ class _SystemDetailState extends State<SystemDetail> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final Uri toLaunch =  Uri.parse('https://pub.dev/packages/url_launcher/example');
     return Scaffold(
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       appBar: AAAppBar(context, back: true, title: args['name']),
       body: SafeArea(
         child: FutureBuilder(
