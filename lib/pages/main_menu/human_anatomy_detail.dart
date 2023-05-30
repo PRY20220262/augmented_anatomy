@@ -230,7 +230,7 @@ class _SystemDetailState extends State<SystemDetail> {
                             },
                             child: const ReferenceCard(
                               title: 'Internet',
-                              subtitle: '8 archivos',
+                              subtitle: '4 archivos',
                               icon: Icons.more_vert,
                               iconBackgroundColor: AAColors.lightBlue,
                               iconColor: AAColors.blue,
@@ -348,7 +348,7 @@ class _SystemDetailState extends State<SystemDetail> {
                             },
                             child: const ReferenceCard(
                               title: 'OMS',
-                              subtitle: '8 archivos',
+                              subtitle: '4 archivos',
                               icon: Icons.more_vert,
                               iconBackgroundColor: AAColors.lightGreen,
                               iconColor: AAColors.green,
@@ -356,10 +356,8 @@ class _SystemDetailState extends State<SystemDetail> {
                           ),
                           const SizedBox(height: 15.0),
                           Center(
-                            child: MainActionButton(
+                            child: NewMainActionButton(
                                 text: 'Visualizar en RA',
-                                width: 170,
-                                height: 40,
                                 onPressed: () {
                                   showDialog(
                                     context: context,
