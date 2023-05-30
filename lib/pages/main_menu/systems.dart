@@ -55,7 +55,7 @@ class _SystemsState extends State<Systems> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AAAppBar(context, back: false, title: 'Sistemas'),
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       body: FutureBuilder(
           future: _systems,
           builder: (context, snapshot) {
@@ -88,6 +88,10 @@ class _SystemsState extends State<Systems> {
                 )
               ]);
             } else if (snapshot.hasError) {
+              print(snapshot.error);
+              if(snapshot.error.toString() == "No se han encontrado datos :(") {
+                print("revisar este caso");
+              }
               return ErrorMessage(onRefresh: refresh);
             } else {
               return const Center(
@@ -123,24 +127,32 @@ class SearchBar extends StatelessWidget {
           searchFilter(value);
         },
         style: Theme.of(context).textTheme.labelMedium,
+        cursorColor: Colors.grey,
         decoration: InputDecoration(
-          filled: true,
-          fillColor: AAColors.blueInput,
-          hintText: 'Buscar organo',
-          hintStyle: const TextStyle(color: AAColors.grayBlue),
-          prefixIcon: IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: AAColors.grayBlue,
-              size: 30,
+            filled: true,
+            fillColor: Colors.transparent,
+            hintText: 'Buscar',
+            hintStyle: const TextStyle(color: Colors.grey),
+            prefixIcon: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.grey,
+                size: 30,
+              ),
+              onPressed: () {},
             ),
-            onPressed: () {},
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-        ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            )),
       ),
     );
   }

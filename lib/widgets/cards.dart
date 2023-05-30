@@ -223,7 +223,7 @@ class CardListItem extends StatelessWidget {
             width: 125,
             height: 140,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(5),
               child: Image.network(
                 '$imageUrl',
                 fit: BoxFit.cover,
@@ -237,15 +237,20 @@ class CardListItem extends StatelessWidget {
               children: [
                 Text(
                   '$name',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Text(
                   '$system',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
                   '$shortDetail',
                   style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                 )
               ],
             ),
