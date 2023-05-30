@@ -120,7 +120,7 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.09,
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width - 40,
       child: TextField(
         controller: searchController,
         onChanged: (value) {

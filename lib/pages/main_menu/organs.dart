@@ -1,5 +1,6 @@
 import 'package:augmented_anatomy/models/organs.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/widgets/appbar.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -126,18 +127,8 @@ class _OrgansState extends State<Organs>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
-        appBar: AppBar(
-            backgroundColor: AAColors.backgroundGrayView,
-            elevation: 0,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Center(
-                  child: Text(
-                'Organos',
-                style: Theme.of(context).textTheme.titleMedium,
-              )),
-            )),
+        backgroundColor: AAColors.backgroundWhiteView,
+        appBar: AAAppBar(context, back: false, title: 'Órganos'),
         body: SafeArea(
             child: !hasConnection
                 ?
@@ -160,11 +151,10 @@ class _OrgansState extends State<Organs>
                         : SingleChildScrollView(
                             child: Column(
                             children: [
-                              const SizedBox(height: 20),
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.09,
-                                width: MediaQuery.of(context).size.width * 0.85,
+                                width: MediaQuery.of(context).size.width - 40,
                                 child: TextField(
                                   controller: searchController,
                                   onTap: () => openKeyboard
@@ -184,21 +174,36 @@ class _OrgansState extends State<Organs>
                                       Theme.of(context).textTheme.labelMedium,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: AAColors.blueInput,
-                                    hintText: 'Buscar organo',
-                                    hintStyle: const TextStyle(
-                                        color: AAColors.grayBlue),
+                                    fillColor: Colors.transparent,
+                                    hintText: 'Buscar',
+                                    hintStyle:
+                                        const TextStyle(color: Colors.grey),
                                     prefixIcon: IconButton(
                                       icon: const Icon(
                                         Icons.search,
-                                        color: AAColors.grayBlue,
+                                        color: Colors.grey,
                                         size: 30,
                                       ),
                                       onPressed: () {},
                                     ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                      borderSide:
+                                          const BorderSide(color: Colors.grey),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                      borderSide:
+                                          const BorderSide(color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                      borderSide:
+                                          const BorderSide(color: Colors.grey),
+                                    ),
                                     suffixIcon: IconButton(
                                         icon: const Icon(Icons.filter_list,
-                                            color: AAColors.grayBlue, size: 30),
+                                            color: Colors.grey, size: 30),
                                         onPressed: () => showModalBottomSheet(
                                             context: context,
                                             builder: (context) {
@@ -238,10 +243,6 @@ class _OrgansState extends State<Organs>
                                                     BorderRadius.vertical(
                                                         top: Radius.circular(
                                                             32))))),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide.none,
-                                    ),
                                   ),
                                 ),
                               ),
