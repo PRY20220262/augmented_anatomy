@@ -2,8 +2,6 @@ import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 
-import 'input.dart';
-
 class MainActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -110,6 +108,74 @@ class TextActionButton extends StatelessWidget {
               .textTheme
               .labelSmall
               ?.copyWith(color: AAColors.red),
+        ));
+  }
+}
+
+class NewTextActionButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const NewTextActionButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: onPressed,
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: AAColors.textActionColor, fontWeight: FontWeight.bold),
+        ));
+  }
+}
+
+class NewMainActionButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final double? width;
+  final double? height;
+  final ButtonType? type;
+
+  const NewMainActionButton(
+      {Key? key,
+        required this.text,
+        required this.onPressed,
+        this.width,
+        this.height,
+        this.type})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: width ?? 320,
+        height: height ?? 56,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            elevation: type == ButtonType.secondary ? 0 : 1,
+            backgroundColor: type == ButtonType.secondary
+                ? Colors.transparent
+                : AAColors.mainColor,
+            foregroundColor: AAColors.white,
+            textStyle: const TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
+          child: Text(text,
+              style: TextStyle(
+                  color: type == ButtonType.secondary
+                      ? Colors.black
+                      : Colors.white)),
         ));
   }
 }

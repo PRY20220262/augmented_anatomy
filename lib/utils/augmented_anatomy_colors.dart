@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 class AAColors {
+  static const Color mainColor = Color(0xFF423664);
+  static const Color textActionColor = Color(0xFF7D9FF9);
   static const Color red = Color(0xFFD64751);
   static const Color amber = Color(0xFFEBB21F);
   static const Color green = Color(0xFF008A5E);

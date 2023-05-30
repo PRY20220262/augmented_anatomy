@@ -20,28 +20,30 @@ class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLogin = false;
+  final _formKeyLogin = GlobalKey<FormState>();
 
   // Life Cycle
 
   // Functions
 
-  Future<void> loginRequest(BuildContext context) async {
-    bool isLoggedIn =
-        await authService.login(emailController.text, passwordController.text);
-    setState(() {
-      isLogin = isLoggedIn;
-    });
-    if (isLoggedIn) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        '/home',
-        (Route<dynamic> route) => false,
-      );
-    } else {
+  Future<void> loginRequest(bool enableForm, BuildContext context) async {
+    if (enableForm) {
+      bool isLoggedIn = await authService.login(emailController.text, passwordController.text);
       setState(() {
-        isLogin = false;
+        isLogin = isLoggedIn;
       });
-      showLoginSnackBar(context);
+      if (isLoggedIn) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+              (Route<dynamic> route) => false,
+        );
+      } else {
+        setState(() {
+          isLogin = false;
+        });
+        showLoginSnackBar(context);
+      }
     }
   }
 
@@ -65,79 +67,78 @@ class _LoginState extends State<Login> {
           child: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/icon.png',
-                    fit: BoxFit.contain,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: Text(
-                      'Iniciar Sesión',
-                      style: Theme.of(context).textTheme.titleLarge,
+              child: Form(
+                key: _formKeyLogin,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/icon.png',
+                      fit: BoxFit.fill,
+                      width: 270,
+                      height: 48,
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: InputLabel(
-                        label: 'Correo electrónico',
-                        hint: 'example@email.com',
-                        controller: emailController,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: PasswordInputLabel(
-                      label: 'Contraseña',
-                      hint: '*****************',
-                      controller: passwordController,
+                    Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
+                        child: InputLabel(
+                          label: 'Correo',
+                          hint: 'ejemplo@email.com',
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: PasswordInputLabel(
+                        label: 'Contraseña',
+                        controller: passwordController,
+                        hint: '*********',
+                        isLogin: true,
+                      ),
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 20.0, right: 40.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextActionButton(
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Center(
+                          child: NewTextActionButton(
                               text: '¿Olvidaste tu contraseña?',
                               onPressed: () {
                                 Navigator.pushNamed(
                                     context, '/forgot-password');
                               })
-                        ],
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: MainActionButton(
-                      text: 'Ingresar',
-                      onPressed: () {
-                        loginRequest(context);
-                      },
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: MediaQuery.of(context).size.height * 0.06,
+                      ),
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            '¿Aun no tienes cuenta?',
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                          TextActionButton(
-                              text: 'Crear nueva cuenta',
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/register');
-                              })
-                        ],
-                      )),
-                  const SizedBox(height: 50.0),
-                ],
-              ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      child: NewMainActionButton(
+                        text: 'Ingresar',
+                        onPressed: () {
+                          bool validForm =
+                          _formKeyLogin.currentState!.validate();
+                          loginRequest(
+                              validForm,
+                              context
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '¿Aun no tienes cuenta?',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            const SizedBox(width: 5),
+                            NewTextActionButton(
+                                text: 'Crear nueva cuenta',
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/register');
+                                })
+                          ],
+                        )),
+                  ],
+                ),
+              )
             ),
           ),
         ));
