@@ -21,7 +21,6 @@ class SystemDetail extends StatefulWidget {
 }
 
 class _SystemDetailState extends State<SystemDetail> {
-  
   HumanAnatomyService humanAnatomyService = HumanAnatomyService();
   List<AnatomyReference>? anatomyReferences;
   List<AnatomyReference>? anatomyReferenceOMSList;
@@ -62,7 +61,7 @@ class _SystemDetailState extends State<SystemDetail> {
       print(e);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
@@ -77,14 +76,14 @@ class _SystemDetailState extends State<SystemDetail> {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment:
                                 snapshot.data!.characteristics!.isNotEmpty
-                                    ? MainAxisAlignment.spaceEvenly
+                                    ? MainAxisAlignment.spaceBetween
                                     : MainAxisAlignment.center,
                             children: [
                               ClipRRect(
@@ -111,91 +110,122 @@ class _SystemDetailState extends State<SystemDetail> {
                             ],
                           ),
                           const SizedBox(height: 15.0),
-                          Text(snapshot.data!.detail ?? '-'),
+                          Text(snapshot.data!.detail ?? '-',
+                              textAlign: TextAlign.justify),
                           const SizedBox(height: 15.0),
                           Text(
-                            'Articulos relacionados',
+                            'Artículos relacionados',
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           const SizedBox(height: 15.0),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
                                         ),
-                                        contentPadding: const EdgeInsets.all(20.0),
+                                        contentPadding:
+                                            const EdgeInsets.all(20.0),
                                         content: ConstrainedBox(
                                             constraints: const BoxConstraints(
-                                              maxHeight: 350
-                                            ),
+                                                maxHeight: 350),
                                             child: Column(
                                               children: [
                                                 Text(
                                                   'Referencias de Internet',
-                                                  style: Theme.of(context).textTheme.titleMedium,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 const SizedBox(height: 15.0),
                                                 Text(
-                                                  'Las referencias usadas para la informacion mostrada es de las siguietnes fuentes: ',
-                                                  style: Theme.of(context).textTheme.bodySmall
-                                                ),
+                                                    'Las referencias usadas para la informacion mostrada es de las siguietnes fuentes: ',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall),
                                                 const SizedBox(height: 15.0),
                                                 SizedBox(
                                                   height: 240,
                                                   width: double.maxFinite,
                                                   child: ListView.builder(
-                                                    itemCount: anatomyReferenceINTERNETList?.length,
+                                                    itemCount:
+                                                        anatomyReferenceINTERNETList
+                                                            ?.length,
                                                     itemBuilder:
-                                                        (BuildContext context, int index) {
+                                                        (BuildContext context,
+                                                            int index) {
                                                       return Container(
-                                                          margin: const EdgeInsets.only(bottom: 10),
-                                                        decoration: BoxDecoration(
-                                                          color: AAColors.lightBlue,
-                                                          borderRadius: BorderRadius.circular(15.0),
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(10),
-                                                          child: Row(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Expanded(
-                                                                  flex:3,
-                                                                  child: Text(
-                                                                      anatomyReferenceINTERNETList?[index].title ?? '',
-                                                                      style: Theme.of(context).textTheme.bodyMedium
-                                                                  )
-                                                              ),
-                                                              const SizedBox(width: 15.0),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: RichText(
-                                                                  text: TextSpan(
-                                                                    text: getDisplayText(anatomyReferenceINTERNETList?[index].url),
-                                                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AAColors.blue),
-                                                                    recognizer: TapGestureRecognizer()
-                                                                      ..onTap = () => setState(() {
-                                                                        _launched = _launchInBrowser(Uri.parse(anatomyReferenceINTERNETList?[index].url ?? ''));
-                                                                      }),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AAColors
+                                                                .lightBlue,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0),
                                                           ),
-                                                        )
-                                                      );
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10),
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Expanded(
+                                                                    flex: 3,
+                                                                    child: Text(
+                                                                        anatomyReferenceINTERNETList?[index].title ??
+                                                                            '',
+                                                                        style: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyMedium)),
+                                                                const SizedBox(
+                                                                    width:
+                                                                        15.0),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child:
+                                                                      RichText(
+                                                                    text:
+                                                                        TextSpan(
+                                                                      text: getDisplayText(
+                                                                          anatomyReferenceINTERNETList?[index]
+                                                                              .url),
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .bodyMedium
+                                                                          ?.copyWith(
+                                                                              color: AAColors.blue),
+                                                                      recognizer:
+                                                                          TapGestureRecognizer()
+                                                                            ..onTap = () =>
+                                                                                setState(() {
+                                                                                  _launched = _launchInBrowser(Uri.parse(anatomyReferenceINTERNETList?[index].url ?? ''));
+                                                                                }),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ));
                                                     },
                                                   ),
                                                 ),
                                               ],
-                                            )
-                                        )
-                                    );
+                                            )));
                                   });
                             },
                             child: const ReferenceCard(
@@ -206,83 +236,114 @@ class _SystemDetailState extends State<SystemDetail> {
                               iconColor: AAColors.blue,
                             ),
                           ),
+                          const SizedBox(height: 10),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
                                         ),
-                                        contentPadding: const EdgeInsets.all(20.0),
+                                        contentPadding:
+                                            const EdgeInsets.all(20.0),
                                         content: ConstrainedBox(
                                             constraints: const BoxConstraints(
-                                                maxHeight: 350
-                                            ),
+                                                maxHeight: 350),
                                             child: Column(
                                               children: [
                                                 Text(
                                                   'Referencias de OMS',
-                                                  style: Theme.of(context).textTheme.titleMedium,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 const SizedBox(height: 15.0),
                                                 Text(
                                                     'Las referencias usadas para la informacion mostrada es de las siguietnes fuentes: ',
-                                                    style: Theme.of(context).textTheme.bodySmall
-                                                ),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall),
                                                 const SizedBox(height: 15.0),
                                                 SizedBox(
                                                   height: 240,
                                                   width: double.maxFinite,
                                                   child: ListView.builder(
-                                                    itemCount: anatomyReferenceOMSList?.length,
+                                                    itemCount:
+                                                        anatomyReferenceOMSList
+                                                            ?.length,
                                                     itemBuilder:
-                                                        (BuildContext context, int index) {
+                                                        (BuildContext context,
+                                                            int index) {
                                                       return Container(
-                                                          margin: const EdgeInsets.only(bottom: 10),
-                                                          decoration: BoxDecoration(
-                                                            color: AAColors.lightGreen,
-                                                            borderRadius: BorderRadius.circular(15.0),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AAColors
+                                                                .lightGreen,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0),
                                                           ),
                                                           child: Padding(
-                                                            padding: const EdgeInsets.all(10),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10),
                                                             child: Row(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Expanded(
-                                                                    flex:3,
+                                                                    flex: 3,
                                                                     child: Text(
-                                                                        anatomyReferenceOMSList?[index].title ?? '',
-                                                                        style: Theme.of(context).textTheme.bodyMedium
-                                                                    )
-                                                                ),
-                                                                const SizedBox(width: 15.0),
+                                                                        anatomyReferenceOMSList?[index].title ??
+                                                                            '',
+                                                                        style: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyMedium)),
+                                                                const SizedBox(
+                                                                    width:
+                                                                        15.0),
                                                                 Expanded(
                                                                   flex: 2,
-                                                                  child: RichText(
-                                                                    text: TextSpan(
-                                                                      text: getDisplayText(anatomyReferenceOMSList?[index].url),
-                                                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AAColors.blue),
-                                                                      recognizer: TapGestureRecognizer()
-                                                                        ..onTap = () => setState(() {
-                                                                          _launched = _launchInBrowser(Uri.parse(anatomyReferenceOMSList?[index].url ?? ''));
-                                                                        }),
+                                                                  child:
+                                                                      RichText(
+                                                                    text:
+                                                                        TextSpan(
+                                                                      text: getDisplayText(
+                                                                          anatomyReferenceOMSList?[index]
+                                                                              .url),
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .bodyMedium
+                                                                          ?.copyWith(
+                                                                              color: AAColors.blue),
+                                                                      recognizer:
+                                                                          TapGestureRecognizer()
+                                                                            ..onTap = () =>
+                                                                                setState(() {
+                                                                                  _launched = _launchInBrowser(Uri.parse(anatomyReferenceOMSList?[index].url ?? ''));
+                                                                                }),
                                                                     ),
                                                                   ),
                                                                 )
                                                               ],
                                                             ),
-                                                          )
-                                                      );
+                                                          ));
                                                     },
                                                   ),
                                                 ),
                                               ],
-                                            )
-                                        )
-                                    );
+                                            )));
                                   });
                             },
                             child: const ReferenceCard(
@@ -457,7 +518,8 @@ class _SystemDetailState extends State<SystemDetail> {
                                 }),
                           ),
                           const SizedBox(height: 15.0),
-                          FutureBuilder<void>(future: _launched, builder: _launchStatus),
+                          FutureBuilder<void>(
+                              future: _launched, builder: _launchStatus),
                         ]),
                   ),
                 );
