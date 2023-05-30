@@ -65,7 +65,7 @@ class _NotesState extends State<Notes> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
+        backgroundColor: AAColors.backgroundWhiteView,
         appBar: AAAppBar(context, back: true, title: 'Mis apuntes'),
         body: FutureBuilder(
           future: _notes,

@@ -350,9 +350,14 @@ class NoteCard extends StatelessWidget {
       required this.onUpdate});
 
   List<Color> cardColors = [
-    AAColors.skyBlue2,
-    AAColors.lightYellow,
-    AAColors.lightGreen2
+    AAColors.lightMain,
+    AAColors.lightOrange,
+    AAColors.lightRed
+  ];
+  List<Color> cardBorders = [
+    AAColors.mainColor,
+    AAColors.orange,
+    AAColors.red2
   ];
 
   @override
@@ -363,16 +368,9 @@ class NoteCard extends StatelessWidget {
           onTap: () {},
           child: Container(
             decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 1,
-                    offset: const Offset(3, 3),
-                  )
-                ],
                 color: cardColors[index % 3],
-                borderRadius: BorderRadius.circular(15)),
+                border: Border.all(color: cardBorders[index % 3]),
+                borderRadius: BorderRadius.circular(5)),
             child: Padding(
               padding: const EdgeInsets.only(left: 12, bottom: 12),
               child: Column(

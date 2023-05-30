@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
+        backgroundColor: AAColors.backgroundWhiteView,
         appBar: AAAppBar(context, back: true, title: 'Perfil'),
         body: FutureBuilder(
           future: _user,
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> {
                           ? MainAxisAlignment.spaceAround
                           : MainAxisAlignment.center,
                       children: [
-                        MainActionButton(
+                        NewMainActionButton(
                           onPressed: () {
                             if (isEditing) {
                               updateProfile();
@@ -133,6 +133,7 @@ class _ProfileState extends State<Profile> {
                             }
                           },
                           text: isEditing ? 'guardar' : 'editar perfil',
+                          height: 45,
                           width: 150,
                         ),
                         isEditing == true
