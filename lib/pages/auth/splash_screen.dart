@@ -99,27 +99,23 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Column(
+      child: Stack(
         children: [
-          Expanded(
-            flex: 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FadeTransition(
-                  opacity: _animation,
-                  child: Image.asset(
-                    'assets/icon.png',
-                    fit: BoxFit.contain,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.5,
+          Align(
+            alignment: AlignmentDirectional.center,
+            child: FadeTransition(
+                    opacity: _animation,
+                    child: Image.asset(
+                      'assets/icon.png',
+                      fit: BoxFit.fill,
+                      width: 350,
+                      height: 55,
                   ),
                 ),
-              ],
-            ),
           ),
-          Expanded(
-            flex: 1,
+          Positioned(
+            width: MediaQuery. of(context).size.width,
+            bottom: MediaQuery. of(context).size.height * 0.08,
             child: Column(
               children: [
                 !hasConnection
@@ -132,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen>
                     : isLoading
                         ? const Center(
                             child: SpinKitFadingCircle(
-                              color: AAColors.red,
+                              color: AAColors.textActionColor,
                               size: 50.0,
                             ),
                           )
@@ -140,11 +136,10 @@ class _SplashScreenState extends State<SplashScreen>
                 !hasConnection
                     ? Padding(
                         padding: const EdgeInsets.only(top: 15.0),
-                        child: MainActionButton(
+                        child: NewMainActionButton(
                             onPressed: checkInternetConnection,
-                            text: "Reintentar",
-                            width: 200,
-                            height: 40))
+                            text: "Reintentar"
+                        ))
                     : isLoading
                         ? Padding(
                             padding: const EdgeInsets.only(top: 15.0),
