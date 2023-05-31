@@ -37,21 +37,6 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         extendBody: true,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => NoteDialog(),
-          ),
-          icon: const Icon(Icons.add),
-          backgroundColor: AAColors.red,
-          label: Text(
-            'Crear apunte',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: AAColors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
         body: Center(
           child: tabs[_selectedIndex],
         ),

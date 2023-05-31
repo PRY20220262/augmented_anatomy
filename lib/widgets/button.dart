@@ -141,6 +141,7 @@ class NewMainActionButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double? width;
   final double? height;
+  final double? border;
   final ButtonType? type;
 
   const NewMainActionButton(
@@ -149,7 +150,9 @@ class NewMainActionButton extends StatelessWidget {
         required this.onPressed,
         this.width,
         this.height,
-        this.type})
+        this.type,
+        this.border
+      })
       : super(key: key);
 
   @override
@@ -161,7 +164,7 @@ class NewMainActionButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
+                borderRadius: BorderRadius.circular(border ?? 8.0)),
             elevation: type == ButtonType.secondary ? 0 : 1,
             backgroundColor: type == ButtonType.secondary
                 ? Colors.transparent
@@ -263,5 +266,42 @@ class _AADropdownButton extends State<AADropdownButton> {
             )
           ],
         ));
+  }
+}
+
+class AATextButton extends StatelessWidget {
+
+  final IconData icon;
+  final String buttonText;
+  final VoidCallback onPressed;
+
+  const AATextButton({
+    super.key,
+    required this.icon,
+    required this.buttonText,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
+        iconColor: AAColors.mainColor,
+        foregroundColor: AAColors.mainColor,
+        elevation: 0
+      ),
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          Icon(
+              icon,
+            size: 25,
+          ),
+          const SizedBox(width: 8),
+          Text(buttonText),
+        ],
+      ),
+    );
   }
 }
