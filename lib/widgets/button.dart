@@ -31,7 +31,7 @@ class MainActionButton extends StatelessWidget {
                     color: type == ButtonType.secondary
                         ? Colors.black
                         : AAColors.red),
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(8.0)),
             elevation: type == ButtonType.secondary ? 0 : 1,
             backgroundColor: type == ButtonType.secondary
                 ? Colors.transparent

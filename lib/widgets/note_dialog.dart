@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/augmented_anatomy_colors.dart';
 
-
 class NoteDialog extends StatelessWidget {
   NoteDialog({
     super.key,
@@ -73,7 +72,7 @@ class NoteDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                MainActionButton(
+                NewMainActionButton(
                     text: 'guardar',
                     height: 40,
                     width: 110,
@@ -179,7 +178,8 @@ class InformationDialog extends StatelessWidget {
   final VoidCallback onCancelPressed;
   final VoidCallback onConfirmPressed;
 
-  const InformationDialog({super.key,
+  const InformationDialog({
+    super.key,
     required this.title,
     required this.message,
     required this.cancelButtonText,
@@ -216,18 +216,16 @@ class InformationDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MainActionButton(
-                  text: cancelButtonText,
-                  type: ButtonType.secondary,
-                  height: 40,
-                  width: 135,
-                  onPressed: onCancelPressed
-                ),
+                    text: cancelButtonText,
+                    type: ButtonType.secondary,
+                    height: 40,
+                    width: 135,
+                    onPressed: onCancelPressed),
                 MainActionButton(
-                  text: confirmButtonText,
-                  height: 40,
-                  width: 135,
-                  onPressed: onConfirmPressed
-                ),
+                    text: confirmButtonText,
+                    height: 40,
+                    width: 135,
+                    onPressed: onConfirmPressed),
               ],
             )
           ],
@@ -236,4 +234,3 @@ class InformationDialog extends StatelessWidget {
     );
   }
 }
-
