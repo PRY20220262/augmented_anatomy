@@ -31,10 +31,10 @@ class LargeCard extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.22,
-            height: MediaQuery.of(context).size.height * 0.19,
+            width: 100,
+            height: 100,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(4),
               child: Image.network(
                 '$imageUrl',
                 fit: BoxFit.cover,
@@ -46,15 +46,15 @@ class LargeCard extends StatelessWidget {
           ),
           Flexible(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '$name',
                   style: Theme.of(context)
                       .textTheme
-                      .labelSmall
-                      ?.copyWith(fontSize: 16, color: AAColors.white),
+                      .titleSmall
+                      ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   softWrap: true,
                 ),
                 Text(
@@ -62,7 +62,7 @@ class LargeCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
-                      ?.copyWith(color: AAColors.white),
+                      ?.copyWith(fontWeight: FontWeight.bold, fontSize: 13),
                   softWrap: true,
                 ),
                 Text(
@@ -70,8 +70,8 @@ class LargeCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
-                      ?.copyWith(color: AAColors.white),
-                  maxLines: 2,
+                      ?.copyWith(color: AAColors.black),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
                 ),
@@ -87,10 +87,12 @@ class LargeCard extends StatelessWidget {
 Widget recommendationContainer(BuildContext context, int humanAnatomyId,
     String urlImage, String name, String shortDetail) {
   return Container(
-      height: 170,
+      height: 125,
       decoration: BoxDecoration(
-        color: AAColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: AAColors.borderGray,
+        ),
       ),
       child: Padding(
         padding:
@@ -98,10 +100,10 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
         child: Row(
           children: [
             SizedBox(
-              width: 125,
-              height: 130,
+              width: 100,
+              height: 120,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(4),
                 child: Image.network(
                   urlImage,
                   fit: BoxFit.cover,
@@ -117,17 +119,19 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
                 children: [
                   Text(
                     name,
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     shortDetail,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    maxLines: 3,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
-                  MainActionButton(
+                  NewMainActionButton(
                       text: 'Probar ahora',
+                      height: 30,
+                      border: 4,
                       onPressed: () {
                         Navigator.pushNamed(context, '/detail',
                             arguments: {'id': humanAnatomyId, 'name': name});
@@ -135,7 +139,8 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
                       width: MediaQuery.of(context).size.height * 0.35)
                 ],
               ),
-            ))
+            )),
+            SizedBox(width: 10)
           ],
         ),
       ));
@@ -143,11 +148,62 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
 
 class DirectAccessCard extends StatelessWidget {
   final IconData icon;
-  final Color color;
+  final Color iconColor;
+  final Color containerColor;
   final String title;
   final String subtitle;
 
   const DirectAccessCard({
+    required this.icon,
+    required this.iconColor,
+    required this.containerColor,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: containerColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              icon,
+              size: 35,
+              color: iconColor,
+            ),
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: iconColor),
+            ),
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DeprecatedDirectAccessCard extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String subtitle;
+
+  const DeprecatedDirectAccessCard({
     Key? key,
     required this.icon,
     required this.color,

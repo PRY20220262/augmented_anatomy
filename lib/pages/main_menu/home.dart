@@ -2,10 +2,14 @@ import 'package:augmented_anatomy/models/main_menu.dart';
 import 'package:augmented_anatomy/pages/main_menu/main_menu.dart';
 import 'package:augmented_anatomy/services/home_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
+import 'package:augmented_anatomy/utils/enums.dart';
+import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../widgets/note_dialog.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   // Properites
 
   late final mainMenu = const MainMenu();
@@ -33,26 +38,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
+        backgroundColor: AAColors.backgroundWhiteView,
         appBar: PreferredSize(
             preferredSize:
                 Size.fromHeight(MediaQuery.of(context).size.width * 0.20),
             child: Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.05),
+                  top: MediaQuery.of(context).size.width * 0.08),
               child: AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/largeIcon.png',
-                      fit: BoxFit.contain,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                    )
-                  ],
+                title: Text(
+                  'Inicio',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 actions: [
                   Padding(
@@ -61,7 +59,7 @@ class _HomeState extends State<Home> {
                     child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AAColors.pink, // Color del botón
+                        color: AAColors.textActionColor, // Color del botón
                       ),
                       child: InkWell(
                         onTap: () {
@@ -70,7 +68,7 @@ class _HomeState extends State<Home> {
                         child: const Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Icon(FontAwesomeIcons.user,
-                              color: AAColors.black), // Icono del botón
+                              color: AAColors.white), // Icono del botón
                         ),
                       ),
                     ),
@@ -91,131 +89,141 @@ class _HomeState extends State<Home> {
               return Text('Error: ${snapshot.error}');
             } else {
               return SingleChildScrollView(
-                  child: Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.height * 0.02),
-                      child: Column(
-                        children: [
-                          SingleChildScrollView(
-                            child: Column(
+                child: Container(
+                  color: AAColors.backgroundWhiteView,
+                    child: Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.02),
+                        child: Column(
+                          children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Actividad reciente',
+                                    style: Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                  SizedBox(
+                                    height:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                  ),
+                                  SizedBox(
+                                    height: 125,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: snapshot
+                                            .data?.recentActivityList?.length,
+                                        itemBuilder: (context, index) =>
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(4),
+                                                  border: Border.all(
+                                                    color: AAColors.borderGray,
+                                                  ),
+                                                ),
+                                                height: 125,
+                                                width: 275,
+                                                margin: EdgeInsets.only(
+                                                    right: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.03),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.pushNamed(context,
+                                                        '/detail', arguments: {
+                                                          'id': snapshot.data!.recentActivityList?[index].humanAnatomyId,
+                                                          'name': snapshot.data!.recentActivityList?[index].name
+                                                        });
+                                                  },
+                                                  child: LargeCard(
+                                                    imageUrl:
+                                                    '${snapshot.data!.recentActivityList?[index].urlImage}',
+                                                    name:
+                                                    '${snapshot.data!.recentActivityList?[index].name}',
+                                                    organsNumber:
+                                                    '${snapshot.data!.recentActivityList?[index].organsNumber}',
+                                                    shortDetail:
+                                                    '${snapshot.data!.recentActivityList?[index].shortDetail}',
+                                                  ),
+                                                ))),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Actividad reciente',
+                                  'Recomendaciones del día',
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                const SizedBox(height: 10),
+                                recommendationContainer(
+                                    context,
+                                    snapshot.data?.recommendation!.humanAnatomyId ?? 0,
+                                    '${snapshot.data?.recommendation?.urlImage}',
+                                    '${snapshot.data?.recommendation?.name}',
+                                    '${snapshot.data?.recommendation?.shortDetail}')
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Accesos directos',
+                                      style: Theme.of(context).textTheme.titleSmall,
+                                    ),
+                                    AATextButton(
+                                      icon: Icons.add,
+                                      buttonText: 'Crear apunte',
+                                      onPressed: () => showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) => NoteDialog(),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 150,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: snapshot
-                                          .data?.recentActivityList?.length,
-                                      itemBuilder: (context, index) =>
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                color: index % 2 != 0
-                                                    ? AAColors.darkRed
-                                                    : AAColors.skyBlue,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.19,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
-                                              margin: EdgeInsets.only(
-                                                  right: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.03),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.pushNamed(context,
-                                                      '/detail', arguments: {
-                                                        'id': snapshot.data!.recentActivityList?[index].humanAnatomyId,
-                                                        'name': snapshot.data!.recentActivityList?[index].name
-                                                      });
-                                                },
-                                                child: LargeCard(
-                                                  imageUrl:
-                                                  '${snapshot.data!.recentActivityList?[index].urlImage}',
-                                                  name:
-                                                  '${snapshot.data!.recentActivityList?[index].name}',
-                                                  organsNumber:
-                                                  '${snapshot.data!.recentActivityList?[index].organsNumber}',
-                                                  shortDetail:
-                                                  '${snapshot.data!.recentActivityList?[index].shortDetail}',
-                                                ),
-                                              ))),
+                                InkWell(
+                                  onTap: () { Navigator.of(context).pushNamed('/notes'); },
+                                  child: DirectAccessCard(
+                                    icon: Icons.note_outlined,
+                                    iconColor: AAColors.mainColor,
+                                    containerColor: AAColors.lightMain,
+                                    title: 'Mis apuntes',
+                                    subtitle: snapshot.data?.noteCount == 1 ?
+                                    '${snapshot.data?.noteCount} apunte' :
+                                    '${snapshot.data?.noteCount} apuntes',
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed('/list-quiz-results');
+                                  },
+                                  child: DirectAccessCard(
+                                    icon: Icons.question_mark_sharp,
+                                    iconColor: AAColors.textOrange,
+                                    containerColor: AAColors.lightOrange,
+                                    title: 'Mis cuestionarios',
+                                    subtitle: snapshot.data?.quizCount == 1 ?
+                                    '${snapshot.data?.quizCount} cuestionario' :
+                                    '${snapshot.data?.quizCount} cuestionarios',
+                                  )
                                 )
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Recomendaciones del día',
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                              const SizedBox(height: 10),
-                              recommendationContainer(
-                                  context,
-                                  snapshot.data?.recommendation!.humanAnatomyId ?? 0,
-                                  '${snapshot.data?.recommendation?.urlImage}',
-                                  '${snapshot.data?.recommendation?.name}',
-                                  '${snapshot.data?.recommendation?.shortDetail}')
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Accesos directos',
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    onTap: () { Navigator.of(context).pushNamed('/notes'); },
-                                    child: DirectAccessCard(
-                                        icon: FontAwesomeIcons.file,
-                                        color: AAColors.lightBlue,
-                                        title: 'Mis apuntes',
-                                        subtitle:
-                                        '${snapshot.data?.quizCount} apuntes'),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/list-quiz-results');
-                                    },
-                                    child: DirectAccessCard(
-                                        icon: Icons.assignment_turned_in_outlined,
-                                        color: AAColors.lightRed,
-                                        title: 'Mis cuestionarios',
-                                        subtitle:
-                                        '${snapshot.data?.noteCount} cuestionarios'),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 70),
-                        ],
-                      )));
+                          ],
+                        )
+                    )
+                )
+              );
             }
           },
         )));
