@@ -80,7 +80,7 @@ class _MainMenuState extends State<MainMenu> {
                     _selectedIndex = index;
                   });
                 },
-                selectedItemColor: AAColors.blue,
+                selectedItemColor: AAColors.mainColor,
               ),
             )));
   }
