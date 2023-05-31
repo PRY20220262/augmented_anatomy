@@ -51,18 +51,23 @@ class InputLabel extends StatelessWidget {
         children: [
           TextFormField(
             controller: controller,
+            cursorColor: Colors.black45,
             style: Theme.of(context).textTheme.bodyLarge,
-            validator: (value) { return updateValue(value, keyboardType); },
+            validator: (value) {
+              return updateValue(value, keyboardType);
+            },
             keyboardType: keyboardType,
             decoration: InputDecoration(
               isDense: true,
               border: const OutlineInputBorder(),
               labelText: label,
               hintText: hint,
-              labelStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: AAColors.black)
-              ),
+                  borderSide: BorderSide(color: AAColors.black)),
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
           ),
@@ -89,13 +94,6 @@ class DescriptionInput extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          label != null
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(label!,
-                      style: Theme.of(context).textTheme.labelLarge),
-                )
-              : const SizedBox(),
           TextFormField(
             controller: controller,
             minLines: 1,
@@ -108,12 +106,16 @@ class DescriptionInput extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               hintText: hint,
+              labelText: label,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black)),
+              border: const OutlineInputBorder(),
             ),
           ),
         ],
@@ -152,10 +154,16 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
             style: Theme.of(context).textTheme.bodyLarge,
             validator: (value) {
               if (widget.isLogin == null) {
-                if (value == null || value.isEmpty) { return 'Por favor complete los campos'; }
-                if (value.length < 6) { return 'El campo debe ser mayor a 6 dígitos'; }
+                if (value == null || value.isEmpty) {
+                  return 'Por favor complete los campos';
+                }
+                if (value.length < 6) {
+                  return 'El campo debe ser mayor a 6 dígitos';
+                }
               } else if (widget.isLogin == true) {
-                if (value == null || value.isEmpty) { return 'Ingrese su contraseña'; }
+                if (value == null || value.isEmpty) {
+                  return 'Ingrese su contraseña';
+                }
               } else {
                 return null;
               }
@@ -168,10 +176,12 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
               labelText: 'Contraseña',
               hintText: widget.hint,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              labelStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: AAColors.black)
-              ),
+                  borderSide: BorderSide(color: AAColors.black)),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
                 icon: Icon(
