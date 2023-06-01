@@ -2,7 +2,6 @@ import 'package:augmented_anatomy/models/main_menu.dart';
 import 'package:augmented_anatomy/pages/main_menu/main_menu.dart';
 import 'package:augmented_anatomy/services/home_service.dart';
 import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
-import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/cards.dart';
 import 'package:flutter/material.dart';

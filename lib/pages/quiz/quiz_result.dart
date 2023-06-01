@@ -59,7 +59,7 @@ class _QuizResultState extends State<QuizResult> {
       assignValues(_score);
     });
     return Scaffold(
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       appBar: AAAppBar(context, back: true, title: 'Cuestionario', onPressed: (){
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }),
@@ -69,9 +69,10 @@ class _QuizResultState extends State<QuizResult> {
                 child: Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Image.asset(
                             imageRoute,
@@ -79,7 +80,6 @@ class _QuizResultState extends State<QuizResult> {
                             height: 160,
                             width: 160,
                           ),
-                          const SizedBox(height: 10),
                           Text(
                             messageResult,
                             textAlign: TextAlign.center,
@@ -97,8 +97,8 @@ class _QuizResultState extends State<QuizResult> {
                           const SizedBox(height: 10),
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: AAColors.white,
+                              borderRadius: BorderRadius.circular(4.0),
+                              color: AAColors.lightMain,
                             ),
                             child: Padding(
                               padding:  const EdgeInsets.all(15),
@@ -160,9 +160,7 @@ class _QuizResultState extends State<QuizResult> {
                                     textAlign: TextAlign.center,
                                   ) : Container(),
                                   const SizedBox(height: 5),
-                                  _score == 20.0 ? Container() : MainActionButton(
-                                      height: 50,
-                                      width: 200,
+                                  _score == 20.0 ? Container() : NewMainActionButton(
                                       text: "Realziar nuevo intento",
                                       onPressed: (){
                                         showDialog(context: context,
@@ -193,9 +191,7 @@ class _QuizResultState extends State<QuizResult> {
                                       }
                                   ),
                                   const SizedBox(height: 10),
-                                  MainActionButton(
-                                      height: 50,
-                                      width: 200,
+                                  NewMainActionButton(
                                       text: "Ver cuestionarios",
                                       onPressed: (){
                                         Navigator.of(context).pushNamed('/list-quiz-results');
