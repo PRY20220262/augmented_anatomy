@@ -40,7 +40,7 @@ class _ListQuizResultsState extends State<ListQuizResults> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       appBar: AAAppBar(context, back: true, title: 'Mis Cuestionarios'),
       body: SafeArea(
           child: FutureBuilder(

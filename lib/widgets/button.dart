@@ -31,7 +31,7 @@ class MainActionButton extends StatelessWidget {
                     color: type == ButtonType.secondary
                         ? Colors.black
                         : AAColors.red),
-                borderRadius: BorderRadius.circular(8.0)),
+                borderRadius: BorderRadius.circular(4.0)),
             elevation: type == ButtonType.secondary ? 0 : 1,
             backgroundColor: type == ButtonType.secondary
                 ? Colors.transparent
@@ -72,7 +72,7 @@ class NotAllowedActionButton extends StatelessWidget {
           onPressed: (){},
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(4.0)),
             elevation: 1,
             backgroundColor: AAColors.gray,
             foregroundColor: AAColors.white,
@@ -225,21 +225,18 @@ class _AADropdownButton extends State<AADropdownButton> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.label != null
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(widget.label!,
-                        style: Theme.of(context).textTheme.labelLarge),
-                  )
-                : Container(),
             InputDecorator(
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.black45),
-                ),
+                isDense: true,
+                border: const OutlineInputBorder(),
+                labelText: widget.label,
+                labelStyle: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.black),
+                hintStyle: Theme.of(context).textTheme.bodyMedium,
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 focusColor: Colors.black,
               ),
               child: DropdownButton<String>(

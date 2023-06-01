@@ -248,9 +248,10 @@ class _ArHumanAnatomyState extends State<ArHumanAnatomy> {
               : const SizedBox(),
           Positioned(
             bottom: 30,
-            left: MediaQuery.of(context).size.width * 0.35,
-            child: MainActionButton(
-                text: 'Finalizar RA',
+            left: MediaQuery.of(context).size.width * 0.25,
+            child: NewMainActionButton(
+              width: MediaQuery.of(context).size.width * 0.5,
+                text: 'Finalizar',
                 onPressed: () {
                   Navigator.of(context).pushNamed('/quiz-detail', arguments: {
                     'humanAnatomyId': widget.id,

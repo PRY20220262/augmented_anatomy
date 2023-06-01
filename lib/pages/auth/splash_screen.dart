@@ -132,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen>
                     : isLoading
                         ? const Center(
                             child: SpinKitFadingCircle(
-                              color: AAColors.red,
+                              color: AAColors.mainColor,
                               size: 50.0,
                             ),
                           )

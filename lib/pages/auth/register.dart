@@ -99,7 +99,7 @@ class _RegisterState extends State<Register> {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 20.0),
                           child: InputLabel(
                             label: 'Nombre',
                             hint: 'Nombre y Apellidos',
@@ -107,7 +107,7 @@ class _RegisterState extends State<Register> {
                             controller: fullNameController,
                           )),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: InputLabel(
                             label: 'Correo electrónico',
                             hint: 'example@email.com',
@@ -115,7 +115,7 @@ class _RegisterState extends State<Register> {
                             controller: emailController,
                           )),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: InputLabel(
                             label: 'Teléfono',
                             hint: '999999999',
@@ -123,21 +123,21 @@ class _RegisterState extends State<Register> {
                             controller: phoneController,
                           )),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: PasswordInputLabel(
                             label: 'Contraseña',
                             hint: '*****************',
                             controller: passwordController,
                           )),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: PasswordInputLabel(
                             label: 'Confirmar contraseña',
                             hint: '*****************',
                             controller: confirmPasswordController,
                           )),
                       Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: AADropdownButton(
                               label: 'Grado de eduación',
                               options: options,
@@ -148,8 +148,8 @@ class _RegisterState extends State<Register> {
                                 });
                               })),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: MainActionButton(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: NewMainActionButton(
                           text: 'Registrarme',
                           onPressed: () {
                             bool validForm =
@@ -165,20 +165,19 @@ class _RegisterState extends State<Register> {
                                     fullNameController.text,
                                     selectUserType));
                           },
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          height: MediaQuery.of(context).size.height * 0.06,
                         ),
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(top: 25.0),
+                          padding: const EdgeInsets.only(top: 20.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '¿Ya tienes una cuenta?',
-                                style: Theme.of(context).textTheme.labelSmall,
+                                '¿Aun no tienes cuenta?',
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              TextActionButton(
+                              const SizedBox(width: 30),
+                              NewTextActionButton(
                                   text: 'Iniciar sesión',
                                   onPressed: () {
                                     Navigator.pushReplacementNamed(

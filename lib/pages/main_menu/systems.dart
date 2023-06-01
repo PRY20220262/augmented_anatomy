@@ -7,6 +7,8 @@ import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'human_anatomy_detail.dart';
+
 class Systems extends StatefulWidget {
   const Systems({Key? key}) : super(key: key);
 
@@ -73,10 +75,15 @@ class _SystemsState extends State<Systems> {
                         final systems = snapshot.data!;
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/detail', arguments: {
-                              'id': systems[index].id,
-                              'name': systems[index].name
-                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SystemDetail(
+                                  id: systems[index].id ?? 0,
+                                  name: systems[index].name ?? ''
+                                ),
+                              ),
+                            );
                           },
                           child: CardListItem(
                               imageUrl: '${systems[index].image}',

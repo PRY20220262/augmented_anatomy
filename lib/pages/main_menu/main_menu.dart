@@ -39,7 +39,7 @@ class _MainMenuState extends State<MainMenu> {
         extendBody: true,
         floatingActionButton: FloatingActionButton.extended(
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              borderRadius: BorderRadius.all(Radius.circular(4.0))),
           onPressed: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => NoteDialog(),

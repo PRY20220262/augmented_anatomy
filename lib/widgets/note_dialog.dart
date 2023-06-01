@@ -65,7 +65,7 @@ class NoteDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 MainActionButton(
-                    text: 'cancelar',
+                    text: 'Cance;ar',
                     type: ButtonType.secondary,
                     height: 40,
                     width: 110,
@@ -73,7 +73,8 @@ class NoteDialog extends StatelessWidget {
                       Navigator.of(context).pop();
                     }),
                 NewMainActionButton(
-                    text: 'guardar',
+                    text: 'Guardar',
+                    border: 4,
                     height: 40,
                     width: 110,
                     onPressed: () {
@@ -192,9 +193,9 @@ class InformationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(4.0),
       ),
-      contentPadding: EdgeInsets.all(20.0),
+      contentPadding: const EdgeInsets.all(20.0),
       content: ConstrainedBox(
         constraints: const BoxConstraints(
           maxHeight: 200,
@@ -221,8 +222,9 @@ class InformationDialog extends StatelessWidget {
                     height: 40,
                     width: 135,
                     onPressed: onCancelPressed),
-                MainActionButton(
+                NewMainActionButton(
                     text: confirmButtonText,
+                    border: 4.0,
                     height: 40,
                     width: 135,
                     onPressed: onConfirmPressed),

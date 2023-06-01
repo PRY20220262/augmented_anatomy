@@ -10,6 +10,8 @@ import 'package:augmented_anatomy/utils/connection_validator.dart';
 import 'package:augmented_anatomy/widgets/button.dart';
 import 'package:augmented_anatomy/widgets/error.dart';
 
+import 'human_anatomy_detail.dart';
+
 class Organs extends StatefulWidget {
   const Organs({Key? key}) : super(key: key);
 
@@ -259,12 +261,15 @@ class _OrgansState extends State<Organs>
                                             (BuildContext context, int index) {
                                           return InkWell(
                                             onTap: () {
-                                              Navigator.pushNamed(context,
-                                                  '/detail', arguments: {
-                                                'id': filteredList?[index].id,
-                                                'name':
-                                                    filteredList?[index].name
-                                              });
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => SystemDetail(
+                                                    id: filteredList![index].id,
+                                                    name: filteredList![index].name,
+                                                  ),
+                                                ),
+                                              );
                                             },
                                             child: CardListItem(
                                                 imageUrl:
@@ -335,8 +340,8 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                     height: 8,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: AAColors.red,
-                      borderRadius: BorderRadius.circular(30),
+                      color: AAColors.mainColor,
+                      borderRadius: BorderRadius.circular(4),
                     )),
               ),
               const SizedBox(height: 20),
@@ -356,12 +361,9 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                       onTap: () {
                         setState(() {
                           if (_selectedIndex == index) {
-                            // si se hace clic en el mismo elemento seleccionado,
-                            // deselecciona el elemento
                             _selectedIndex = -1;
                             widget.onSelectedIndexChanged(_selectedIndex);
                           } else {
-                            // de lo contrario, selecciona el nuevo elemento
                             _selectedIndex = index;
                             widget.onSelectedIndexChanged(index);
                           }
@@ -371,23 +373,15 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                         height: 40,
                         width: 100,
                         margin: const EdgeInsets.only(right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color:
-                                isSelected ? AAColors.blue : AAColors.lightGray,
-                            width: 1,
-                          ),
-                        ),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: isSelected
-                                  ? AAColors.blue
+                                  ? AAColors.textActionColor
                                   : AAColors.lightGray,
-                              width: 1,
+                              width: 2,
                             ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -397,12 +391,12 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                                 width: 70,
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AAColors.blue
+                                      ? AAColors.textActionColor
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
                                     color: isSelected
-                                        ? AAColors.blue
+                                        ? AAColors.textActionColor
                                         : AAColors.lightGray,
                                     width: 2,
                                   ),
@@ -422,7 +416,7 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                                     .bodyMedium
                                     ?.copyWith(
                                       color: isSelected
-                                          ? AAColors.blue
+                                          ? AAColors.textActionColor
                                           : AAColors.grayLabel,
                                     ),
                               ),
@@ -449,10 +443,9 @@ class _BuildBottomSheetState extends State<BuildBottomSheet> {
                 },
               ),
               const SizedBox(height: 13),
-              MainActionButton(
+              NewMainActionButton(
                   text: 'Aplicar',
-                  width: MediaQuery.of(context).size.width * 1,
-                  height: 50,
+                  width: MediaQuery.of(context).size.width,
                   onPressed: () {
                     widget.applyFilters();
                     Navigator.of(context).pop();
