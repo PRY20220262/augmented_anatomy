@@ -72,7 +72,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     controller: passwordConfirm,
                   ),
                   const SizedBox(height: 25),
-                  MainActionButton(
+                  NewMainActionButton(
                       text: 'Confirmar',
                       onPressed: () async {
                         bool validForm = _formKey.currentState!.validate();

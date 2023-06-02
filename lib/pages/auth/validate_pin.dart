@@ -53,7 +53,7 @@ class _ValidatePinState extends State<ValidatePin> {
             callback: _updatePin,
           ),
           const SizedBox(height: 25),
-          MainActionButton(
+          NewMainActionButton(
               text: 'Verficar',
               onPressed: () async {
                 response = await _validatePin(email, pin);

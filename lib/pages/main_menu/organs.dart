@@ -96,12 +96,14 @@ class _OrgansState extends State<Organs>
     }
   }
 
-  Future<void> filterOrgans(
-      {String? systemName = null, String? order = null}) async {
+  Future<void> filterOrgans({
+    String? systemName = null,
+    String? order = null}) async {
     try {
       organsList = await humanAnatomyService.getOrgans(
           systemName: systemName, order: order);
       setState(() {
+        errorMessage = null;
         filteredList = organsList;
         hasInternet = true;
         isLoading = false;
@@ -113,7 +115,7 @@ class _OrgansState extends State<Organs>
         errorMessage = e.toString();
       } else {
         setState(() {
-          errorMessage = e.toString();
+          errorMessage = "EMPTY_LIST";
           isLoading = false;
         });
       }
@@ -134,7 +136,6 @@ class _OrgansState extends State<Organs>
         body: SafeArea(
             child: !hasConnection
                 ?
-                //TODO: Manage connexion error
                 Text(
                     "No se ha encontrado una conexión a internet :(",
                     textAlign: TextAlign.center,
@@ -148,9 +149,9 @@ class _OrgansState extends State<Organs>
                           size: 50.0,
                         ),
                       )
-                    : errorMessage != null
-                        ? ErrorMessage(onRefresh: checkConnectionDevice)
-                        : SingleChildScrollView(
+                    : errorMessage != null && errorMessage != "EMPTY_LIST" ?
+                      ErrorMessage(onRefresh: checkConnectionDevice) :
+                      SingleChildScrollView(
                             child: Column(
                             children: [
                               SizedBox(
@@ -170,6 +171,16 @@ class _OrgansState extends State<Organs>
                                               .toLowerCase()
                                               .contains(value.toLowerCase()))
                                           .toList();
+                                      if (filteredList!.isEmpty){
+                                        setState(() {
+                                          errorMessage = "EMPTY_LIST";
+                                        });
+                                        print(filteredList);
+                                      } else {
+                                        setState(() {
+                                          errorMessage = null;
+                                        });
+                                      }
                                     })
                                   },
                                   style:
@@ -180,13 +191,10 @@ class _OrgansState extends State<Organs>
                                     hintText: 'Buscar',
                                     hintStyle:
                                         const TextStyle(color: Colors.grey),
-                                    prefixIcon: IconButton(
-                                      icon: const Icon(
-                                        Icons.search,
-                                        color: Colors.grey,
-                                        size: 30,
-                                      ),
-                                      onPressed: () {},
+                                    prefixIcon: const Icon(
+                                      Icons.search,
+                                      color: Colors.grey,
+                                      size: 30,
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(4),
@@ -254,7 +262,19 @@ class _OrgansState extends State<Organs>
                                       MediaQuery.of(context).size.height * 0.66,
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 20),
-                                    child: ListView.builder(
+                                    child: (errorMessage == "EMPTY_LIST") && filteredList!.length >= 0 ?
+                                    SizedBox(
+                                        height: MediaQuery.of(context).size.height,
+                                        child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: const [
+                                              EmptyElementError(
+                                                title: 'No se encontraron órganos',
+                                                messageError:
+                                                'Por el momento no encontramos órganos con los filtros seleccionados.',
+                                              )
+                                            ]),
+                                      ) : ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         itemCount: filteredList?.length ?? 0,
                                         itemBuilder:
