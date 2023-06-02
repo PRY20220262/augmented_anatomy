@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../widgets/note_dialog.dart';
+import 'human_anatomy_detail.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -131,11 +132,15 @@ class _HomeState extends State<Home> {
                                                         0.03),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    Navigator.pushNamed(context,
-                                                        '/detail', arguments: {
-                                                          'id': snapshot.data!.recentActivityList?[index].humanAnatomyId,
-                                                          'name': snapshot.data!.recentActivityList?[index].name
-                                                        });
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => SystemDetail(
+                                                          id: snapshot.data!.recentActivityList![index].humanAnatomyId ?? 0,
+                                                          name: snapshot.data!.recentActivityList![index].name ?? '',
+                                                        ),
+                                                      ),
+                                                    );
                                                   },
                                                   child: LargeCard(
                                                     imageUrl:
@@ -178,17 +183,10 @@ class _HomeState extends State<Home> {
                                     Text(
                                       'Accesos directos',
                                       style: Theme.of(context).textTheme.titleSmall,
-                                    ),
-                                    AATextButton(
-                                      icon: Icons.add,
-                                      buttonText: 'Crear apunte',
-                                      onPressed: () => showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) => NoteDialog(),
-                                      ),
-                                    ),
+                                    )
                                   ],
                                 ),
+                                const SizedBox(height: 10),
                                 InkWell(
                                   onTap: () { Navigator.of(context).pushNamed('/notes'); },
                                   child: DirectAccessCard(

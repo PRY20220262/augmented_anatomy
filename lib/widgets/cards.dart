@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:augmented_anatomy/utils/string_extension.dart';
 import 'package:augmented_anatomy/pages/quiz/quiz_attempt.dart';
 
+import '../pages/main_menu/human_anatomy_detail.dart';
 import 'button.dart';
 
 class LargeCard extends StatelessWidget {
@@ -133,8 +134,15 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
                       height: 30,
                       border: 4,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/detail',
-                            arguments: {'id': humanAnatomyId, 'name': name});
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SystemDetail(
+                              id: humanAnatomyId,
+                              name: name,
+                            ),
+                          ),
+                        );
                       },
                       width: MediaQuery.of(context).size.height * 0.35)
                 ],

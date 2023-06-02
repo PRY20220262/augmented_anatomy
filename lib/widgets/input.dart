@@ -173,7 +173,7 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
             decoration: InputDecoration(
               isDense: true,
               border: const OutlineInputBorder(),
-              labelText: 'Contraseña',
+              labelText: widget.label ?? 'Contraseña',
               hintText: widget.hint,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
               labelStyle: Theme.of(context)
@@ -185,7 +185,7 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -248,10 +248,10 @@ class _PinInputState extends State<PinInput> {
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               hintStyle: Theme.of(context).textTheme.bodyMedium,
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: AAColors.mainColor)),
               border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
             ),
             // style: Theme.of(context).textTheme.headlineLarge,
             keyboardType: TextInputType.number,

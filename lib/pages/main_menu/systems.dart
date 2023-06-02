@@ -61,13 +61,28 @@ class _SystemsState extends State<Systems> {
       body: FutureBuilder(
           future: _systems,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData || snapshot.error.toString() == "No se han encontrado datos :(") {
               return Column(children: [
                 SearchBar(
                   searchController: searchController,
                   searchFilter: searchFilter,
                 ),
                 const SizedBox(height: 10),
+                (snapshot.error.toString() == "No se han encontrado datos :(") ?
+                  Container(
+                    child: const SizedBox(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            EmptyElementError(
+                              title: 'No se encontraron órganos',
+                              messageError:
+                              'Por el momento no encontramos órganos con los filtros seleccionados.',
+                            )
+                          ]),
+                    ),
+                  )
+               :
                 Expanded(
                   child: ListView.builder(
                       itemCount: snapshot.data!.length,
@@ -94,11 +109,7 @@ class _SystemsState extends State<Systems> {
                       }),
                 )
               ]);
-            } else if (snapshot.hasError) {
-              print(snapshot.error);
-              if(snapshot.error.toString() == "No se han encontrado datos :(") {
-                print("revisar este caso");
-              }
+            } else if (snapshot.hasError && snapshot.error.toString() != "No se han encontrado datos :(") {
               return ErrorMessage(onRefresh: refresh);
             } else {
               return const Center(
