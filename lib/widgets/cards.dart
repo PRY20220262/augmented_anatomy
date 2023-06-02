@@ -120,11 +120,17 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
                 children: [
                   Text(
                     name,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     shortDetail,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 14),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
@@ -495,11 +501,12 @@ class NoteCard extends StatelessWidget {
                                                         Navigator.of(context)
                                                             .pop();
                                                       }),
-                                                  MainActionButton(
+                                                  NewMainActionButton(
                                                       text: 'eliminar',
+                                                      border: 4,
                                                       height: 40,
                                                       width: 110,
-                                                      onPressed: onDelete)
+                                                      onPressed: onDelete),
                                                 ],
                                               ),
                                             )
@@ -584,11 +591,15 @@ class QuizAttemptCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Cuestionarios Realizados de ${quizAttemptDetail.nameHumanAnatomy}',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AAColors.mainColor),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: AAColors.mainColor),
                                 textAlign: TextAlign.center,
                               ),
                               SizedBox(
-                                height:  MediaQuery.of(context).size.height * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
                                 width: double.maxFinite,
                                 child: ListView.builder(
                                   itemCount: quizAttemptDetail
@@ -596,44 +607,47 @@ class QuizAttemptCard extends StatelessWidget {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 15),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: AAColors.lightOrange,
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
-                                                  Text(
-                                                      'Calificación: ',
+                                                  Text('Calificación: ',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .bodyLarge
-                                                  ),
+                                                          .bodyLarge),
                                                   Text(
                                                     '${quizAttemptDetail.quizAttemptByHumanAnatomy![index].score! * 100 ~/ 20}%',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyLarge
                                                         ?.copyWith(
-                                                        color: (quizAttemptDetail
-                                                            .quizAttemptByHumanAnatomy![
-                                                        index]
-                                                            .score! <=
-                                                            4.0)
-                                                            ? AAColors.red
-                                                            : (quizAttemptDetail
-                                                            .quizAttemptByHumanAnatomy![
-                                                        index]
-                                                            .score! <
-                                                            12.0)
-                                                            ? AAColors.amber
-                                                            : AAColors.green),
+                                                            color: (quizAttemptDetail
+                                                                        .quizAttemptByHumanAnatomy![
+                                                                            index]
+                                                                        .score! <=
+                                                                    4.0)
+                                                                ? AAColors.red
+                                                                : (quizAttemptDetail
+                                                                            .quizAttemptByHumanAnatomy![
+                                                                                index]
+                                                                            .score! <
+                                                                        12.0)
+                                                                    ? AAColors
+                                                                        .amber
+                                                                    : AAColors
+                                                                        .green),
                                                   ),
                                                 ],
                                               ),
@@ -646,9 +660,9 @@ class QuizAttemptCard extends StatelessWidget {
                                               Text(
                                                 substractSixHoursFromDateTime(
                                                     quizAttemptDetail
-                                                        .quizAttemptByHumanAnatomy![
-                                                    index]
-                                                        .createdAt ??
+                                                            .quizAttemptByHumanAnatomy![
+                                                                index]
+                                                            .createdAt ??
                                                         ''),
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -753,8 +767,7 @@ class QuizAttemptCard extends StatelessWidget {
                 border: Border.all(
                   color: AAColors.borderGray,
                 ),
-                borderRadius: BorderRadius.circular(4.0)
-            ),
+                borderRadius: BorderRadius.circular(4.0)),
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
