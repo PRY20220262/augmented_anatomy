@@ -494,7 +494,7 @@ class NoteCard extends StatelessWidget {
                                                             .pop();
                                                       }),
                                                   NewMainActionButton(
-                                                      text: 'Guardar',
+                                                      text: 'eliminar',
                                                       border: 4,
                                                       height: 40,
                                                       width: 110,
