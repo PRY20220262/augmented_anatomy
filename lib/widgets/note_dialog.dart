@@ -65,7 +65,7 @@ class NoteDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 MainActionButton(
-                    text: 'Cance;ar',
+                    text: 'Cancelar',
                     type: ButtonType.secondary,
                     height: 40,
                     width: 110,
@@ -157,7 +157,7 @@ class _EditNoteState extends State<EditNote> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                MainActionButton(
+                NewMainActionButton(
                     text: 'guardar',
                     height: 40,
                     width: 110,
