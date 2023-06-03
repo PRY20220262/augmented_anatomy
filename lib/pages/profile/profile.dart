@@ -101,6 +101,7 @@ class _ProfileState extends State<Profile> {
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
               User user = snapshot.data!;
+
               return SingleChildScrollView(
                 child: Padding(
                   padding:
@@ -367,31 +368,11 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
-        const CircleAvatar(
+      children: const [
+        CircleAvatar(
           radius: 50,
-          backgroundImage: NetworkImage(
-            'https://augmentedanatomystorage.blob.core.windows.net/users/gino_profile.jpg',
-          ),
+          backgroundImage: AssetImage('assets/avatar.jpg'),
         ),
-        Positioned(
-          bottom: 0,
-          right: 5,
-          child: CircleAvatar(
-            backgroundColor: AAColors.black,
-            radius: 14,
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
-              icon: const Icon(
-                Icons.camera_alt_rounded,
-                size: 19,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-          ),
-        )
       ],
     );
   }
