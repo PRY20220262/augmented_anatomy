@@ -29,6 +29,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon.png
+    - assets/avatar.jpg
     - assets/largeIcon.png
     - assets/error.png
     - assets/image-high-score.png

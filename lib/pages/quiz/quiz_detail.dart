@@ -17,7 +17,6 @@ class QuizDetail extends StatefulWidget {
 }
 
 class _QuizDetailState extends State<QuizDetail> {
-
   HumanAnatomyService humanAnatomyService = HumanAnatomyService();
 
   @override
@@ -29,17 +28,18 @@ class _QuizDetailState extends State<QuizDetail> {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
-    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     return Scaffold(
         backgroundColor: AAColors.backgroundWhiteView,
         appBar: AAAppBar(context, back: true, title: 'Cuestionario'),
         body: SafeArea(
-          child: FutureBuilder(
-              future: humanAnatomyService.getById(args['humanAnatomyId']),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Padding(
-                        padding: const EdgeInsets.only(right: 20, left: 20, bottom: 15),
+            child: FutureBuilder(
+                future: humanAnatomyService.getById(args['humanAnatomyId']),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Padding(
+                        padding: const EdgeInsets.only(
+                            right: 20, left: 20, bottom: 15),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,8 +47,7 @@ class _QuizDetailState extends State<QuizDetail> {
                             Center(
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(4),
-                                  child:
-                                  Image.network(
+                                  child: Image.network(
                                     snapshot.data!.image ?? '',
                                     height: 170,
                                     width: MediaQuery.of(context).size.width,
@@ -60,43 +59,42 @@ class _QuizDetailState extends State<QuizDetail> {
                               children: [
                                 Text(
                                   snapshot.data!.name ?? '',
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AAColors.mainColor),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(color: AAColors.mainColor),
                                 ),
                                 const SizedBox(height: 5.0),
                                 Text(
                                     "Atrévete a probar tus conocimientos adquiridos mediante preguntas del cuestionario, que permitirán saber tu nivel de aprendizaje. Una vez finalizado, se mostrarán tu porcentaje de respuestas correctas y la cantidad de preguntas respondidas correctamente. Ten en cuenta la siguiente información para tener éxito en tu cuestionario. ¡Mucha suerte!",
-                                    style: Theme.of(context).textTheme.bodyMedium
-                                ),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium),
                               ],
                             ),
-                            const Column(
-                              children: [
+                            Column(
+                              children: const [
                                 ShortInfoQuiz(
                                     icon: Icons.timer_outlined,
-                                    text: 'No tiene tiempo limite'
-                                ),
+                                    text: 'No tiene tiempo limite'),
                                 SizedBox(height: 15.0),
                                 ShortInfoQuiz(
                                     icon: Icons.quiz_outlined,
-                                    text: '5 preguntas'
-                                ),
+                                    text: '5 preguntas'),
                                 SizedBox(height: 15.0),
                                 ShortInfoQuiz(
                                     icon: Icons.check_circle_outlined,
-                                    text: 'Varios intentos'
-                                ),
+                                    text: 'Varios intentos'),
                                 SizedBox(height: 15.0),
                                 ShortInfoQuiz(
                                     icon: Icons.lock_outline,
-                                    text: 'No se puede reanudar el examen'
-                                ),
+                                    text: 'No se puede reanudar el examen'),
                               ],
                             ),
                             Center(
                               child: NewMainActionButton(
                                   text: 'Empezar',
                                   width: MediaQuery.of(context).size.width,
-                                  onPressed: (){
+                                  onPressed: () {
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -104,23 +102,19 @@ class _QuizDetailState extends State<QuizDetail> {
                                           id: snapshot.data!.id!,
                                         ),
                                       ),
-                                          (route) => false,
+                                      (route) => false,
                                     );
-                                  }
-                              ),
+                                  }),
                             )
                           ],
-                        )
+                        ));
+                  } else if (snapshot.hasError) {
+                    return ErrorMessage(onRefresh: () {});
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                } else if (snapshot.hasError) {
-                  return ErrorMessage(onRefresh: () {});
-                } else {
-                  return const Center(
-                  child: CircularProgressIndicator(),
-                  );
-                }
-              })
-        )
-    );
+                  }
+                })));
   }
 }
