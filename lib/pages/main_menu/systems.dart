@@ -61,55 +61,57 @@ class _SystemsState extends State<Systems> {
       body: FutureBuilder(
           future: _systems,
           builder: (context, snapshot) {
-            if (snapshot.hasData || snapshot.error.toString() == "No se han encontrado datos :(") {
+            if (snapshot.hasData ||
+                snapshot.error.toString() == "No se han encontrado datos :(") {
               return Column(children: [
                 SearchBar(
                   searchController: searchController,
                   searchFilter: searchFilter,
                 ),
                 const SizedBox(height: 10),
-                (snapshot.error.toString() == "No se han encontrado datos :(") ?
-                  Container(
-                    child: const SizedBox(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            EmptyElementError(
-                              title: 'No se encontraron órganos',
-                              messageError:
-                              'Por el momento no encontramos órganos con los filtros seleccionados.',
-                            )
-                          ]),
-                    ),
-                  )
-               :
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        final systems = snapshot.data!;
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SystemDetail(
-                                  id: systems[index].id ?? 0,
-                                  name: systems[index].name ?? ''
-                                ),
-                              ),
-                            );
-                          },
-                          child: CardListItem(
-                              imageUrl: '${systems[index].image}',
-                              name: '${systems[index].name}',
-                              system: '${systems[index].organsNumber} órganos',
-                              shortDetail: '${systems[index].shortDetail}'),
-                        );
-                      }),
-                )
+                (snapshot.error.toString() == "No se han encontrado datos :(")
+                    ? Container(
+                        child: SizedBox(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                EmptyElementError(
+                                  title: 'No se encontraron órganos',
+                                  messageError:
+                                      'Por el momento no encontramos órganos con los filtros seleccionados.',
+                                )
+                              ]),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              final systems = snapshot.data!;
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SystemDetail(
+                                          id: systems[index].id ?? 0,
+                                          name: systems[index].name ?? ''),
+                                    ),
+                                  );
+                                },
+                                child: CardListItem(
+                                    imageUrl: '${systems[index].image}',
+                                    name: '${systems[index].name}',
+                                    system:
+                                        '${systems[index].organsNumber} órganos',
+                                    shortDetail:
+                                        '${systems[index].shortDetail}'),
+                              );
+                            }),
+                      )
               ]);
-            } else if (snapshot.hasError && snapshot.error.toString() != "No se han encontrado datos :(") {
+            } else if (snapshot.hasError &&
+                snapshot.error.toString() != "No se han encontrado datos :(") {
               return ErrorMessage(onRefresh: refresh);
             } else {
               return const Center(

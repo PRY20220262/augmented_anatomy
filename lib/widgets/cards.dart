@@ -138,7 +138,7 @@ Widget recommendationContainer(BuildContext context, int humanAnatomyId,
                   NewMainActionButton(
                       text: 'Probar ahora',
                       height: 30,
-                      border: 4,
+                      border: 6,
                       onPressed: () {
                         Navigator.push(
                           context,

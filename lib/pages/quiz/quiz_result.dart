@@ -161,7 +161,7 @@ class _QuizResultState extends State<QuizResult> {
                                   ) : Container(),
                                   const SizedBox(height: 5),
                                   _score == 20.0 ? Container() : NewMainActionButton(
-                                      text: "Realziar nuevo intento",
+                                      text: "Realizar nuevo intento",
                                       onPressed: (){
                                         showDialog(context: context,
                                             builder: (BuildContext context) {
