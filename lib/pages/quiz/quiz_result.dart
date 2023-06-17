@@ -10,7 +10,13 @@ import '../../widgets/note_dialog.dart';
 class QuizResult extends StatefulWidget {
   final double score;
   final int humanAnatomyId;
-  const QuizResult({Key? key, required this.score, required this.humanAnatomyId}) : super(key: key);
+  final String humanAnatomyName;
+  const QuizResult({
+    Key? key,
+    required this.score,
+    required this.humanAnatomyId,
+    required this.humanAnatomyName
+  }) : super(key: key);
 
   @override
   State<QuizResult> createState() => _QuizResultState();
@@ -118,7 +124,7 @@ class _QuizResultState extends State<QuizResult> {
                                           style: Theme.of(context).textTheme.bodyMedium,
                                         ),
                                         TextSpan(
-                                          text: 'Cuestionario de Laringe',
+                                          text: 'Cuestionario de ${widget.humanAnatomyName}',
                                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -179,6 +185,7 @@ class _QuizResultState extends State<QuizResult> {
                                                     MaterialPageRoute(
                                                       builder: (context) => QuizAttempt(
                                                         id: widget.humanAnatomyId,
+                                                        humanAnatomyName: widget.humanAnatomyName,
                                                       ),
                                                     ),
                                                         (route) => false,

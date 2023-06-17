@@ -12,7 +12,8 @@ import '../../widgets/error.dart';
 
 class QuizAttempt extends StatefulWidget {
   final int id;
-  const QuizAttempt({Key? key, required this.id}) : super(key: key);
+  final String humanAnatomyName;
+  const QuizAttempt({Key? key, required this.id, required this.humanAnatomyName}) : super(key: key);
 
   @override
   State<QuizAttempt> createState() => _QuizAttemptState();
@@ -91,7 +92,11 @@ class _QuizAttemptState extends State<QuizAttempt> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => QuizResult(score: routerScore, humanAnatomyId: widget.id),
+            builder: (context) => QuizResult(
+              score: routerScore,
+              humanAnatomyId: widget.id,
+              humanAnatomyName: widget.humanAnatomyName
+            ),
           ),
         );
       }
@@ -178,7 +183,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
                                 height: 40,
                                 width: 120,
                                 onPressed: () => Navigator.pop(context, false)),
-                              MainActionButton(
+                              NewMainActionButton(
                                   text: 'Abandonar',
                                   height: 40,
                                   width: 120,

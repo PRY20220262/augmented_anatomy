@@ -132,7 +132,21 @@ class _OrgansState extends State<Organs>
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AAColors.backgroundWhiteView,
-        appBar: AAAppBar(context, back: false, title: 'Órganos'),
+        appBar: PreferredSize(
+            preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.width * 0.20),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.width * 0.08),
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Text(
+                  'Órganos',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            )),
         body: SafeArea(
             child: !hasConnection
                 ?
@@ -152,159 +166,165 @@ class _OrgansState extends State<Organs>
                     : errorMessage != null && errorMessage != "EMPTY_LIST" ?
                       ErrorMessage(onRefresh: checkConnectionDevice) :
                       SingleChildScrollView(
-                            child: Column(
-                            children: [
-                              SizedBox(
-                                height:
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height * 0.02),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height:
                                     MediaQuery.of(context).size.height * 0.09,
-                                width: MediaQuery.of(context).size.width - 40,
-                                child: TextField(
-                                  controller: searchController,
-                                  onTap: () => openKeyboard
-                                      ? _emptyNode.unfocus()
-                                      : FocusScope.of(context)
+                                    width: MediaQuery.of(context).size.width - 40,
+                                    child: TextField(
+                                      controller: searchController,
+                                      onTap: () => openKeyboard
+                                          ? _emptyNode.unfocus()
+                                          : FocusScope.of(context)
                                           .requestFocus(FocusNode()),
-                                  onChanged: (value) => {
-                                    setState(() {
-                                      filteredList = organsList
-                                          ?.where((organs) => organs.name
+                                      onChanged: (value) => {
+                                        setState(() {
+                                          filteredList = organsList
+                                              ?.where((organs) => organs.name
                                               .toLowerCase()
                                               .contains(value.toLowerCase()))
-                                          .toList();
-                                      if (filteredList!.isEmpty){
-                                        setState(() {
-                                          errorMessage = "EMPTY_LIST";
-                                        });
-                                        print(filteredList);
-                                      } else {
-                                        setState(() {
-                                          errorMessage = null;
-                                        });
-                                      }
-                                    })
-                                  },
-                                  style:
+                                              .toList();
+                                          if (filteredList!.isEmpty){
+                                            setState(() {
+                                              errorMessage = "EMPTY_LIST";
+                                            });
+                                            print(filteredList);
+                                          } else {
+                                            setState(() {
+                                              errorMessage = null;
+                                            });
+                                          }
+                                        })
+                                      },
+                                      style:
                                       Theme.of(context).textTheme.labelMedium,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.transparent,
-                                    hintText: 'Buscar',
-                                    hintStyle:
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Buscar',
+                                        hintStyle:
                                         const TextStyle(color: Colors.grey),
-                                    prefixIcon: const Icon(
-                                      Icons.search,
-                                      color: Colors.grey,
-                                      size: 30,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                      borderSide:
+                                        prefixIcon: const Icon(
+                                          Icons.search,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4),
+                                          borderSide:
                                           const BorderSide(color: Colors.grey),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                      borderSide:
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4),
+                                          borderSide:
                                           const BorderSide(color: Colors.grey),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                      borderSide:
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4),
+                                          borderSide:
                                           const BorderSide(color: Colors.grey),
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: const Icon(Icons.filter_list,
-                                            color: Colors.grey, size: 30),
-                                        onPressed: () => showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              print(_selectedOrganIndex);
-                                              return BuildBottomSheet(
-                                                organs: organs,
-                                                onSelectedIndexChanged:
+                                        ),
+                                        suffixIcon: IconButton(
+                                            icon: const Icon(Icons.filter_list,
+                                                color: Colors.grey, size: 30),
+                                            onPressed: () => showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) {
+                                                  print(_selectedOrganIndex);
+                                                  return BuildBottomSheet(
+                                                    organs: organs,
+                                                    onSelectedIndexChanged:
                                                     _onOrganSelected,
-                                                selectedIndex:
+                                                    selectedIndex:
                                                     _selectedOrganIndex,
-                                                options: options,
-                                                initialValue:
+                                                    options: options,
+                                                    initialValue:
                                                     selectOptionFilter,
-                                                selectedOption:
-                                                    (String? newValue) {
-                                                  selectOptionFilter =
+                                                    selectedOption:
+                                                        (String? newValue) {
+                                                      selectOptionFilter =
                                                       newValue!;
-                                                },
-                                                applyFilters: () {
-                                                  if (_selectedOrganIndex ==
-                                                      -1) {
-                                                    filterOrgans(
-                                                        order:
+                                                    },
+                                                    applyFilters: () {
+                                                      if (_selectedOrganIndex ==
+                                                          -1) {
+                                                        filterOrgans(
+                                                            order:
                                                             selectOptionFilter);
-                                                  } else {
-                                                    filterOrgans(
-                                                        order:
+                                                      } else {
+                                                        filterOrgans(
+                                                            order:
                                                             selectOptionFilter,
-                                                        systemName:
+                                                            systemName:
                                                             'Sistema ${organs[_selectedOrganIndex]}');
-                                                  }
+                                                      }
+                                                    },
+                                                  );
                                                 },
-                                              );
-                                            },
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius:
+                                                shape: const RoundedRectangleBorder(
+                                                    borderRadius:
                                                     BorderRadius.vertical(
                                                         top: Radius.circular(
                                                             32))))),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              SizedBox(
-                                  height:
+                                  const SizedBox(height: 15),
+                                  SizedBox(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.66,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    child: (errorMessage == "EMPTY_LIST") && filteredList!.length >= 0 ?
-                                    SizedBox(
-                                        height: MediaQuery.of(context).size.height,
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: const [
-                                              EmptyElementError(
-                                                title: 'No se encontraron órganos',
-                                                messageError:
-                                                'Por el momento no encontramos órganos con los filtros seleccionados.',
-                                              )
-                                            ]),
-                                      ) : ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: filteredList?.length ?? 0,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => SystemDetail(
-                                                    id: filteredList![index].id,
-                                                    name: filteredList![index].name,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            child: CardListItem(
-                                                imageUrl:
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 20),
+                                        child: (errorMessage == "EMPTY_LIST") && filteredList!.length >= 0 ?
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height,
+                                          child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: const [
+                                                EmptyElementError(
+                                                  title: 'No se encontraron órganos',
+                                                  messageError:
+                                                  'Por el momento no encontramos órganos con los filtros seleccionados.',
+                                                )
+                                              ]),
+                                        ) : ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: filteredList?.length ?? 0,
+                                            itemBuilder:
+                                                (BuildContext context, int index) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => SystemDetail(
+                                                        id: filteredList![index].id,
+                                                        name: filteredList![index].name,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: CardListItem(
+                                                    imageUrl:
                                                     '${filteredList?[index].imageUrl}',
-                                                name:
+                                                    name:
                                                     '${filteredList?[index].name}',
-                                                system:
+                                                    system:
                                                     '${filteredList?[index].system}',
-                                                shortDetail:
+                                                    shortDetail:
                                                     '${filteredList?[index].shortDetail}'),
-                                          );
-                                        }),
-                                  )),
-                            ],
-                          ))));
+                                              );
+                                            }),
+                                      )),
+                                ],
+                              )
+                            )
+                      )
+        ));
   }
 }
 

@@ -750,6 +750,7 @@ class QuizAttemptCard extends StatelessWidget {
                                                       QuizAttempt(
                                                     id: quizAttemptDetail
                                                         .humanAnatomyId!,
+                                                        humanAnatomyName: quizAttemptDetail.nameHumanAnatomy!,
                                                   ),
                                                 ),
                                                 (route) => false,

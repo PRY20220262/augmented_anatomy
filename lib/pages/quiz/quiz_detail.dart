@@ -100,6 +100,7 @@ class _QuizDetailState extends State<QuizDetail> {
                                       MaterialPageRoute(
                                         builder: (context) => QuizAttempt(
                                           id: snapshot.data!.id!,
+                                          humanAnatomyName: snapshot.data!.name!
                                         ),
                                       ),
                                       (route) => false,

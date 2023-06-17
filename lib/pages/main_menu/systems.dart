@@ -56,60 +56,79 @@ class _SystemsState extends State<Systems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AAAppBar(context, back: false, title: 'Sistemas'),
+      appBar: PreferredSize(
+          preferredSize:
+          Size.fromHeight(MediaQuery.of(context).size.width * 0.20),
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.width * 0.08),
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                'Sistemas',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          )),
       backgroundColor: AAColors.backgroundWhiteView,
       body: FutureBuilder(
           future: _systems,
           builder: (context, snapshot) {
             if (snapshot.hasData ||
                 snapshot.error.toString() == "No se han encontrado datos :(") {
-              return Column(children: [
-                SearchBar(
-                  searchController: searchController,
-                  searchFilter: searchFilter,
-                ),
-                const SizedBox(height: 10),
-                (snapshot.error.toString() == "No se han encontrado datos :(")
-                    ? Container(
-                        child: SizedBox(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                EmptyElementError(
-                                  title: 'No se encontraron órganos',
-                                  messageError:
-                                      'Por el momento no encontramos órganos con los filtros seleccionados.',
-                                )
-                              ]),
+              return Padding(
+                  padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.height * 0.02),
+                  child: Column(
+                      children: [
+                        SearchBar(
+                          searchController: searchController,
+                          searchFilter: searchFilter,
                         ),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final systems = snapshot.data!;
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SystemDetail(
-                                          id: systems[index].id ?? 0,
-                                          name: systems[index].name ?? ''),
-                                    ),
-                                  );
-                                },
-                                child: CardListItem(
-                                    imageUrl: '${systems[index].image}',
-                                    name: '${systems[index].name}',
-                                    system:
-                                        '${systems[index].organsNumber} órganos',
-                                    shortDetail:
-                                        '${systems[index].shortDetail}'),
-                              );
-                            }),
-                      )
-              ]);
+                        const SizedBox(height: 10),
+                        (snapshot.error.toString() == "No se han encontrado datos :(")
+                            ? Container(
+                          child: SizedBox(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  EmptyElementError(
+                                    title: 'No se encontraron órganos',
+                                    messageError:
+                                    'Por el momento no encontramos órganos con los filtros seleccionados.',
+                                  )
+                                ]),
+                          ),
+                        )
+                            : Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final systems = snapshot.data!;
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SystemDetail(
+                                            id: systems[index].id ?? 0,
+                                            name: systems[index].name ?? ''),
+                                      ),
+                                    );
+                                  },
+                                  child: CardListItem(
+                                      imageUrl: '${systems[index].image}',
+                                      name: '${systems[index].name}',
+                                      system:
+                                      '${systems[index].organsNumber} órganos',
+                                      shortDetail:
+                                      '${systems[index].shortDetail}'),
+                                );
+                              }),
+                        )
+                      ])
+              );
             } else if (snapshot.hasError &&
                 snapshot.error.toString() != "No se han encontrado datos :(") {
               return ErrorMessage(onRefresh: refresh);
