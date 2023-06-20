@@ -2,8 +2,6 @@ import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:augmented_anatomy/utils/enums.dart';
 import 'package:flutter/material.dart';
 
-import 'input.dart';
-
 class MainActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -33,7 +31,7 @@ class MainActionButton extends StatelessWidget {
                     color: type == ButtonType.secondary
                         ? Colors.black
                         : AAColors.red),
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(4.0)),
             elevation: type == ButtonType.secondary ? 0 : 1,
             backgroundColor: type == ButtonType.secondary
                 ? Colors.transparent
@@ -74,7 +72,7 @@ class NotAllowedActionButton extends StatelessWidget {
           onPressed: (){},
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(4.0)),
             elevation: 1,
             backgroundColor: AAColors.gray,
             foregroundColor: AAColors.white,
@@ -110,6 +108,77 @@ class TextActionButton extends StatelessWidget {
               .textTheme
               .labelSmall
               ?.copyWith(color: AAColors.red),
+        ));
+  }
+}
+
+class NewTextActionButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const NewTextActionButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: onPressed,
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: AAColors.textActionColor, fontWeight: FontWeight.bold),
+        ));
+  }
+}
+
+class NewMainActionButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final double? width;
+  final double? height;
+  final double? border;
+  final ButtonType? type;
+
+  const NewMainActionButton(
+      {Key? key,
+        required this.text,
+        required this.onPressed,
+        this.width,
+        this.height,
+        this.type,
+        this.border
+      })
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: width ?? 320,
+        height: height ?? 56,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(border ?? 8.0)),
+            elevation: type == ButtonType.secondary ? 0 : 1,
+            backgroundColor: type == ButtonType.secondary
+                ? Colors.transparent
+                : AAColors.mainColor,
+            foregroundColor: AAColors.white,
+            textStyle: const TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
+          child: Text(text,
+              style: TextStyle(
+                  color: type == ButtonType.secondary
+                      ? Colors.black
+                      : Colors.white)),
         ));
   }
 }
@@ -156,21 +225,18 @@ class _AADropdownButton extends State<AADropdownButton> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.label != null
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(widget.label!,
-                        style: Theme.of(context).textTheme.labelLarge),
-                  )
-                : Container(),
             InputDecorator(
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.black45),
-                ),
+                isDense: true,
+                border: const OutlineInputBorder(),
+                labelText: widget.label,
+                labelStyle: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.black),
+                hintStyle: Theme.of(context).textTheme.bodyMedium,
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 focusColor: Colors.black,
               ),
               child: DropdownButton<String>(
@@ -197,5 +263,42 @@ class _AADropdownButton extends State<AADropdownButton> {
             )
           ],
         ));
+  }
+}
+
+class AATextButton extends StatelessWidget {
+
+  final IconData icon;
+  final String buttonText;
+  final VoidCallback onPressed;
+
+  const AATextButton({
+    super.key,
+    required this.icon,
+    required this.buttonText,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
+        iconColor: AAColors.mainColor,
+        foregroundColor: AAColors.mainColor,
+        elevation: 0
+      ),
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          Icon(
+              icon,
+            size: 25,
+          ),
+          const SizedBox(width: 8),
+          Text(buttonText),
+        ],
+      ),
+    );
   }
 }

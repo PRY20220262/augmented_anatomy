@@ -52,7 +52,7 @@ class _RequestPinState extends State<RequestPin> {
             controller: emailController,
           ),
           const SizedBox(height: 25),
-          MainActionButton(
+          NewMainActionButton(
               text: 'Enviar PIN',
               onPressed: () {
                 _requestPin();

@@ -65,12 +65,12 @@ class _NotesState extends State<Notes> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AAColors.backgroundGrayView,
+        backgroundColor: AAColors.backgroundWhiteView,
         appBar: AAAppBar(context, back: true, title: 'Mis apuntes'),
         body: FutureBuilder(
           future: _notes,
           builder: ((context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
               late List<Note> notes = snapshot.data!;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -97,6 +97,19 @@ class _NotesState extends State<Notes> {
               );
             } else if (snapshot.hasError) {
               return ErrorMessage(onRefresh: _refresh);
+            } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      EmptyElementError(
+                        title: 'Por el momento no tienes apuntes creados',
+                        messageError:
+                        'Crea un apunte del conocimiento aprendido, y lo visualizaras aqui.',
+                      )
+                    ]),
+              );
             } else {
               return const Center(
                 child: SpinKitFadingCircle(

@@ -72,6 +72,7 @@ class HumanAnatomyService {
       );
 
       if (response.statusCode == 200) {
+        print(utf8.decode(response.bodyBytes));
         return HumanAnatomy.fromJson(
             jsonDecode(utf8.decode(response.bodyBytes)));
       } else {

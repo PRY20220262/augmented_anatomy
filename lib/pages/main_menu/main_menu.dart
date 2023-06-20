@@ -38,12 +38,14 @@ class _MainMenuState extends State<MainMenu> {
         backgroundColor: Colors.transparent,
         extendBody: true,
         floatingActionButton: FloatingActionButton.extended(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4.0))),
           onPressed: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => NoteDialog(),
           ),
           icon: const Icon(Icons.add),
-          backgroundColor: AAColors.red,
+          backgroundColor: AAColors.mainColor,
           label: Text(
             'Crear apunte',
             style: Theme.of(context)
@@ -78,7 +80,7 @@ class _MainMenuState extends State<MainMenu> {
                     _selectedIndex = index;
                   });
                 },
-                selectedItemColor: AAColors.blue,
+                selectedItemColor: AAColors.mainColor,
               ),
             )));
   }

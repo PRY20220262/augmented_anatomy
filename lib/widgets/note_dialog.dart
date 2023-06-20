@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/augmented_anatomy_colors.dart';
 
-
 class NoteDialog extends StatelessWidget {
   NoteDialog({
     super.key,
@@ -73,8 +72,9 @@ class NoteDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                MainActionButton(
+                NewMainActionButton(
                     text: 'guardar',
+                    border: 4,
                     height: 40,
                     width: 110,
                     onPressed: () {
@@ -157,7 +157,7 @@ class _EditNoteState extends State<EditNote> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                MainActionButton(
+                NewMainActionButton(
                     text: 'guardar',
                     height: 40,
                     width: 110,
@@ -179,7 +179,8 @@ class InformationDialog extends StatelessWidget {
   final VoidCallback onCancelPressed;
   final VoidCallback onConfirmPressed;
 
-  const InformationDialog({super.key,
+  const InformationDialog({
+    super.key,
     required this.title,
     required this.message,
     required this.cancelButtonText,
@@ -192,9 +193,9 @@ class InformationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(4.0),
       ),
-      contentPadding: EdgeInsets.all(20.0),
+      contentPadding: const EdgeInsets.all(20.0),
       content: ConstrainedBox(
         constraints: const BoxConstraints(
           maxHeight: 200,
@@ -216,18 +217,17 @@ class InformationDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MainActionButton(
-                  text: cancelButtonText,
-                  type: ButtonType.secondary,
-                  height: 40,
-                  width: 135,
-                  onPressed: onCancelPressed
-                ),
-                MainActionButton(
-                  text: confirmButtonText,
-                  height: 40,
-                  width: 135,
-                  onPressed: onConfirmPressed
-                ),
+                    text: cancelButtonText,
+                    type: ButtonType.secondary,
+                    height: 40,
+                    width: 135,
+                    onPressed: onCancelPressed),
+                NewMainActionButton(
+                    text: confirmButtonText,
+                    border: 4.0,
+                    height: 40,
+                    width: 135,
+                    onPressed: onConfirmPressed),
               ],
             )
           ],
@@ -236,4 +236,3 @@ class InformationDialog extends StatelessWidget {
     );
   }
 }
-

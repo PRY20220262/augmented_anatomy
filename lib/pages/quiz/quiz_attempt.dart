@@ -12,7 +12,8 @@ import '../../widgets/error.dart';
 
 class QuizAttempt extends StatefulWidget {
   final int id;
-  const QuizAttempt({Key? key, required this.id}) : super(key: key);
+  final String humanAnatomyName;
+  const QuizAttempt({Key? key, required this.id, required this.humanAnatomyName}) : super(key: key);
 
   @override
   State<QuizAttempt> createState() => _QuizAttemptState();
@@ -91,7 +92,11 @@ class _QuizAttemptState extends State<QuizAttempt> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => QuizResult(score: routerScore, humanAnatomyId: widget.id),
+            builder: (context) => QuizResult(
+              score: routerScore,
+              humanAnatomyId: widget.id,
+              humanAnatomyName: widget.humanAnatomyName
+            ),
           ),
         );
       }
@@ -120,7 +125,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       appBar: AppBar(
         toolbarHeight: 90,
         backgroundColor: Colors.transparent,
@@ -133,7 +138,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
         ),
         centerTitle: true,
         leadingWidth: 70,
-        automaticallyImplyLeading: false, // esta propiedad evita que se muestre el botón de retroceso en el AppBar
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
           child: WillPopScope(
@@ -178,7 +183,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
                                 height: 40,
                                 width: 120,
                                 onPressed: () => Navigator.pop(context, false)),
-                              MainActionButton(
+                              NewMainActionButton(
                                   text: 'Abandonar',
                                   height: 40,
                                   width: 120,
@@ -220,7 +225,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
                         children: [
                           Text(
                             'Pregunta ${indexQuestion + 1}',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AAColors.red),
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AAColors.mainColor),
                           ),
                           Text(
                             '4 Pts',
@@ -240,11 +245,7 @@ class _QuizAttemptState extends State<QuizAttempt> {
                       ),
                       const SizedBox(height: 5),
                       SizedBox(
-                        height: aux[indexQuestion] >= 350 ? MediaQuery.of(context).size.height * 0.90 :
-                        aux[indexQuestion] >= 300 ? MediaQuery.of(context).size.height * 0.85 :
-                        aux[indexQuestion] >= 250 ? MediaQuery.of(context).size.height * 0.75 :
-                        MediaQuery.of(context).size.height * 0.70
-                        ,
+                        height: MediaQuery.of(context).size.height * 0.60,
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: questionList?[indexQuestion].answers?.length,
@@ -257,27 +258,13 @@ class _QuizAttemptState extends State<QuizAttempt> {
                               },
                               child: Container(
                                   decoration: BoxDecoration(
-                                    color: _selectedChoice == index ? AAColors.red : AAColors.white,
-                                    borderRadius: BorderRadius.circular(15.0),
+                                    color: _selectedChoice == index ? AAColors.textActionColor : AAColors.lightMain,
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
                                   padding: const EdgeInsets.all(15.0),
-                                  margin: const EdgeInsets.symmetric(vertical: 12.0),
+                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
                                   child: Row(
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: _selectedChoice == index ? AAColors.white : AAColors.gray,
-                                          borderRadius: BorderRadius.circular(15.0),
-                                        ),
-                                        padding: const EdgeInsets.only(right: 17, left: 17, top: 8, bottom: 8),
-                                        child: Text(
-                                            index == 0 ? 'A' : index == 1 ? 'B' : index == 2 ? 'C' : 'D',
-                                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                                color: _selectedChoice == index ? AAColors.red : AAColors.white
-                                            )
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
                                       Expanded(
                                         child: Text(
                                             '${questionList![indexQuestion].answers?[index].choice}',
@@ -295,15 +282,14 @@ class _QuizAttemptState extends State<QuizAttempt> {
                       ),
                       Center(
                         child: _selectedChoice == -1 ?
-                        const NotAllowedActionButton(
+                        NotAllowedActionButton(
                           text: 'Siguiente',
-                          width: 150,
-                          height: 45,
+                          width: MediaQuery.of(context).size.width,
+                          height: 56,
                         ) :
-                        MainActionButton(
+                        NewMainActionButton(
                             text: 'Siguiente',
-                            width: 150,
-                            height: 45,
+                            width: MediaQuery.of(context).size.width,
                             onPressed: (){
                               if (indexQuestion + 1 != questionList?.length) {
                                 _validateRightAnswer(false);

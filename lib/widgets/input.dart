@@ -1,3 +1,4 @@
+import 'package:augmented_anatomy/utils/augmented_anatomy_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,7 +28,7 @@ class InputLabel extends StatelessWidget {
       if (value == null || value.isEmpty) {
         return 'Ingrese su correo electrónico';
       } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-        return 'Ingrese una dirección de correo electrónico válida';
+        return 'Ingrese un correo valido';
       }
     } else if (keyboardType == TextInputType.phone) {
       if (value == null || value.isEmpty) {
@@ -43,38 +44,31 @@ class InputLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width - size.width * 0.90),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          label != null
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(label!,
-                      style: Theme.of(context).textTheme.labelLarge),
-                )
-              : const SizedBox(),
           TextFormField(
             controller: controller,
-            style: Theme.of(context).textTheme.bodyMedium,
             cursorColor: Colors.black45,
+            style: Theme.of(context).textTheme.bodyLarge,
             validator: (value) {
               return updateValue(value, keyboardType);
             },
             keyboardType: keyboardType,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              border: const OutlineInputBorder(),
+              labelText: label,
               hintText: hint,
-              hintStyle: Theme.of(context).textTheme.bodyMedium,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: AAColors.black)),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
           ),
         ],
@@ -100,13 +94,6 @@ class DescriptionInput extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          label != null
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(label!,
-                      style: Theme.of(context).textTheme.labelLarge),
-                )
-              : const SizedBox(),
           TextFormField(
             controller: controller,
             minLines: 1,
@@ -119,12 +106,16 @@ class DescriptionInput extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               hintText: hint,
+              labelText: label,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black)),
+              border: const OutlineInputBorder(),
             ),
           ),
         ],
@@ -135,9 +126,10 @@ class DescriptionInput extends StatelessWidget {
 
 class PasswordInputLabel extends StatefulWidget {
   PasswordInputLabel(
-      {Key? key, this.label, this.hint, required this.controller})
+      {Key? key, this.isLogin, this.label, this.hint, required this.controller})
       : super(key: key);
 
+  final bool? isLogin;
   final String? label;
   final String? hint;
   final TextEditingController controller;
@@ -148,7 +140,6 @@ class PasswordInputLabel extends StatefulWidget {
 
 class _PasswordInputLabelState extends State<PasswordInputLabel> {
   bool _obscureText = true;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -158,41 +149,43 @@ class _PasswordInputLabelState extends State<PasswordInputLabel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.label != null
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(widget.label!,
-                      style: Theme.of(context).textTheme.labelLarge),
-                )
-              : const SizedBox(),
           TextFormField(
             controller: widget.controller,
+            style: Theme.of(context).textTheme.bodyLarge,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor complete los campos';
-              }
-              if (value.length < 6) {
-                return 'El campo debe ser mayor a 6 dígitos';
+              if (widget.isLogin == null) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor complete los campos';
+                }
+                if (value.length < 6) {
+                  return 'El campo debe ser mayor a 6 dígitos';
+                }
+              } else if (widget.isLogin == true) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingrese su contraseña';
+                }
+              } else {
+                return null;
               }
               return null;
             },
-            style: Theme.of(context).textTheme.bodyMedium,
             obscureText: _obscureText,
-            cursorColor: Colors.black45,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              border: const OutlineInputBorder(),
+              labelText: widget.label ?? 'Contraseña',
               hintText: widget.hint,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: AAColors.black)),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -255,10 +248,10 @@ class _PinInputState extends State<PinInput> {
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               hintStyle: Theme.of(context).textTheme.bodyMedium,
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black)),
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: AAColors.mainColor)),
               border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
             ),
             // style: Theme.of(context).textTheme.headlineLarge,
             keyboardType: TextInputType.number,

@@ -15,7 +15,7 @@ extension StringExtension on String {
 String substractSixHoursFromDateTime(String dateTimeString) {
   final dateTime = DateTime.parse(dateTimeString).subtract(Duration(hours: 5));
   final timeString = '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
-  return timeString;
+  return 'Hora: $timeString';
 }
 
 String getDisplayText(String? url) {
@@ -26,6 +26,6 @@ String getDisplayText(String? url) {
   if (url.length <= 20) {
     return url;
   } else {
-    return '${url.substring(0, 17)}...';
+    return '${url.substring(0, 30)}...';
   }
 }

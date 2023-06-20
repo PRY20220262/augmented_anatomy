@@ -4,10 +4,12 @@ import 'package:augmented_anatomy/widgets/button.dart';
 class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     super.key,
+    this.titleError,
     required this.onRefresh,
     this.messageError
   });
 
+  final String? titleError;
   final VoidCallback onRefresh;
   final String? messageError;
 
@@ -19,16 +21,25 @@ class ErrorMessage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset('assets/error.png'),
+          SizedBox(
+            height: 10,
+          ),
           Text(
-            'Ups! algo salió mal',
+            titleError ?? 'Ups! algo salió mal',
             style: Theme.of(context).textTheme.titleSmall,
             textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 10,
           ),
           Text(
             messageError ?? 'Revisa tu conexión a internet e intenta nuevamente',
             textAlign: TextAlign.center,
           ),
-          MainActionButton(
+          SizedBox(
+            height: 10,
+          ),
+          NewMainActionButton(
             text: 'Reintentar',
             onPressed: onRefresh,
           )

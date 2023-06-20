@@ -43,7 +43,6 @@ class AugmentedAnatomy extends StatelessWidget {
         '/update-password': (context) => UpdatePassword(),
         '/change-password': (context) => ChangePassword(),
         '/home': (context) => const MainMenu(),
-        '/detail': (context) => SystemDetail(),
         '/notes': (context) => const Notes(),
         '/profile': (context) => Profile(),
         '/quiz-detail': (context) => const QuizDetail(),

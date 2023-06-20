@@ -17,7 +17,7 @@
     </queries>
 
    <application
-        android:label="augmented_anatomy"
+        android:label="ARnatomy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

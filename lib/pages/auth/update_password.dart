@@ -58,13 +58,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               label: 'Nueva contraseña',
               controller: passsword,
             ),
-            const SizedBox(height: 15.0),
+            const SizedBox(height: 30.0),
             PasswordInputLabel(
               label: 'Confirmar nueva contraseña',
               controller: passwordConfirm,
             ),
             const SizedBox(height: 25),
-            MainActionButton(
+            NewMainActionButton(
                 text: 'Confirmar',
                 onPressed: () async {
                   bool validForm = _formKey.currentState!.validate();

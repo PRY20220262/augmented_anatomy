@@ -7,6 +7,8 @@ import 'package:augmented_anatomy/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'human_anatomy_detail.dart';
+
 class Systems extends StatefulWidget {
   const Systems({Key? key}) : super(key: key);
 
@@ -54,40 +56,81 @@ class _SystemsState extends State<Systems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AAAppBar(context, back: false, title: 'Sistemas'),
-      backgroundColor: AAColors.backgroundGrayView,
+      appBar: PreferredSize(
+          preferredSize:
+          Size.fromHeight(MediaQuery.of(context).size.width * 0.20),
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.width * 0.08),
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                'Sistemas',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          )),
+      backgroundColor: AAColors.backgroundWhiteView,
       body: FutureBuilder(
           future: _systems,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(children: [
-                SearchBar(
-                  searchController: searchController,
-                  searchFilter: searchFilter,
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        final systems = snapshot.data!;
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/detail', arguments: {
-                              'id': systems[index].id,
-                              'name': systems[index].name
-                            });
-                          },
-                          child: CardListItem(
-                              imageUrl: '${systems[index].image}',
-                              name: '${systems[index].name}',
-                              system: '${systems[index].organsNumber} órganos',
-                              shortDetail: '${systems[index].shortDetail}'),
-                        );
-                      }),
-                )
-              ]);
-            } else if (snapshot.hasError) {
+            if (snapshot.hasData ||
+                snapshot.error.toString() == "No se han encontrado datos :(") {
+              return Padding(
+                  padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.height * 0.02),
+                  child: Column(
+                      children: [
+                        SearchBar(
+                          searchController: searchController,
+                          searchFilter: searchFilter,
+                        ),
+                        const SizedBox(height: 10),
+                        (snapshot.error.toString() == "No se han encontrado datos :(")
+                            ? Container(
+                          child: SizedBox(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  EmptyElementError(
+                                    title: 'No se encontraron órganos',
+                                    messageError:
+                                    'Por el momento no encontramos órganos con los filtros seleccionados.',
+                                  )
+                                ]),
+                          ),
+                        )
+                            : Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final systems = snapshot.data!;
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SystemDetail(
+                                            id: systems[index].id ?? 0,
+                                            name: systems[index].name ?? ''),
+                                      ),
+                                    );
+                                  },
+                                  child: CardListItem(
+                                      imageUrl: '${systems[index].image}',
+                                      name: '${systems[index].name}',
+                                      system:
+                                      '${systems[index].organsNumber} órganos',
+                                      shortDetail:
+                                      '${systems[index].shortDetail}'),
+                                );
+                              }),
+                        )
+                      ])
+              );
+            } else if (snapshot.hasError &&
+                snapshot.error.toString() != "No se han encontrado datos :(") {
               return ErrorMessage(onRefresh: refresh);
             } else {
               return const Center(
@@ -116,31 +159,39 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.09,
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width - 40,
       child: TextField(
         controller: searchController,
         onChanged: (value) {
           searchFilter(value);
         },
         style: Theme.of(context).textTheme.labelMedium,
+        cursorColor: Colors.grey,
         decoration: InputDecoration(
-          filled: true,
-          fillColor: AAColors.blueInput,
-          hintText: 'Buscar organo',
-          hintStyle: const TextStyle(color: AAColors.grayBlue),
-          prefixIcon: IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: AAColors.grayBlue,
-              size: 30,
+            filled: true,
+            fillColor: Colors.transparent,
+            hintText: 'Buscar',
+            hintStyle: const TextStyle(color: Colors.grey),
+            prefixIcon: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.grey,
+                size: 30,
+              ),
+              onPressed: () {},
             ),
-            onPressed: () {},
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-        ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.grey),
+            )),
       ),
     );
   }

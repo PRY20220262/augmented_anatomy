@@ -10,7 +10,13 @@ import '../../widgets/note_dialog.dart';
 class QuizResult extends StatefulWidget {
   final double score;
   final int humanAnatomyId;
-  const QuizResult({Key? key, required this.score, required this.humanAnatomyId}) : super(key: key);
+  final String humanAnatomyName;
+  const QuizResult({
+    Key? key,
+    required this.score,
+    required this.humanAnatomyId,
+    required this.humanAnatomyName
+  }) : super(key: key);
 
   @override
   State<QuizResult> createState() => _QuizResultState();
@@ -59,7 +65,7 @@ class _QuizResultState extends State<QuizResult> {
       assignValues(_score);
     });
     return Scaffold(
-      backgroundColor: AAColors.backgroundGrayView,
+      backgroundColor: AAColors.backgroundWhiteView,
       appBar: AAAppBar(context, back: true, title: 'Cuestionario', onPressed: (){
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }),
@@ -69,9 +75,10 @@ class _QuizResultState extends State<QuizResult> {
                 child: Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Image.asset(
                             imageRoute,
@@ -79,7 +86,6 @@ class _QuizResultState extends State<QuizResult> {
                             height: 160,
                             width: 160,
                           ),
-                          const SizedBox(height: 10),
                           Text(
                             messageResult,
                             textAlign: TextAlign.center,
@@ -97,8 +103,8 @@ class _QuizResultState extends State<QuizResult> {
                           const SizedBox(height: 10),
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: AAColors.white,
+                              borderRadius: BorderRadius.circular(4.0),
+                              color: AAColors.lightMain,
                             ),
                             child: Padding(
                               padding:  const EdgeInsets.all(15),
@@ -118,7 +124,7 @@ class _QuizResultState extends State<QuizResult> {
                                           style: Theme.of(context).textTheme.bodyMedium,
                                         ),
                                         TextSpan(
-                                          text: 'Cuestionario de Laringe',
+                                          text: 'Cuestionario de ${widget.humanAnatomyName}',
                                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -160,10 +166,8 @@ class _QuizResultState extends State<QuizResult> {
                                     textAlign: TextAlign.center,
                                   ) : Container(),
                                   const SizedBox(height: 5),
-                                  _score == 20.0 ? Container() : MainActionButton(
-                                      height: 50,
-                                      width: 200,
-                                      text: "Realziar nuevo intento",
+                                  _score == 20.0 ? Container() : NewMainActionButton(
+                                      text: "Realizar nuevo intento",
                                       onPressed: (){
                                         showDialog(context: context,
                                             builder: (BuildContext context) {
@@ -181,6 +185,7 @@ class _QuizResultState extends State<QuizResult> {
                                                     MaterialPageRoute(
                                                       builder: (context) => QuizAttempt(
                                                         id: widget.humanAnatomyId,
+                                                        humanAnatomyName: widget.humanAnatomyName,
                                                       ),
                                                     ),
                                                         (route) => false,
@@ -193,9 +198,7 @@ class _QuizResultState extends State<QuizResult> {
                                       }
                                   ),
                                   const SizedBox(height: 10),
-                                  MainActionButton(
-                                      height: 50,
-                                      width: 200,
+                                  NewMainActionButton(
                                       text: "Ver cuestionarios",
                                       onPressed: (){
                                         Navigator.of(context).pushNamed('/list-quiz-results');
